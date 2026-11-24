@@ -5,6 +5,10 @@ import ast
 import math
 import re
 import os
+import hashlib
+import hmac
+import json
+from urllib.request import Request as URLRequest, urlopen
 
 from dotenv import load_dotenv
 
@@ -15,6 +19,82 @@ load_dotenv()
 app.secret_key = os.getenv("SECRET_KEY", "local-dev-only-change-me")
 app.config["BOT_TOKEN"] = os.getenv("BOT_TOKEN", "")
 app.config["BOT_LINK"] = os.getenv("BOT_LINK", "")
+app.config["SITE_URL"] = os.getenv("SITE_URL", "").rstrip("/")
+
+
+def telegram_secret():
+    token = app.config["BOT_TOKEN"]
+    if not token:
+        return ""
+    return hashlib.sha256((token + ":calchelp-webhook").encode()).hexdigest()
+
+
+def telegram_api(method, payload):
+    token = app.config["BOT_TOKEN"]
+    data = json.dumps(payload).encode("utf-8")
+    req = URLRequest(
+        f"https://api.telegram.org/bot{token}/{method}",
+        data=data,
+        headers={"Content-Type": "application/json"},
+        method="POST",
+    )
+    with urlopen(req, timeout=8) as response:
+        result = json.loads(response.read().decode("utf-8"))
+    if not result.get("ok"):
+        raise RuntimeError("Telegram API returned an unsuccessful response")
+    return result
+
+
+@app.post("/telegram/webhook")
+def telegram_webhook():
+    expected = telegram_secret()
+    supplied = request.headers.get("X-Telegram-Bot-Api-Secret-Token", "")
+    if not expected or not hmac.compare_digest(supplied, expected):
+        return {"ok": False}, 403
+
+    update = request.get_json(silent=True) or {}
+    message = update.get("message") or update.get("edited_message") or {}
+    text = message.get("text", "")
+    chat = message.get("chat") or {}
+
+    if text.startswith("/start") and chat.get("id") is not None:
+        site_url = app.config["SITE_URL"]
+        if not site_url:
+            app.logger.error("SITE_URL is missing; cannot reply to /start")
+            return {"ok": False}, 503
+        try:
+            telegram_api("sendMessage", {
+                "chat_id": chat["id"],
+                "text": (
+                    "Привет! Я CalcHelp 👋\n"
+                    "На сайте собраны калькуляторы и инструменты для учёбы."
+                ),
+                "reply_markup": {
+                    "inline_keyboard": [[
+                        {"text": "Открыть CalcHelp", "url": site_url}
+                    ]]
+                },
+            })
+        except Exception as exc:
+            app.logger.warning("Telegram reply failed: %s", type(exc).__name__)
+            return {"ok": False}, 502
+
+    return {"ok": True}
+
+
+def configure_telegram_webhook():
+    token = app.config["BOT_TOKEN"]
+    site_url = app.config["SITE_URL"]
+    if not token or not site_url:
+        return
+    try:
+        telegram_api("setWebhook", {
+            "url": f"{site_url}/telegram/webhook",
+            "secret_token": telegram_secret(),
+        })
+        app.logger.info("Telegram webhook configured")
+    except Exception as exc:
+        app.logger.warning("Telegram webhook setup failed: %s", type(exc).__name__)
 
 
 @app.context_processor
@@ -3310,6 +3390,8 @@ def fuel():
 # =========================================================
 # ЗАПУСК
 # =========================================================
+
+configure_telegram_webhook()
 
 if __name__ == "__main__":
 
