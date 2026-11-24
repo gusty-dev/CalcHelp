@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Калькулятор — CalcHelp</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+</head>
+
+<body>
+
+<header>
+     <div class="header-decoration-left">
+    + × √
+</div>
+
+<div class="header-decoration-right">
+    % ÷ π 42
+</div>
+
+    <h1>CalcHelp</h1>
+
+    <p>Обычный калькулятор</p>
+
+</header>
+
+
+<nav class="main-navigation">
+
+    <a href="/">
+        Главная
+    </a>
+
+    <a href="/calculator" class="active">
+        Калькулятор
+    </a>
+
+    <a href="/number-system">
+        Системы счисления
+    </a>
+
+    <a href="/time">
+        Время
+    </a>
+
+    <a href="/units">
+        Единицы
+    </a>
+
+    <a href="/percent">
+        Проценты
+    </a>
+
+    <a href="/geometry">
+        Геометрия
+    </a>
+
+    <a href="/NOK_NOD">НОД и НОК</a>
+
+    <a href="/fractions">
+    Дроби
+</a>
+    <a href="/pifagor">Пифагор</a>
+    <a href="/kvadrat">Квадратные уравнения</a>
+    <a href="/combinatorics">Комбинаторика</a>
+    <a href="/hard-percent">Сложный процент</a>
+    <a href="/trigonometry">Тригонометрия</a>
+    <a href="/statistics">
+    Статистика
+</a>
+
+<a href="/coordinate-geometry">
+    Координатная геометрия
+</a>
+<a href="/graph" >Графики</a>
+     <a href="/bmi" >
+        ИМТ
+    </a>
+    <a href="/logarithms">Логарифмы</a>
+      <a href="/kbzhu" >КБЖУ</a>
+     <a href="/fuel" >Расход топлива</a>
+
+    {% if bot_link %}
+        <a href="{{ bot_link }}" target="_blank" rel="noopener noreferrer">Мой бот</a>
+    {% endif %}
+</nav>
+
+
+<main>
+
+    <section>
+
+        <h2 class="calc-title">
+            Обычный калькулятор
+        </h2>
+
+
+        <div class="calculator-layout">
+
+
+            <!-- ================================= -->
+            <!-- КАЛЬКУЛЯТОР -->
+            <!-- ================================= -->
+
+            <div class="calculator-area">
+
+                <div class="calculator">
+
+
+                    <!-- Дисплей -->
+
+                    <div class="display
+                        {% if number == 'Ошибка' or number == 'Нельзя делить на ноль' %}
+                            error
+                        {% endif %}">
+
+                        {{ number }}
+
+                    </div>
+
+
+                    <!-- Кнопки -->
+
+                    <div class="calculator-buttons">
+
+                        <form method="POST">
+
+
+                            <!-- ===================== -->
+                            <!-- ПЕРВАЯ СТРОКА -->
+                            <!-- ===================== -->
+
+                            <button
+                                type="submit"
+                                name="clear"
+                                value="1"
+                            >
+                                C
+                            </button>
+
+
+                            <button
+                                type="submit"
+                                name="backspace"
+                                value="1"
+                            >
+                                ⌫
+                            </button>
+
+
+                            <button
+                                type="submit"
+                                name="percent"
+                                value="1"
+                            >
+                                %
+                            </button>
+
+
+                            <button
+                                type="submit"
+                                name="operation"
+                                value="divide"
+                            >
+                                ÷
+                            </button>
+
+
+                            <!-- ===================== -->
+                            <!-- ВТОРАЯ СТРОКА -->
+                            <!-- ===================== -->
+
+                            <button
+                                type="submit"
+                                name="number"
+                                value="7"
+                            >
+                                7
+                            </button>
+
+
+                            <button
+                                type="submit"
+                                name="number"
+                                value="8"
+                            >
+                                8
+                            </button>
+
+
+                            <button
+                                type="submit"
+                                name="number"
+                                value="9"
+                            >
+                                9
+                            </button>
+
+
+                            <button
+                                type="submit"
+                                name="operation"
+                                value="multiply"
+                            >
+                                ×
+                            </button>
+
+
+                            <!-- ===================== -->
+                            <!-- ТРЕТЬЯ СТРОКА -->
+                            <!-- ===================== -->
+
+                            <button
+                                type="submit"
+                                name="number"
+                                value="4"
+                            >
+                                4
+                            </button>
+
+
+                            <button
+                                type="submit"
+                                name="number"
+                                value="5"
+                            >
+                                5
+                            </button>
+
+
+                            <button
+                                type="submit"
+                                name="number"
+                                value="6"
+                            >
+                                6
+                            </button>
+
+
+                            <button
+                                type="submit"
+                                name="operation"
+                                value="subtract"
+                            >
+                                -
+                            </button>
+
+
+                            <!-- ===================== -->
+                            <!-- ЧЕТВЁРТАЯ СТРОКА -->
+                            <!-- ===================== -->
+
+                            <button
+                                type="submit"
+                                name="number"
+                                value="1"
+                            >
+                                1
+                            </button>
+
+
+                            <button
+                                type="submit"
+                                name="number"
+                                value="2"
+                            >
+                                2
+                            </button>
+
+
+                            <button
+                                type="submit"
+                                name="number"
+                                value="3"
+                            >
+                                3
+                            </button>
+
+
+                            <button
+                                type="submit"
+                                name="operation"
+                                value="add"
+                            >
+                                +
+                            </button>
+
+
+                            <!-- ===================== -->
+                            <!-- ПЯТАЯ СТРОКА -->
+                            <!-- ===================== -->
+
+                            <button
+                                type="submit"
+                                name="number"
+                                value="0"
+                            >
+                                0
+                            </button>
+
+
+                            <button
+                                type="submit"
+                                name="number"
+                                value="."
+                            >
+                                .
+                            </button>
+
+
+                            <button
+                                type="submit"
+                                name="sqrt"
+                                value="1"
+                            >
+                                √
+                            </button>
+
+
+                            <button
+                                type="submit"
+                                name="calculate"
+                                value="1"
+                            >
+                                =
+                            </button>
+
+
+                            <!-- ===================== -->
+                            <!-- СКОБКИ И СТЕПЕНЬ -->
+                            <!-- ===================== -->
+
+                            <button
+                                type="submit"
+                                name="open_bracket"
+                                value="("
+                            >
+                                (
+                            </button>
+
+
+                            <button
+                                type="submit"
+                                name="close_bracket"
+                                value=")"
+                            >
+                                )
+                            </button>
+
+                            <button
+    type="submit"
+    name="factorial"
+    value="1"
+>
+    !
+</button>
+
+
+                            <button
+                                type="submit"
+                                name="operation"
+                                value="power"
+                            >
+                                ^
+                            </button>
+
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================================= -->
+            <!-- ИСТОРИЯ -->
+            <!-- ================================= -->
+
+            <div class="history">
+
+                <h3>
+                    История
+                </h3>
+
+
+                {% if history %}
+
+                    {% for item in history %}
+
+                        <p>
+                            {{ item }}
+                        </p>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <p>
+                        История пуста
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    © 2026 CalcHelp
+
+</footer>
+
+
+</body>
+
+</html>
+

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>CalcHelp — Статистика</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<header class="site-header">
+
+    <div class="header-decoration-left">
+        + × √
+    </div>
+
+    <div class="header-decoration-right">
+        % ÷ π 42
+    </div>
+
+    <h1>CalcHelp</h1>
+
+    <p>
+        Калькулятор статистики
+    </p>
+
+</header>
+
+
+<nav class="main-navigation">
+
+    <a href="/">Главная</a>
+
+    <a href="/calculator">
+        Калькулятор
+    </a>
+
+    <a href="/number-system">
+        Системы счисления
+    </a>
+
+    <a href="/time">
+        Время
+    </a>
+
+    <a href="/units">
+        Единицы
+    </a>
+
+    <a href="/percent">
+        Проценты
+    </a>
+
+    <a href="/geometry">
+        Геометрия
+    </a>
+
+    <a href="/NOK_NOD">
+        НОД и НОК
+    </a>
+
+    <a href="/fractions">
+        Дроби
+    </a>
+
+    <a href="/pifagor">
+        Пифагор
+    </a>
+
+    <a href="/kvadrat">
+        Квадратные уравнения
+    </a>
+
+    <a href="/combinatorics">
+        Комбинаторика
+    </a>
+
+    <a href="/hard-percent">
+        Сложный процент
+    </a>
+
+    <a href="/trigonometry">
+        Тригонометрия
+    </a>
+
+    <a href="/statistics"
+       class="active">
+        Статистика
+    </a>
+
+<a href="/coordinate-geometry">
+    Координатная геометрия
+</a>
+    <a href="/graph" >Графики</a>
+    <a href="/bmi" >
+        ИМТ
+    </a>
+    <a href="/logarithms">Логарифмы</a>
+      <a href="/kbzhu" >КБЖУ</a>
+     <a href="/fuel" >Расход топлива</a>
+
+    {% if bot_link %}
+        <a href="{{ bot_link }}" target="_blank" rel="noopener noreferrer">Мой бот</a>
+    {% endif %}
+</nav>
+
+
+<main>
+
+    <section class="calculator-container">
+
+        <h2>Статистика</h2>
+
+        <p class="calculator-description">
+            Рассчитайте основные статистические показатели
+            для набора чисел.
+        </p>
+
+
+        <form method="POST"
+              class="trigonometry-form">
+
+            <label for="numbers">
+                Набор чисел
+            </label>
+
+            <textarea
+                id="numbers"
+                name="numbers"
+                rows="5"
+                placeholder="Например: 10 20 20 30 40"
+                required>{{ numbers_value }}</textarea>
+
+
+            <div class="statistics-hint">
+                Можно вводить числа через пробелы,
+                точку с запятой или с новой строки.
+            </div>
+
+
+            <button type="submit">
+                Рассчитать
+            </button>
+
+        </form>
+
+
+        {% if error %}
+
+        <div class="error-message">
+            {{ error }}
+        </div>
+
+        {% endif %}
+
+
+        {% if average is not none %}
+
+        <div class="trigonometry-result">
+
+            <div class="result-box">
+
+                <div class="result-label">
+                    Среднее арифметическое
+                </div>
+
+                <div class="main-result">
+                    {{ average }}
+                </div>
+
+            </div>
+
+
+            <div class="statistics-grid">
+
+                <div class="statistics-item">
+                    <span>Медиана</span>
+                    <strong>{{ median }}</strong>
+                </div>
+
+                <div class="statistics-item">
+                    <span>Мода</span>
+                    <strong>{{ mode }}</strong>
+                </div>
+
+                <div class="statistics-item">
+                    <span>Минимум</span>
+                    <strong>{{ minimum }}</strong>
+                </div>
+
+                <div class="statistics-item">
+                    <span>Максимум</span>
+                    <strong>{{ maximum }}</strong>
+                </div>
+
+                <div class="statistics-item">
+                    <span>Размах</span>
+                    <strong>{{ data_range }}</strong>
+                </div>
+
+                <div class="statistics-item">
+                    <span>Количество</span>
+                    <strong>{{ numbers_value.split()|length }}</strong>
+                </div>
+
+                <div class="statistics-item">
+                    <span>Дисперсия</span>
+                    <strong>{{ variance }}</strong>
+                </div>
+
+                <div class="statistics-item">
+                    <span>Стандартное отклонение</span>
+                    <strong>{{ standard_deviation }}</strong>
+                </div>
+
+            </div>
+
+
+            <div class="trigonometry-formula">
+
+                <div class="formula-step">
+
+                    <strong>
+                        Среднее:
+                    </strong>
+
+                    сумма всех чисел ÷ количество чисел
+
+                </div>
+
+                <div class="formula-step">
+
+                    <strong>
+                        Размах:
+                    </strong>
+
+                    максимум − минимум
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+    </section>
+
+</main>
+
+</body>
+
+</html>

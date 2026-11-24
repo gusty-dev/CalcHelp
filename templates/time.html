@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CalcHelp — Время</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+
+<header class="site-header">
+     <div class="header-decoration-left">
+    + × √
+</div>
+
+<div class="header-decoration-right">
+    % ÷ π 42
+</div>
+
+    <h1>CalcHelp</h1>
+
+    <p>Калькулятор времени</p>
+
+</header>
+
+
+<nav class="main-navigation">
+
+    <a href="/">
+        Главная
+    </a>
+
+    <a href="/calculator">
+        Калькулятор
+    </a>
+
+    <a href="/number-system">
+        Системы счисления
+    </a>
+
+    <a href="/time" class="active">
+        Время
+    </a>
+
+    <a href="/units">
+        Единицы
+    </a>
+
+    <a href="/percent">
+        Проценты
+    </a>
+
+    <a href="/geometry">
+        Геометрия
+    </a>
+
+    <a href="/NOK_NOD">НОД и НОК</a>
+
+    <a href="/fractions"> Дроби</a>
+    <a href="/pifagor">Пифагор</a>
+    <a href="/kvadrat">Квадратные уравнения</a>
+    <a href="/combinatorics">Комбинаторика</a>
+    <a href="/hard-percent">Сложный процент</a>
+    <a href="/trigonometry">Тригонометрия</a>
+    <a href="/statistics">
+    Статистика
+</a>
+
+<a href="/coordinate-geometry">
+    Координатная геометрия
+</a>
+    <a href="/graph" >Графики</a>
+    <a href="/bmi" >
+        ИМТ
+    </a>
+    <a href="/logarithms">Логарифмы</a>
+      <a href="/kbzhu" >КБЖУ</a>
+     <a href="/fuel" >Расход топлива</a>
+
+
+    {% if bot_link %}
+        <a href="{{ bot_link }}" target="_blank" rel="noopener noreferrer">Мой бот</a>
+    {% endif %}
+</nav>
+
+
+<main class="time-page">
+
+
+    <!-- =========================================
+         РАЗНИЦА МЕЖДУ ДАТАМИ
+         ========================================= -->
+
+    <section class="time-section">
+
+        <h2 class="calc-title">
+            Разница между датами и временем
+        </h2>
+
+
+        <form method="POST" class="time-form">
+
+            <input
+                type="hidden"
+                name="action"
+                value="difference"
+            >
+
+
+            <div class="time-cards">
+
+
+                <div class="time-card">
+
+                    <h3>Начало</h3>
+
+                    <label for="start_date">
+                        Дата
+                    </label>
+
+                    <input
+                        type="date"
+                        id="start_date"
+                        name="start_date"
+                        required
+                    >
+
+
+                    <label for="start_time">
+                        Время
+                    </label>
+
+                    <input
+                        type="time"
+                        id="start_time"
+                        name="start_time"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="time-card">
+
+                    <h3>Конец</h3>
+
+                    <label for="end_date">
+                        Дата
+                    </label>
+
+                    <input
+                        type="date"
+                        id="end_date"
+                        name="end_date"
+                        required
+                    >
+
+
+                    <label for="end_time">
+                        Время
+                    </label>
+
+                    <input
+                        type="time"
+                        id="end_time"
+                        name="end_time"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="time-button"
+            >
+                Рассчитать
+            </button>
+
+        </form>
+
+
+        {% if difference_result %}
+
+            <div class="time-result">
+                {{ difference_result }}
+            </div>
+
+        {% endif %}
+
+    </section>
+
+
+
+    <!-- =========================================
+         ДВЕ СЕКЦИИ РЯДОМ
+         ========================================= -->
+
+    <div class="time-tools">
+
+
+        <!-- =====================================
+             СКОЛЬКО ОСТАЛОСЬ
+             ===================================== -->
+
+        <section class="countdown-section">
+
+            <h2 class="calc-title">
+                Сколько времени осталось
+            </h2>
+
+
+            <form
+                method="POST"
+                class="countdown-form"
+            >
+
+                <input
+                    type="hidden"
+                    name="action"
+                    value="countdown"
+                >
+
+
+                <label for="target_date">
+                    До какой даты
+                </label>
+
+                <input
+                    type="date"
+                    id="target_date"
+                    name="target_date"
+                    required
+                >
+
+
+                <label for="target_time">
+                    Время
+                </label>
+
+                <input
+                    type="time"
+                    id="target_time"
+                    name="target_time"
+                    required
+                >
+
+
+                <button
+                    type="submit"
+                    class="time-button"
+                >
+                    Рассчитать
+                </button>
+
+            </form>
+
+
+            {% if countdown_result %}
+
+                <div class="time-result countdown-result">
+                    {{ countdown_result }}
+                </div>
+
+            {% endif %}
+
+        </section>
+
+
+
+        <!-- =====================================
+             ПРИБАВИТЬ / ВЫЧЕСТЬ
+             ===================================== -->
+
+        <section class="add-time-section">
+
+            <h2 class="calc-title">
+                Прибавить / вычесть время
+            </h2>
+
+
+            <form
+                method="POST"
+                class="add-time-form"
+            >
+
+                <input
+                    type="hidden"
+                    name="action"
+                    value="add_time"
+                >
+
+
+                <div class="add-time-base">
+
+                    <label for="add_start_date">
+                        Начальная дата
+                    </label>
+
+                    <input
+                        type="date"
+                        id="add_start_date"
+                        name="add_start_date"
+                        required
+                    >
+
+
+                    <label for="add_start_time">
+                        Время
+                    </label>
+
+                    <input
+                        type="time"
+                        id="add_start_time"
+                        name="add_start_time"
+                        required
+                    >
+
+                </div>
+
+
+
+                <div class="add-time-operation">
+
+                    <label for="time_operation">
+                        Действие
+                    </label>
+
+
+                    <select
+                        id="time_operation"
+                        name="time_operation"
+                    >
+
+                        <option value="add">
+                            Прибавить
+                        </option>
+
+                        <option value="subtract">
+                            Вычесть
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <div class="add-time-values">
+
+                    <h3>
+                        На сколько изменить
+                    </h3>
+
+
+                    <div class="time-value">
+
+                        <label for="days">
+                            Дни
+                        </label>
+
+                        <input
+                            type="number"
+                            id="days"
+                            name="days"
+                            min="0"
+                            value="0"
+                            placeholder="0"
+                        >
+
+                    </div>
+
+
+                    <div class="time-value">
+
+                        <label for="hours">
+                            Часы
+                        </label>
+
+                        <input
+                            type="number"
+                            id="hours"
+                            name="hours"
+                            min="0"
+                            value="0"
+                            placeholder="0"
+                        >
+
+                    </div>
+
+
+                    <div class="time-value">
+
+                        <label for="minutes">
+                            Минуты
+                        </label>
+
+                        <input
+                            type="number"
+                            id="minutes"
+                            name="minutes"
+                            min="0"
+                            value="0"
+                            placeholder="0"
+                        >
+
+                    </div>
+
+
+                    <div class="time-value">
+
+                        <label for="seconds">
+                            Секунды
+                        </label>
+
+                        <input
+                            type="number"
+                            id="seconds"
+                            name="seconds"
+                            min="0"
+                            value="0"
+                            placeholder="0"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="time-button"
+                >
+                    Рассчитать
+                </button>
+
+            </form>
+
+
+            {% if add_result %}
+
+                <div class="time-result">
+                    {{ add_result }}
+                </div>
+
+            {% endif %}
+
+        </section>
+
+    </div>
+
+</main>
+
+
+<footer class="site-footer">
+
+    © 2026 CalcHelp
+
+</footer>
+
+
+</body>
+</html>

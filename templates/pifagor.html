@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Теорема Пифагора — CalcHelp</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<header>
+
+    <div class="header-decoration-left">
+        + × √
+    </div>
+
+    <div class="header-decoration-right">
+        % ÷ π 42
+    </div>
+
+    <h1>CalcHelp</h1>
+
+    <p>Теорема Пифагора</p>
+
+</header>
+
+
+<nav class="main-navigation">
+
+    <a href="/">Главная</a>
+    <a href="/calculator">Калькулятор</a>
+    <a href="/number-system">Системы счисления</a>
+    <a href="/time">Время</a>
+    <a href="/units">Единицы</a>
+    <a href="/percent">Проценты</a>
+    <a href="/geometry">Геометрия</a>
+    <a href="/NOK_NOD">НОД и НОК</a>
+    <a href="/fractions">Дроби</a>
+    <a href="/pifagor" class="active">Пифагор</a>
+    <a href="/kvadrat">Квадратные уравнения</a>
+    <a href="/combinatorics">Комбинаторика</a>
+    <a href="/hard-percent">Сложный процент</a>
+    <a href="/trigonometry">Тригонометрия</a>
+    <a href="/statistics">
+    Статистика
+</a>
+
+<a href="/coordinate-geometry">
+    Координатная геометрия
+</a>
+    <a href="/graph" >Графики</a>
+    <a href="/bmi" >
+        ИМТ
+    </a>
+    <a href="/logarithms">Логарифмы</a>
+      <a href="/kbzhu" >КБЖУ</a>
+     <a href="/fuel" >Расход топлива</a>
+
+    {% if bot_link %}
+        <a href="{{ bot_link }}" target="_blank" rel="noopener noreferrer">Мой бот</a>
+    {% endif %}
+</nav>
+
+
+<main>
+
+<section class="pifagor-section">
+
+    <div class="pifagor-heading">
+
+        <h2 class="calc-title">
+            Теорема Пифагора
+        </h2>
+
+        <p>
+            Найдите неизвестную сторону прямоугольного треугольника
+        </p>
+
+    </div>
+
+
+    <div class="pifagor-layout">
+
+
+        <!-- =========================
+             КАЛЬКУЛЯТОР
+             ========================= -->
+
+        <div class="pifagor-card">
+
+            <div class="pifagor-choice">
+
+                <label for="calculate">
+                    Что нужно найти?
+                </label>
+
+                <select id="calculate">
+
+    <option
+        value="hypotenuse"
+        {% if calculate == "hypotenuse" %}selected{% endif %}
+    >
+        Гипотенузу
+    </option>
+
+    <option
+        value="cathetus"
+        {% if calculate == "cathetus" %}selected{% endif %}
+    >
+        Катет
+    </option>
+
+</select>
+
+            </div>
+
+
+            <form method="POST" id="pifagorForm">
+
+                <input
+                    type="hidden"
+                    name="calculate"
+                    id="calculateHidden"
+                    value="hypotenuse"
+                >
+
+
+                <div class="pifagor-inputs">
+
+
+                    <div class="pifagor-input-group">
+
+                        <label for="side_a">
+                            Катет a
+                        </label>
+
+                        <input
+                            type="number"
+                            step="any"
+                            id="side_a"
+                            name="side_a"
+                            value="{{ side_a }}"
+                            placeholder="Введите a"
+                        >
+
+                    </div>
+
+
+                    <div class="pifagor-input-group">
+
+                        <label for="side_b">
+                            Катет b
+                        </label>
+
+                        <input
+                            type="number"
+                            step="any"
+                            id="side_b"
+                            name="side_b"
+                            value="{{ side_b }}"
+                            placeholder="Введите b"
+                        >
+
+                    </div>
+
+
+                    <div class="pifagor-input-group">
+
+                        <label for="side_c">
+                            Гипотенуза c
+                        </label>
+
+                        <input
+                            type="number"
+                            step="any"
+                            id="side_c"
+                            name="side_c"
+                            value="{{ side_c }}"
+                            placeholder="Введите c"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="pifagor-button"
+                >
+                    Вычислить
+                </button>
+
+            </form>
+
+
+            <div class="pifagor-formula">
+
+                <span>
+                    Теорема Пифагора
+                </span>
+
+                <strong>
+                    a² + b² = c²
+                </strong>
+
+            </div>
+
+
+            {% if error %}
+
+            <div class="pifagor-error">
+                {{ error }}
+            </div>
+
+            {% endif %}
+
+
+            {% if result %}
+
+            <div class="pifagor-result">
+
+                <span>
+                    Результат
+                </span>
+
+                <strong>
+                    {{ result }}
+                </strong>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- =========================
+             ТРЕУГОЛЬНИК
+             ========================= -->
+
+        <div class="triangle-card">
+
+            <div class="triangle-header">
+
+                <span>
+                    Построение
+                </span>
+
+                <strong>
+                    Прямоугольный треугольник
+                </strong>
+
+            </div>
+
+
+            <div class="triangle-container">
+
+                <svg
+                    id="triangleSvg"
+                    viewBox="0 0 500 380"
+                    preserveAspectRatio="xMidYMid meet"
+                >
+
+                    <!-- Треугольник -->
+
+                    <polygon
+                        id="triangleShape"
+                        points="70,310 70,70 430,310"
+                    />
+
+
+                    <!-- Прямой угол -->
+
+                    <path
+                        id="rightAngle"
+                        d="M70 285 L95 285 L95 310"
+                    />
+
+
+                    <!-- Подпись a -->
+
+                    <text
+                        id="labelA"
+                        x="45"
+                        y="190"
+                    >
+                        a
+                    </text>
+
+
+                    <!-- Подпись b -->
+
+                    <text
+                        id="labelB"
+                        x="245"
+                        y="345"
+                    >
+                        b
+                    </text>
+
+
+                    <!-- Подпись c -->
+
+                    <text
+                        id="labelC"
+                        x="270"
+                        y="170"
+                    >
+                        c
+                    </text>
+
+                </svg>
+
+            </div>
+
+
+            <div class="triangle-info">
+
+                <div>
+                    <span>a</span>
+                    <strong id="visualA">—</strong>
+                </div>
+
+                <div>
+                    <span>b</span>
+                    <strong id="visualB">—</strong>
+                </div>
+
+                <div>
+                    <span>c</span>
+                    <strong id="visualC">—</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<footer>
+    © 2026 CalcHelp
+</footer>
+
+
+<script>
+
+const calculateSelect =
+    document.getElementById("calculate");
+
+const hiddenInput =
+    document.getElementById("calculateHidden");
+
+const sideA =
+    document.getElementById("side_a");
+
+const sideB =
+    document.getElementById("side_b");
+
+const sideC =
+    document.getElementById("side_c");
+
+
+const triangle =
+    document.getElementById("triangleShape");
+
+const rightAngle =
+    document.getElementById("rightAngle");
+
+const labelA =
+    document.getElementById("labelA");
+
+const labelB =
+    document.getElementById("labelB");
+
+const labelC =
+    document.getElementById("labelC");
+
+
+const visualA =
+    document.getElementById("visualA");
+
+const visualB =
+    document.getElementById("visualB");
+
+const visualC =
+    document.getElementById("visualC");
+
+
+function getNumber(input) {
+
+    const value = parseFloat(input.value);
+
+    if (isNaN(value) || value <= 0) {
+        return null;
+    }
+
+    return value;
+}
+
+
+function formatNumber(value) {
+
+    if (value === null) {
+        return "—";
+    }
+
+    if (Number.isInteger(value)) {
+        return value;
+    }
+
+    return Number(value.toFixed(2));
+}
+
+
+function updateInputs() {
+
+    hiddenInput.value =
+        calculateSelect.value;
+
+
+    if (calculateSelect.value === "hypotenuse") {
+
+        sideA.disabled = false;
+        sideB.disabled = false;
+        sideC.disabled = true;
+
+        sideC.value = "";
+
+        sideA.placeholder = "Введите a";
+        sideB.placeholder = "Введите b";
+
+    } else {
+
+        sideA.disabled = false;
+        sideB.disabled = true;
+        sideC.disabled = false;
+
+        sideB.value = "";
+
+        sideA.placeholder =
+            "Известный катет";
+
+        sideC.placeholder =
+            "Гипотенуза";
+    }
+
+
+    updateTriangle();
+}
+
+
+function updateTriangle() {
+
+    const a = getNumber(sideA);
+    const b = getNumber(sideB);
+    const c = getNumber(sideC);
+
+
+    let actualA = a;
+    let actualB = b;
+    let actualC = c;
+
+
+    /*
+        Если известны оба катета,
+        автоматически вычисляем гипотенузу
+    */
+
+    if (a !== null && b !== null) {
+
+        actualC =
+            Math.sqrt(a * a + b * b);
+
+    }
+
+
+    /*
+        Если известен катет и гипотенуза,
+        вычисляем второй катет
+    */
+
+    if (
+        a !== null &&
+        c !== null &&
+        c > a
+    ) {
+
+        actualB =
+            Math.sqrt(c * c - a * a);
+
+    }
+
+
+    visualA.textContent =
+        formatNumber(actualA);
+
+    visualB.textContent =
+        formatNumber(actualB);
+
+    visualC.textContent =
+        formatNumber(actualC);
+
+
+    /*
+        Для построения используем
+        реальные пропорции сторон
+    */
+
+    if (
+        actualA === null ||
+        actualB === null
+    ) {
+
+        return;
+    }
+
+
+    const maxWidth = 350;
+    const maxHeight = 240;
+
+
+    const scale =
+        Math.min(
+            maxWidth / actualB,
+            maxHeight / actualA
+        );
+
+
+    const width =
+        actualB * scale;
+
+    const height =
+        actualA * scale;
+
+
+    const x1 = 70;
+    const y1 = 310;
+
+    const x2 = 70;
+    const y2 = 310 - height;
+
+    const x3 = 70 + width;
+    const y3 = 310;
+
+
+    triangle.setAttribute(
+        "points",
+        `${x1},${y1} ${x2},${y2} ${x3},${y3}`
+    );
+
+
+    /*
+        Прямой угол
+    */
+
+    const square = 25;
+
+    rightAngle.setAttribute(
+        "d",
+        `M${x1} ${y1 - square}
+         L${x1 + square} ${y1 - square}
+         L${x1 + square} ${y1}`
+    );
+
+
+    /*
+        Подпись a
+    */
+
+    labelA.setAttribute(
+        "x",
+        x1 - 30
+    );
+
+    labelA.setAttribute(
+        "y",
+        (y1 + y2) / 2
+    );
+
+
+    /*
+        Подпись b
+    */
+
+    labelB.setAttribute(
+        "x",
+        (x1 + x3) / 2
+    );
+
+    labelB.setAttribute(
+        "y",
+        y1 + 35
+    );
+
+
+    /*
+        Подпись c
+    */
+
+    labelC.setAttribute(
+        "x",
+        (x2 + x3) / 2 + 20
+    );
+
+    labelC.setAttribute(
+        "y",
+        (y2 + y3) / 2
+    );
+}
+
+
+calculateSelect.addEventListener(
+    "change",
+    updateInputs
+);
+
+
+sideA.addEventListener(
+    "input",
+    updateTriangle
+);
+
+sideB.addEventListener(
+    "input",
+    updateTriangle
+);
+
+sideC.addEventListener(
+    "input",
+    updateTriangle
+);
+
+
+updateInputs();
+
+</script>
+
+</body>
+</html>

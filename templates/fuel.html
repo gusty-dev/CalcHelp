@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Расход топлива — CalcHelp</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        .fuel-page {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        .fuel-card {
+            padding: 25px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .fuel-form {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px;
+            margin-top: 25px;
+        }
+
+        .fuel-field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .fuel-field label {
+            font-weight: 600;
+        }
+
+        .fuel-field input,
+        .fuel-field select {
+            box-sizing: border-box;
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            background: #fff;
+            color: #222;
+            font-size: 16px;
+        }
+
+        .fuel-submit {
+            grid-column: 1 / -1;
+            padding: 13px;
+            border: none;
+            border-radius: 7px;
+            background: #333;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .fuel-submit:hover {
+            background: #555;
+        }
+
+        .fuel-results {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .fuel-result-item {
+            padding: 20px;
+            border-radius: 9px;
+            background: #f1f1f1;
+            text-align: center;
+        }
+
+        .fuel-result-item h3 {
+            margin-top: 0;
+            font-size: 16px;
+        }
+
+        .fuel-result-item p {
+            margin-bottom: 0;
+            font-size: 24px;
+            font-weight: bold;
+            overflow-wrap: anywhere;
+        }
+
+        .fuel-error {
+            margin-top: 20px;
+            padding: 14px;
+            background: #eee;
+            border-radius: 8px;
+        }
+
+        .fuel-back {
+            display: inline-block;
+            margin-top: 20px;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .fuel-back:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .fuel-page {
+                padding: 12px;
+            }
+
+            .fuel-card {
+                padding: 18px;
+            }
+
+            .fuel-form,
+            .fuel-results {
+                grid-template-columns: 1fr;
+            }
+
+            .fuel-submit {
+                grid-column: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="header-decoration-left">+ × √</div>
+    <div class="header-decoration-right">% ÷ π 42</div>
+
+    <h1>CalcHelp</h1>
+    <p>Все необходимые калькуляторы в одном месте</p>
+</header>
+
+<nav class="main-navigation">
+    <a href="/">Главная</a>
+    <a href="/calculator">Калькулятор</a>
+    <a href="/number-system">Системы счисления</a>
+    <a href="/time">Время</a>
+    <a href="/units">Единицы</a>
+    <a href="/percent">Проценты</a>
+    <a href="/geometry">Геометрия</a>
+    <a href="/NOK_NOD">НОД и НОК</a>
+    <a href="/fractions">Дроби</a>
+    <a href="/pifagor">Пифагор</a>
+    <a href="/kvadrat">Квадратные уравнения</a>
+    <a href="/combinatorics">Комбинаторика</a>
+    <a href="/hard-percent">Сложный процент</a>
+    <a href="/trigonometry">Тригонометрия</a>
+    <a href="/statistics">Статистика</a>
+    <a href="/coordinate-geometry">Координатная геометрия</a>
+    <a href="/graph">Графики</a>
+    <a href="/bmi">ИМТ</a>
+    <a href="/logarithms">Логарифмы</a>
+    <a href="/kbzhu">КБЖУ</a>
+    <a href="/fuel" class="active">Расход топлива</a>
+    {% if bot_link %}
+        <a href="{{ bot_link }}" target="_blank" rel="noopener noreferrer">Мой бот</a>
+    {% endif %}
+</nav>
+
+<main class="fuel-page">
+
+    <section class="fuel-card">
+
+        <h2>Расход топлива и стоимость поездки</h2>
+
+        <p>
+            Узнай, сколько топлива понадобится для поездки
+            и сколько она будет стоить.
+        </p>
+
+        <form method="POST" action="/fuel" class="fuel-form">
+
+            <div class="fuel-field">
+                <label for="trip_type">Тип поездки</label>
+
+                <select id="trip_type" name="trip_type" required>
+                    <option value="one_way"
+                        {% if request.form.get('trip_type', 'one_way') == 'one_way' %}
+                            selected
+                        {% endif %}>
+                        Только туда
+                    </option>
+
+                    <option value="round_trip"
+                        {% if request.form.get('trip_type') == 'round_trip' %}
+                            selected
+                        {% endif %}>
+                        Туда и обратно
+                    </option>
+                </select>
+            </div>
+
+            <div class="fuel-field">
+                <label for="distance">Расстояние в одну сторону (км)</label>
+
+                <input
+                    type="number"
+                    id="distance"
+                    name="distance"
+                    min="0.01"
+                    max="1000000"
+                    step="any"
+                    value="{{ request.form.get('distance', '') }}"
+                    placeholder="Например, 350"
+                    required
+                >
+            </div>
+
+            <div class="fuel-field">
+                <label for="consumption">Расход топлива (л/100 км)</label>
+
+                <input
+                    type="number"
+                    id="consumption"
+                    name="consumption"
+                    min="0.01"
+                    max="200"
+                    step="any"
+                    value="{{ request.form.get('consumption', '') }}"
+                    placeholder="Например, 8.5"
+                    required
+                >
+            </div>
+
+            <div class="fuel-field">
+                <label for="price">Цена за литр (₽)</label>
+
+                <input
+                    type="number"
+                    id="price"
+                    name="price"
+                    min="0.01"
+                    max="1000000"
+                    step="any"
+                    value="{{ request.form.get('price', '') }}"
+                    placeholder="Например, 90.5"
+                    required
+                >
+            </div>
+
+            <button type="submit" class="fuel-submit">
+                Рассчитать стоимость
+            </button>
+
+        </form>
+
+        {% if error %}
+            <div class="fuel-error">
+                {{ error }}
+            </div>
+        {% endif %}
+
+        {% if result %}
+            <div class="fuel-results">
+
+                <div class="fuel-result-item">
+                    <h3>Общее расстояние</h3>
+                    <p>{{ "%.2f"|format(result.distance) }} км</p>
+                </div>
+
+                <div class="fuel-result-item">
+                    <h3>Понадобится топлива</h3>
+                    <p>{{ "%.2f"|format(result.liters) }} л</p>
+                </div>
+
+                <div class="fuel-result-item">
+                    <h3>Стоимость поездки</h3>
+                    <p>{{ "%.2f"|format(result.total_cost) }} ₽</p>
+                </div>
+
+
+            </div>
+        {% endif %}
+
+    </section>
+
+
+</main>
+
+</body>
+</html>

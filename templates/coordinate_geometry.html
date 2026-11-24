@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>
+        CalcHelp — Координатная геометрия
+    </title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<header class="site-header">
+
+    <div class="header-decoration-left">
+        + × √
+    </div>
+
+    <div class="header-decoration-right">
+        % ÷ π 42
+    </div>
+
+    <h1>CalcHelp</h1>
+
+    <p>
+        Калькулятор координатной геометрии
+    </p>
+
+</header>
+
+
+<nav class="main-navigation">
+
+    <a href="/">
+        Главная
+    </a>
+
+    <a href="/calculator">
+        Калькулятор
+    </a>
+
+    <a href="/number-system">
+        Системы счисления
+    </a>
+
+    <a href="/time">
+        Время
+    </a>
+
+    <a href="/units">
+        Единицы
+    </a>
+
+    <a href="/percent">
+        Проценты
+    </a>
+
+    <a href="/geometry">
+        Геометрия
+    </a>
+
+    <a href="/NOK_NOD">
+        НОД и НОК
+    </a>
+
+    <a href="/fractions">
+        Дроби
+    </a>
+
+    <a href="/pifagor">
+        Пифагор
+    </a>
+
+    <a href="/kvadrat">
+        Квадратные уравнения
+    </a>
+
+    <a href="/combinatorics">
+        Комбинаторика
+    </a>
+
+    <a href="/hard-percent">
+        Сложный процент
+    </a>
+
+    <a href="/trigonometry">
+        Тригонометрия
+    </a>
+
+    <a href="/statistics">
+        Статистика
+    </a>
+
+    <a href="/coordinate-geometry"
+       class="active">
+        Координатная геометрия
+    </a>
+    <a href="/graph" >Графики</a>
+    <a href="/bmi" >
+        ИМТ
+    </a>
+    <a href="/logarithms">Логарифмы</a>
+      <a href="/kbzhu" >КБЖУ</a>
+     <a href="/fuel" >Расход топлива</a>
+
+    {% if bot_link %}
+        <a href="{{ bot_link }}" target="_blank" rel="noopener noreferrer">Мой бот</a>
+    {% endif %}
+</nav>
+
+
+<main>
+
+<section class="calculator-container">
+
+    <h2>
+        Координатная геометрия
+    </h2>
+
+    <p class="calculator-description">
+        Расчёт расстояния, середины отрезка,
+        углового коэффициента и уравнения прямой.
+    </p>
+
+
+    <!-- =====================================
+         ФОРМА + КООРДИНАТНАЯ ПЛОСКОСТЬ
+         ===================================== -->
+
+    <div class="coordinate-layout">
+
+
+        <!-- =================================
+             ЛЕВАЯ ЧАСТЬ — ФОРМА
+             ================================= -->
+
+        <div class="coordinate-form-wrapper">
+
+            <form method="POST"
+                  class="coordinate-form">
+
+
+                <label for="operation">
+                    Что рассчитать?
+                </label>
+
+
+                <select id="operation"
+                        name="operation">
+
+                    <option value="distance"
+                        {% if operation == "distance" %}
+                        selected
+                        {% endif %}>
+                        Расстояние между точками
+                    </option>
+
+                    <option value="midpoint"
+                        {% if operation == "midpoint" %}
+                        selected
+                        {% endif %}>
+                        Середина отрезка
+                    </option>
+
+                    <option value="slope"
+                        {% if operation == "slope" %}
+                        selected
+                        {% endif %}>
+                        Угловой коэффициент
+                    </option>
+
+                    <option value="line"
+                        {% if operation == "line" %}
+                        selected
+                        {% endif %}>
+                        Уравнение прямой
+                    </option>
+
+                </select>
+
+
+                <!-- ТОЧКИ -->
+
+                <div class="coordinate-points">
+
+
+                    <!-- ТОЧКА A -->
+
+                    <div class="coordinate-point">
+
+                        <h3>
+                            Точка A
+                        </h3>
+
+
+                        <label for="x1">
+                            x₁
+                        </label>
+
+                        <input
+                            type="number"
+                            step="any"
+                            id="x1"
+                            name="x1"
+                            value="{{ x1_value }}"
+                            placeholder="Например, 2"
+                            required
+                        >
+
+
+                        <label for="y1">
+                            y₁
+                        </label>
+
+                        <input
+                            type="number"
+                            step="any"
+                            id="y1"
+                            name="y1"
+                            value="{{ y1_value }}"
+                            placeholder="Например, 3"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- ТОЧКА B -->
+
+                    <div class="coordinate-point">
+
+                        <h3>
+                            Точка B
+                        </h3>
+
+
+                        <label for="x2">
+                            x₂
+                        </label>
+
+                        <input
+                            type="number"
+                            step="any"
+                            id="x2"
+                            name="x2"
+                            value="{{ x2_value }}"
+                            placeholder="Например, 8"
+                            required
+                        >
+
+
+                        <label for="y2">
+                            y₂
+                        </label>
+
+                        <input
+                            type="number"
+                            step="any"
+                            id="y2"
+                            name="y2"
+                            value="{{ y2_value }}"
+                            placeholder="Например, 11"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <button type="submit">
+                    Рассчитать
+                </button>
+
+            </form>
+
+
+            <!-- ОШИБКА -->
+
+            {% if error %}
+
+            <div class="error-message">
+                {{ error }}
+            </div>
+
+            {% endif %}
+
+
+            <!-- РЕЗУЛЬТАТ -->
+
+            {% if result is not none %}
+
+            <div class="coordinate-result">
+
+                <div class="result-box">
+
+                    <div class="result-label">
+                        Результат
+                    </div>
+
+                    <div class="main-result">
+                        {{ result }}
+                    </div>
+
+                </div>
+
+
+                {% if formula %}
+
+                <div class="coordinate-formula">
+
+                    <div class="formula-title">
+                        Расчёт
+                    </div>
+
+                    <div class="formula-step">
+                        {{ formula }}
+                    </div>
+
+                </div>
+
+                {% endif %}
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- =================================
+             ПРАВАЯ ЧАСТЬ — ПЛОСКОСТЬ
+             ================================= -->
+
+        <div class="coordinate-plane-card">
+
+            <div class="coordinate-plane-title">
+                Координатная плоскость
+            </div>
+
+            <div class="coordinate-plane-subtitle">
+                Точки A и B
+            </div>
+
+
+            <div class="coordinate-plane">
+
+                <svg
+                    id="coordinateSvg"
+                    viewBox="0 0 500 500"
+                    preserveAspectRatio="xMidYMid meet"
+                    aria-label="Координатная плоскость"
+                >
+
+                    <!-- СЕТКА -->
+
+                    <g id="gridLines"></g>
+
+                    <!-- ОСИ -->
+
+                    <g id="axes">
+
+                        <line
+                            id="xAxis"
+                            x1="0"
+                            y1="250"
+                            x2="500"
+                            y2="250"
+                        />
+
+                        <line
+                            id="yAxis"
+                            x1="250"
+                            y1="0"
+                            x2="250"
+                            y2="500"
+                        />
+
+                    </g>
+
+
+                    <!-- ПОДПИСИ ОСЕЙ -->
+
+                    <text
+                        id="xAxisLabel"
+                        class="axis-label"
+                        x="475"
+                        y="242">
+                        X
+                    </text>
+
+                    <text
+                        id="yAxisLabel"
+                        class="axis-label"
+                        x="258"
+                        y="25">
+                        Y
+                    </text>
+
+
+                    <!-- ЛИНИЯ МЕЖДУ ТОЧКАМИ -->
+
+                    <line
+                        id="pointLine"
+                        class="point-line"
+                        x1="0"
+                        y1="0"
+                        x2="0"
+                        y2="0"
+                        opacity="0"
+                    />
+
+
+                    <!-- ТОЧКА A -->
+
+                    <circle
+                        id="pointA"
+                        class="coordinate-point-a"
+                        cx="250"
+                        cy="250"
+                        r="7"
+                        opacity="0"
+                    />
+
+                    <text
+                        id="labelA"
+                        class="point-label"
+                        x="0"
+                        y="0"
+                        opacity="0">
+                        A
+                    </text>
+
+
+                    <!-- ТОЧКА B -->
+
+                    <circle
+                        id="pointB"
+                        class="coordinate-point-b"
+                        cx="250"
+                        cy="250"
+                        r="7"
+                        opacity="0"
+                    />
+
+                    <text
+                        id="labelB"
+                        class="point-label"
+                        x="0"
+                        y="0"
+                        opacity="0">
+                        B
+                    </text>
+
+                </svg>
+
+            </div>
+
+
+            <div class="coordinate-plane-info">
+
+                <div>
+                    <span class="plane-dot a-dot"></span>
+                    A
+                </div>
+
+                <div>
+                    <span class="plane-dot b-dot"></span>
+                    B
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<script>
+
+    /* =========================================
+       КООРДИНАТНАЯ ПЛОСКОСТЬ
+       ========================================= */
+
+    const svg =
+        document.getElementById("coordinateSvg");
+
+    const gridLines =
+        document.getElementById("gridLines");
+
+    const xAxis =
+        document.getElementById("xAxis");
+
+    const yAxis =
+        document.getElementById("yAxis");
+
+    const xAxisLabel =
+        document.getElementById("xAxisLabel");
+
+    const yAxisLabel =
+        document.getElementById("yAxisLabel");
+
+    const pointA =
+        document.getElementById("pointA");
+
+    const pointB =
+        document.getElementById("pointB");
+
+    const labelA =
+        document.getElementById("labelA");
+
+    const labelB =
+        document.getElementById("labelB");
+
+    const pointLine =
+        document.getElementById("pointLine");
+
+
+    const x1Input =
+        document.getElementById("x1");
+
+    const y1Input =
+        document.getElementById("y1");
+
+    const x2Input =
+        document.getElementById("x2");
+
+    const y2Input =
+        document.getElementById("y2");
+
+
+    const SIZE = 500;
+
+
+    /* =========================================
+       УДОБНЫЙ ШАГ СЕТКИ
+       ========================================= */
+
+    function niceStep(range) {
+
+        const roughStep =
+            range / 10;
+
+        const power =
+            Math.pow(
+                10,
+                Math.floor(
+                    Math.log10(roughStep)
+                )
+            );
+
+        const normalized =
+            roughStep / power;
+
+        let step;
+
+        if (normalized <= 1) {
+            step = 1;
+        }
+        else if (normalized <= 2) {
+            step = 2;
+        }
+        else if (normalized <= 5) {
+            step = 5;
+        }
+        else {
+            step = 10;
+        }
+
+        return step * power;
+    }
+
+
+    /* =========================================
+       ОЧИСТКА СЕТКИ
+       ========================================= */
+
+    function clearGrid() {
+
+        while (
+            gridLines.firstChild
+        ) {
+
+            gridLines.removeChild(
+                gridLines.firstChild
+            );
+
+        }
+
+    }
+
+
+    /* =========================================
+       ЛИНИЯ SVG
+       ========================================= */
+
+    function createLine(
+        x1,
+        y1,
+        x2,
+        y2,
+        className
+    ) {
+
+        const line =
+            document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "line"
+            );
+
+        line.setAttribute(
+            "x1",
+            x1
+        );
+
+        line.setAttribute(
+            "y1",
+            y1
+        );
+
+        line.setAttribute(
+            "x2",
+            x2
+        );
+
+        line.setAttribute(
+            "y2",
+            y2
+        );
+
+        line.setAttribute(
+            "class",
+            className
+        );
+
+        gridLines.appendChild(
+            line
+        );
+
+    }
+
+
+    /* =========================================
+       ПОДПИСЬ СЕТКИ
+       ========================================= */
+
+    function createText(
+        x,
+        y,
+        text
+    ) {
+
+        const element =
+            document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "text"
+            );
+
+        element.setAttribute(
+            "x",
+            x
+        );
+
+        element.setAttribute(
+            "y",
+            y
+        );
+
+        element.setAttribute(
+            "class",
+            "grid-label"
+        );
+
+        element.textContent =
+            text;
+
+        gridLines.appendChild(
+            element
+        );
+
+    }
+
+
+    /* =========================================
+       ОСНОВНАЯ ФУНКЦИЯ
+       ========================================= */
+
+    function updatePlane() {
+
+        const x1 =
+            parseFloat(
+                x1Input.value
+            );
+
+        const y1 =
+            parseFloat(
+                y1Input.value
+            );
+
+        const x2 =
+            parseFloat(
+                x2Input.value
+            );
+
+        const y2 =
+            parseFloat(
+                y2Input.value
+            );
+
+
+        /*
+         * Если координаты введены,
+         * строим область вокруг них.
+         */
+
+        let minX;
+        let maxX;
+        let minY;
+        let maxY;
+
+
+        if (
+            Number.isFinite(x1) &&
+            Number.isFinite(y1) &&
+            Number.isFinite(x2) &&
+            Number.isFinite(y2)
+        ) {
+
+            minX =
+                Math.min(
+                    x1,
+                    x2,
+                    0
+                );
+
+            maxX =
+                Math.max(
+                    x1,
+                    x2,
+                    0
+                );
+
+            minY =
+                Math.min(
+                    y1,
+                    y2,
+                    0
+                );
+
+            maxY =
+                Math.max(
+                    y1,
+                    y2,
+                    0
+                );
+
+        }
+
+        else {
+
+            minX = -10;
+            maxX = 10;
+
+            minY = -10;
+            maxY = 10;
+
+        }
+
+
+        /*
+         * Не даём диапазону стать нулевым.
+         */
+
+        if (minX === maxX) {
+
+            minX -= 5;
+            maxX += 5;
+
+        }
+
+        if (minY === maxY) {
+
+            minY -= 5;
+            maxY += 5;
+
+        }
+
+
+        /*
+         * Добавляем небольшой запас
+         * вокруг точек.
+         */
+
+        const paddingX =
+            (maxX - minX) * 0.12;
+
+        const paddingY =
+            (maxY - minY) * 0.12;
+
+
+        minX -= paddingX;
+        maxX += paddingX;
+
+        minY -= paddingY;
+        maxY += paddingY;
+
+
+        const rangeX =
+            maxX - minX;
+
+        const rangeY =
+            maxY - minY;
+
+
+        /*
+         * Перевод координат
+         * в координаты SVG.
+         */
+
+        function mapX(value) {
+
+            return (
+                (value - minX)
+                / rangeX
+                * SIZE
+            );
+
+        }
+
+
+        function mapY(value) {
+
+            return (
+                SIZE -
+                (value - minY)
+                / rangeY
+                * SIZE
+            );
+
+        }
+
+
+        /*
+         * Сетка
+         */
+
+        clearGrid();
+
+
+        const stepX =
+            niceStep(rangeX);
+
+        const stepY =
+            niceStep(rangeY);
+
+
+        let startX =
+            Math.ceil(
+                minX / stepX
+            ) * stepX;
+
+
+        for (
+            let value = startX;
+            value <= maxX;
+            value += stepX
+        ) {
+
+            const x =
+                mapX(value);
+
+            createLine(
+                x,
+                0,
+                x,
+                SIZE,
+                "grid-line"
+            );
+
+            if (
+                Math.abs(value) > 0.0000001
+            ) {
+
+                createText(
+                    x + 4,
+                    mapY(0) - 7,
+                    formatCoordinate(
+                        value
+                    )
+                );
+
+            }
+
+        }
+
+
+        let startY =
+            Math.ceil(
+                minY / stepY
+            ) * stepY;
+
+
+        for (
+            let value = startY;
+            value <= maxY;
+            value += stepY
+        ) {
+
+            const y =
+                mapY(value);
+
+            createLine(
+                0,
+                y,
+                SIZE,
+                y,
+                "grid-line"
+            );
+
+            if (
+                Math.abs(value) > 0.0000001
+            ) {
+
+                createText(
+                    mapX(0) + 6,
+                    y - 5,
+                    formatCoordinate(
+                        value
+                    )
+                );
+
+            }
+
+        }
+
+
+        /*
+         * Оси
+         */
+
+        const axisX =
+            mapY(0);
+
+        const axisY =
+            mapX(0);
+
+
+        xAxis.setAttribute(
+            "x1",
+            0
+        );
+
+        xAxis.setAttribute(
+            "y1",
+            axisX
+        );
+
+        xAxis.setAttribute(
+            "x2",
+            SIZE
+        );
+
+        xAxis.setAttribute(
+            "y2",
+            axisX
+        );
+
+
+        yAxis.setAttribute(
+            "x1",
+            axisY
+        );
+
+        yAxis.setAttribute(
+            "y1",
+            0
+        );
+
+        yAxis.setAttribute(
+            "x2",
+            axisY
+        );
+
+        yAxis.setAttribute(
+            "y2",
+            SIZE
+        );
+
+
+        xAxisLabel.setAttribute(
+            "x",
+            SIZE - 24
+        );
+
+        xAxisLabel.setAttribute(
+            "y",
+            Math.max(
+                18,
+                Math.min(
+                    SIZE - 8,
+                    axisX - 10
+                )
+            )
+        );
+
+
+        yAxisLabel.setAttribute(
+            "x",
+            Math.min(
+                SIZE - 15,
+                axisY + 10
+            )
+        );
+
+        yAxisLabel.setAttribute(
+            "y",
+            22
+        );
+
+
+        /*
+         * Точки
+         */
+
+        if (
+            Number.isFinite(x1) &&
+            Number.isFinite(y1) &&
+            Number.isFinite(x2) &&
+            Number.isFinite(y2)
+        ) {
+
+            const px1 =
+                mapX(x1);
+
+            const py1 =
+                mapY(y1);
+
+            const px2 =
+                mapX(x2);
+
+            const py2 =
+                mapY(y2);
+
+
+            pointA.setAttribute(
+                "cx",
+                px1
+            );
+
+            pointA.setAttribute(
+                "cy",
+                py1
+            );
+
+            pointA.setAttribute(
+                "opacity",
+                "1"
+            );
+
+
+            pointB.setAttribute(
+                "cx",
+                px2
+            );
+
+            pointB.setAttribute(
+                "cy",
+                py2
+            );
+
+            pointB.setAttribute(
+                "opacity",
+                "1"
+            );
+
+
+            pointLine.setAttribute(
+                "x1",
+                px1
+            );
+
+            pointLine.setAttribute(
+                "y1",
+                py1
+            );
+
+            pointLine.setAttribute(
+                "x2",
+                px2
+            );
+
+            pointLine.setAttribute(
+                "y2",
+                py2
+            );
+
+            pointLine.setAttribute(
+                "opacity",
+                "1"
+            );
+
+
+            labelA.setAttribute(
+                "x",
+                px1 + 10
+            );
+
+            labelA.setAttribute(
+                "y",
+                py1 - 10
+            );
+
+            labelA.textContent =
+                `A (${formatCoordinate(x1)}; ${formatCoordinate(y1)})`;
+
+            labelA.setAttribute(
+                "opacity",
+                "1"
+            );
+
+
+            labelB.setAttribute(
+                "x",
+                px2 + 10
+            );
+
+            labelB.setAttribute(
+                "y",
+                py2 - 10
+            );
+
+            labelB.textContent =
+                `B (${formatCoordinate(x2)}; ${formatCoordinate(y2)})`;
+
+            labelB.setAttribute(
+                "opacity",
+                "1"
+            );
+
+        }
+
+        else {
+
+            pointA.setAttribute(
+                "opacity",
+                "0"
+            );
+
+            pointB.setAttribute(
+                "opacity",
+                "0"
+            );
+
+            pointLine.setAttribute(
+                "opacity",
+                "0"
+            );
+
+            labelA.setAttribute(
+                "opacity",
+                "0"
+            );
+
+            labelB.setAttribute(
+                "opacity",
+                "0"
+            );
+
+        }
+
+    }
+
+
+    /* =========================================
+       ФОРМАТ КООРДИНАТ
+       ========================================= */
+
+    function formatCoordinate(
+        value
+    ) {
+
+        if (
+            Number.isInteger(value)
+        ) {
+
+            return value.toString();
+
+        }
+
+        return Number(
+            value.toFixed(2)
+        ).toString();
+
+    }
+
+
+    /*
+     * Обновляем график при вводе.
+     */
+
+    x1Input.addEventListener(
+        "input",
+        updatePlane
+    );
+
+    y1Input.addEventListener(
+        "input",
+        updatePlane
+    );
+
+    x2Input.addEventListener(
+        "input",
+        updatePlane
+    );
+
+    y2Input.addEventListener(
+        "input",
+        updatePlane
+    );
+
+
+    /*
+     * Первый запуск.
+     */
+
+    updatePlane();
+
+</script>
+
+</body>
+</html>

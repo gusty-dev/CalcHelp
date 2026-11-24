@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Дроби — CalcHelp</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+</head>
+
+<body>
+
+<header>
+
+    <div class="header-decoration-left">
+        + × √
+    </div>
+
+    <div class="header-decoration-right">
+        % ÷ π 42
+    </div>
+
+    <h1>CalcHelp</h1>
+
+    <p>Калькулятор дробей</p>
+
+</header>
+
+
+<nav class="main-navigation">
+
+    <a href="/">
+        Главная
+    </a>
+
+    <a href="/calculator">
+        Калькулятор
+    </a>
+
+    <a href="/number-system">
+        Системы счисления
+    </a>
+
+    <a href="/time">
+        Время
+    </a>
+
+    <a href="/units">
+        Единицы
+    </a>
+
+    <a href="/percent">
+        Проценты
+    </a>
+
+    <a href="/geometry">
+        Геометрия
+    </a>
+
+    <a href="/NOK_NOD">
+        НОД и НОК
+    </a>
+
+    <a href="/fractions" class="active">
+        Дроби
+    </a>
+    <a href="/pifagor">Пифагор</a>
+    <a href="/kvadrat">Квадратные уравнения</a>
+    <a href="/combinatorics">Комбинаторика</a>
+    <a href="/hard-percent">Сложный процент</a>
+    <a href="/trigonometry">Тригонометрия</a>
+    <a href="/statistics">
+    Статистика
+</a>
+
+<a href="/coordinate-geometry">
+    Координатная геометрия
+</a>
+    <a href="/graph" >Графики</a>
+    <a href="/bmi" >
+        ИМТ
+    </a>
+    <a href="/logarithms">Логарифмы</a>
+      <a href="/kbzhu" >КБЖУ</a>
+     <a href="/fuel" >Расход топлива</a>
+
+    {% if bot_link %}
+        <a href="{{ bot_link }}" target="_blank" rel="noopener noreferrer">Мой бот</a>
+    {% endif %}
+</nav>
+
+
+<main>
+
+    <section class="fraction-section">
+
+        <div class="fraction-heading">
+
+            <h2 class="calc-title">
+                Калькулятор дробей
+            </h2>
+
+            <p>
+                Выполняйте основные операции с дробями
+            </p>
+
+        </div>
+
+
+        <div class="fraction-calculator">
+
+            <form method="POST">
+
+
+                <div class="fraction-operation">
+
+
+                    <!-- ПЕРВАЯ ДРОБЬ -->
+
+                    <div class="fraction-input-group">
+
+                        <label>
+                            Первая дробь
+                        </label>
+
+                        <div class="fraction-input">
+
+                            <input
+                                type="number"
+                                name="numerator1"
+                                value="{{ numerator1 }}"
+                                placeholder="Числитель"
+                                required
+                            >
+
+                            <div class="fraction-line"></div>
+
+                            <input
+                                type="number"
+                                name="denominator1"
+                                value="{{ denominator1 }}"
+                                placeholder="Знаменатель"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ОПЕРАЦИЯ -->
+
+                    <div class="fraction-operation-select">
+
+                        <label>
+                            Операция
+                        </label>
+
+                        <select name="operation">
+
+                            <option
+                                value="add"
+                                {% if operation == "add" %}selected{% endif %}
+                            >
+                                +
+                            </option>
+
+                            <option
+                                value="subtract"
+                                {% if operation == "subtract" %}selected{% endif %}
+                            >
+                                −
+                            </option>
+
+                            <option
+                                value="multiply"
+                                {% if operation == "multiply" %}selected{% endif %}
+                            >
+                                ×
+                            </option>
+
+                            <option
+                                value="divide"
+                                {% if operation == "divide" %}selected{% endif %}
+                            >
+                                ÷
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- ВТОРАЯ ДРОБЬ -->
+
+                    <div class="fraction-input-group">
+
+                        <label>
+                            Вторая дробь
+                        </label>
+
+                        <div class="fraction-input">
+
+                            <input
+                                type="number"
+                                name="numerator2"
+                                value="{{ numerator2 }}"
+                                placeholder="Числитель"
+                                required
+                            >
+
+                            <div class="fraction-line"></div>
+
+                            <input
+                                type="number"
+                                name="denominator2"
+                                value="{{ denominator2 }}"
+                                placeholder="Знаменатель"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="fraction-button"
+                >
+                    Вычислить
+                </button>
+
+            </form>
+
+
+            {% if error %}
+
+                <div class="fraction-error">
+                    {{ error }}
+                </div>
+
+            {% endif %}
+
+
+            {% if result %}
+
+                <div class="fraction-result">
+
+                    <span>
+                        Результат
+                    </span>
+
+                    <strong>
+                        {{ result }}
+                    </strong>
+
+                </div>
+
+            {% endif %}
+
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer>
+    © 2026 CalcHelp
+</footer>
+
+
+</body>
+</html>

@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>CalcHelp — Геометрия</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<header>
+     <div class="header-decoration-left">
+    + × √
+</div>
+
+<div class="header-decoration-right">
+    % ÷ π 42
+</div>
+    <h1>CalcHelp</h1>
+    <p>Калькулятор площадей</p>
+</header>
+
+<nav class="main-navigation">
+
+        <a href="/">Главная</a>
+
+        <a href="/calculator">Калькулятор</a>
+
+        <a href="/number-system">Системы счисления</a>
+
+        <a href="/time">Время</a>
+
+        <a href="/units">Единицы</a>
+
+        <a href="/percent">Проценты</a>
+
+        <a href="/geometry" class="active">Геометрия</a>
+
+        <a href="/NOK_NOD">НОД и НОК</a>
+
+        <a href="/fractions">
+    Дроби
+</a>
+    <a href="/pifagor">Пифагор</a>
+    <a href="/kvadrat">Квадратные уравнения</a>
+    <a href="/combinatorics">Комбинаторика</a>
+    <a href="/hard-percent">Сложный процент</a>
+    <a href="/trigonometry">Тригонометрия</a>
+    <a href="/statistics">
+    Статистика
+</a>
+
+<a href="/coordinate-geometry">
+    Координатная геометрия
+</a>
+    <a href="/graph" >Графики</a>
+    <a href="/bmi" >
+        ИМТ
+    </a>
+    <a href="/logarithms">Логарифмы</a>
+      <a href="/kbzhu" >КБЖУ</a>
+     <a href="/fuel" >Расход топлива</a>
+
+        {% if bot_link %}
+        <a href="{{ bot_link }}" target="_blank" rel="noopener noreferrer">Мой бот</a>
+    {% endif %}
+</nav>
+
+<main class="geometry-page">
+
+    <section class="geometry-section">
+
+        <!-- ТИП ГЕОМЕТРИИ -->
+
+        <div class="geometry-selector">
+
+            <label for="geometry-type">
+                Тип геометрии
+            </label>
+
+            <select id="geometry-type">
+
+                <option value="flat">
+                    Плоские фигуры
+                </option>
+
+                <option value="solid">
+                    Стереометрические фигуры
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- ФИГУРА -->
+
+        <div class="geometry-selector">
+
+            <label for="shape-select">
+                Фигура
+            </label>
+
+            <select id="shape-select"></select>
+
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- КВАДРАТ -->
+        <!-- ========================= -->
+
+        <div class="geometry-form-container"
+             data-shape="square">
+
+            <h3>Квадрат</h3>
+
+            <form method="POST">
+
+                <input type="hidden"
+                       name="shape"
+                       value="square">
+
+                <label>Сторона</label>
+
+                <input type="number"
+                       name="side"
+                       step="any"
+                       min="0"
+                       required>
+
+                <button type="submit">
+                    Рассчитать
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- ПРЯМОУГОЛЬНИК -->
+        <!-- ========================= -->
+
+        <div class="geometry-form-container"
+             data-shape="rectangle">
+
+            <h3>Прямоугольник</h3>
+
+            <form method="POST">
+
+                <input type="hidden"
+                       name="shape"
+                       value="rectangle">
+
+                <label>Длина</label>
+
+                <input type="number"
+                       name="length"
+                       step="any"
+                       min="0"
+                       required>
+
+                <label>Ширина</label>
+
+                <input type="number"
+                       name="width"
+                       step="any"
+                       min="0"
+                       required>
+
+                <button type="submit">
+                    Рассчитать
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- ТРЕУГОЛЬНИК -->
+        <!-- ========================= -->
+
+        <div class="geometry-form-container"
+             data-shape="triangle">
+
+            <h3>Треугольник</h3>
+
+            <form method="POST">
+
+                <input type="hidden"
+                       name="shape"
+                       value="triangle">
+
+                <label>Основание</label>
+
+                <input type="number"
+                       name="base"
+                       step="any"
+                       min="0"
+                       required>
+
+                <label>Высота</label>
+
+                <input type="number"
+                       name="height"
+                       step="any"
+                       min="0"
+                       required>
+
+                <button type="submit">
+                    Рассчитать
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- КРУГ -->
+        <!-- ========================= -->
+
+        <div class="geometry-form-container"
+             data-shape="circle">
+
+            <h3>Круг</h3>
+
+            <form method="POST">
+
+                <input type="hidden"
+                       name="shape"
+                       value="circle">
+
+                <label>Радиус</label>
+
+                <input type="number"
+                       name="radius"
+                       step="any"
+                       min="0"
+                       required>
+
+                <button type="submit">
+                    Рассчитать
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- РОМБ -->
+        <!-- ========================= -->
+
+        <div class="geometry-form-container"
+             data-shape="rhombus">
+
+            <h3>Ромб</h3>
+
+            <form method="POST">
+
+                <input type="hidden"
+                       name="shape"
+                       value="rhombus">
+
+                <label>Первая диагональ</label>
+
+                <input type="number"
+                       name="diagonal1"
+                       step="any"
+                       min="0"
+                       required>
+
+                <label>Вторая диагональ</label>
+
+                <input type="number"
+                       name="diagonal2"
+                       step="any"
+                       min="0"
+                       required>
+
+                <button type="submit">
+                    Рассчитать
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- ТРАПЕЦИЯ -->
+        <!-- ========================= -->
+
+        <div class="geometry-form-container"
+             data-shape="trapezoid">
+
+            <h3>Трапеция</h3>
+
+            <form method="POST">
+
+                <input type="hidden"
+                       name="shape"
+                       value="trapezoid">
+
+                <label>Первое основание</label>
+
+                <input type="number"
+                       name="base1"
+                       step="any"
+                       min="0"
+                       required>
+
+                <label>Второе основание</label>
+
+                <input type="number"
+                       name="base2"
+                       step="any"
+                       min="0"
+                       required>
+
+                <label>Высота</label>
+
+                <input type="number"
+                       name="height"
+                       step="any"
+                       min="0"
+                       required>
+
+                <button type="submit">
+                    Рассчитать
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- КУБ -->
+        <!-- ========================= -->
+
+        <div class="geometry-form-container"
+             data-shape="cube">
+
+            <h3>Куб</h3>
+
+            <form method="POST">
+
+                <input type="hidden"
+                       name="shape"
+                       value="cube">
+
+                <label>Ребро</label>
+
+                <input type="number"
+                       name="side"
+                       step="any"
+                       min="0"
+                       required>
+
+                <button type="submit">
+                    Рассчитать
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- ПАРАЛЛЕЛЕПИПЕД -->
+        <!-- ========================= -->
+
+        <div class="geometry-form-container"
+             data-shape="cuboid">
+
+            <h3>Прямоугольный параллелепипед</h3>
+
+            <form method="POST">
+
+                <input type="hidden"
+                       name="shape"
+                       value="cuboid">
+
+                <label>Длина</label>
+
+                <input type="number"
+                       name="length"
+                       step="any"
+                       min="0"
+                       required>
+
+                <label>Ширина</label>
+
+                <input type="number"
+                       name="width"
+                       step="any"
+                       min="0"
+                       required>
+
+                <label>Высота</label>
+
+                <input type="number"
+                       name="height"
+                       step="any"
+                       min="0"
+                       required>
+
+                <button type="submit">
+                    Рассчитать
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- ЦИЛИНДР -->
+        <!-- ========================= -->
+
+        <div class="geometry-form-container"
+             data-shape="cylinder">
+
+            <h3>Цилиндр</h3>
+
+            <form method="POST">
+
+                <input type="hidden"
+                       name="shape"
+                       value="cylinder">
+
+                <label>Радиус</label>
+
+                <input type="number"
+                       name="radius"
+                       step="any"
+                       min="0"
+                       required>
+
+                <label>Высота</label>
+
+                <input type="number"
+                       name="height"
+                       step="any"
+                       min="0"
+                       required>
+
+                <button type="submit">
+                    Рассчитать
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- СФЕРА -->
+        <!-- ========================= -->
+
+        <div class="geometry-form-container"
+             data-shape="sphere">
+
+            <h3>Сфера</h3>
+
+            <form method="POST">
+
+                <input type="hidden"
+                       name="shape"
+                       value="sphere">
+
+                <label>Радиус</label>
+
+                <input type="number"
+                       name="radius"
+                       step="any"
+                       min="0"
+                       required>
+
+                <button type="submit">
+                    Рассчитать
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- КОНУС -->
+        <!-- ========================= -->
+
+        <div class="geometry-form-container"
+             data-shape="cone">
+
+            <h3>Конус</h3>
+
+            <form method="POST">
+
+                <input type="hidden"
+                       name="shape"
+                       value="cone">
+
+                <label>Радиус</label>
+
+                <input type="number"
+                       name="radius"
+                       step="any"
+                       min="0"
+                       required>
+
+                <label>Высота</label>
+
+                <input type="number"
+                       name="height"
+                       step="any"
+                       min="0"
+                       required>
+
+                <button type="submit">
+                    Рассчитать
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- ПИРАМИДА -->
+        <!-- ========================= -->
+
+        <div class="geometry-form-container"
+             data-shape="pyramid">
+
+            <h3>Правильная четырёхугольная пирамида</h3>
+
+            <form method="POST">
+
+                <input type="hidden"
+                       name="shape"
+                       value="pyramid">
+
+                <label>Сторона основания</label>
+
+                <input type="number"
+                       name="base"
+                       step="any"
+                       min="0"
+                       required>
+
+                <label>Высота</label>
+
+                <input type="number"
+                       name="height"
+                       step="any"
+                       min="0"
+                       required>
+
+                <button type="submit">
+                    Рассчитать
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- РЕЗУЛЬТАТ -->
+        <!-- ========================= -->
+
+        {% if result %}
+
+        <div class="geometry-result">
+
+            <h3>{{ result.title }}</h3>
+
+            {% for item in result["items"] %}
+
+                <p>{{ item }}</p>
+
+            {% endfor %}
+
+        </div>
+
+        {% endif %}
+
+
+        <!-- ========================= -->
+        <!-- ОШИБКА -->
+        <!-- ========================= -->
+
+        {% if error %}
+
+        <div class="geometry-error">
+
+            {{ error }}
+
+        </div>
+
+        {% endif %}
+
+    </section>
+
+</main>
+
+
+<script>
+
+const geometryType =
+    document.getElementById("geometry-type");
+
+const shapeSelect =
+    document.getElementById("shape-select");
+
+const forms =
+    document.querySelectorAll(
+        ".geometry-form-container"
+    );
+
+
+const flatShapes = [
+    "square",
+    "rectangle",
+    "triangle",
+    "circle",
+    "rhombus",
+    "trapezoid"
+];
+
+
+const solidShapes = [
+    "cube",
+    "cuboid",
+    "cylinder",
+    "sphere",
+    "cone",
+    "pyramid"
+];
+
+
+const names = {
+
+    square: "Квадрат",
+    rectangle: "Прямоугольник",
+    triangle: "Треугольник",
+    circle: "Круг",
+    rhombus: "Ромб",
+    trapezoid: "Трапеция",
+
+    cube: "Куб",
+    cuboid: "Прямоугольный параллелепипед",
+    cylinder: "Цилиндр",
+    sphere: "Сфера",
+    cone: "Конус",
+    pyramid: "Правильная четырёхугольная пирамида"
+
+};
+
+
+function updateShapes() {
+
+    const type = geometryType.value;
+
+    const shapes =
+        type === "flat"
+            ? flatShapes
+            : solidShapes;
+
+
+    shapeSelect.innerHTML = "";
+
+
+    shapes.forEach(function(shape) {
+
+        const option =
+            document.createElement("option");
+
+        option.value = shape;
+
+        option.textContent =
+            names[shape];
+
+        shapeSelect.appendChild(option);
+
+    });
+
+
+    updateForm();
+
+}
+
+
+function updateForm() {
+
+    const selectedShape =
+        shapeSelect.value;
+
+
+    forms.forEach(function(form) {
+
+        if (form.dataset.shape === selectedShape) {
+
+            form.style.display = "block";
+
+        } else {
+
+            form.style.display = "none";
+
+        }
+
+    });
+
+}
+
+
+geometryType.addEventListener(
+    "change",
+    updateShapes
+);
+
+
+shapeSelect.addEventListener(
+    "change",
+    updateForm
+);
+
+
+const selectedShape = "{{ selected_shape or '' }}";
+
+if (selectedShape) {
+
+    if (solidShapes.includes(selectedShape)) {
+        geometryType.value = "solid";
+    } else {
+        geometryType.value = "flat";
+    }
+
+    updateShapes();
+
+    shapeSelect.value = selectedShape;
+
+    updateForm();
+
+} else {
+
+    updateShapes();
+
+}
+
+</script>
+
+<footer>
+
+    © 2026 CalcHelp
+
+</footer>
+
+</body>
+
+</html>

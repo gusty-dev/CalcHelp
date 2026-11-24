@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Квадратные уравнения — CalcHelp</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<header>
+
+    <div class="header-decoration-left">
+        + × √
+    </div>
+
+    <div class="header-decoration-right">
+        % ÷ π 42
+    </div>
+
+    <h1>CalcHelp</h1>
+
+    <p>Квадратные уравнения</p>
+
+</header>
+
+
+<nav class="main-navigation">
+
+    <a href="/">Главная</a>
+    <a href="/calculator">Калькулятор</a>
+    <a href="/number-system">Системы счисления</a>
+    <a href="/time">Время</a>
+    <a href="/units">Единицы</a>
+    <a href="/percent">Проценты</a>
+    <a href="/geometry">Геометрия</a>
+    <a href="/NOK_NOD">НОД и НОК</a>
+    <a href="/fractions">Дроби</a>
+    <a href="/pifagor">Пифагор</a>
+    <a href="/kvadrat" class="active">Квадратные уравнения</a>
+    <a href="/combinatorics">Комбинаторика</a>
+    <a href="/hard-percent">Сложный процент</a>
+    <a href="/trigonometry">Тригонометрия</a>
+    <a href="/statistics">
+    Статистика
+</a>
+
+<a href="/coordinate-geometry">
+    Координатная геометрия
+</a>
+    <a href="/bmi" >
+        ИМТ
+    </a>
+    <a href="/logarithms">Логарифмы</a>
+    <a href="/kbzhu" >КБЖУ</a>
+     <a href="/fuel" >Расход топлива</a>
+
+    {% if bot_link %}
+        <a href="{{ bot_link }}" target="_blank" rel="noopener noreferrer">Мой бот</a>
+    {% endif %}
+</nav>
+
+
+<main>
+
+<section class="quadratic-section">
+
+    <div class="quadratic-heading">
+
+        <h2 class="calc-title">
+            Квадратные уравнения
+        </h2>
+
+        <p>
+            Решите уравнение вида ax² + bx + c = 0
+        </p>
+
+    </div>
+
+
+    <div class="quadratic-card">
+
+        <div class="quadratic-equation-preview">
+
+            <span id="equationPreview">
+                ax² + bx + c = 0
+            </span>
+
+        </div>
+
+
+        <form method="POST">
+
+            <div class="quadratic-inputs">
+
+
+                <div class="quadratic-input-group">
+
+                    <label for="a">
+                        Коэффициент a
+                    </label>
+
+                    <input
+                        type="number"
+                        step="any"
+                        id="a"
+                        name="a"
+                        value="{{ a }}"
+                        placeholder="a"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="quadratic-symbol">
+                    × x² +
+                </div>
+
+
+                <div class="quadratic-input-group">
+
+                    <label for="b">
+                        Коэффициент b
+                    </label>
+
+                    <input
+                        type="number"
+                        step="any"
+                        id="b"
+                        name="b"
+                        value="{{ b }}"
+                        placeholder="b"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="quadratic-symbol">
+                    × x +
+                </div>
+
+
+                <div class="quadratic-input-group">
+
+                    <label for="c">
+                        Коэффициент c
+                    </label>
+
+                    <input
+                        type="number"
+                        step="any"
+                        id="c"
+                        name="c"
+                        value="{{ c }}"
+                        placeholder="c"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="quadratic-symbol">
+                    = 0
+                </div>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="quadratic-button"
+            >
+                Решить уравнение
+            </button>
+
+        </form>
+
+
+        {% if error %}
+
+        <div class="quadratic-error">
+            {{ error }}
+        </div>
+
+        {% endif %}
+
+
+        {% if result %}
+
+        <div class="quadratic-result">
+
+            <span>
+                Решение
+            </span>
+
+            <strong>
+                {{ result }}
+            </strong>
+
+        </div>
+
+        {% endif %}
+
+
+        {% if discriminant is not none %}
+
+        <div class="quadratic-discriminant">
+
+            <span>
+                Дискриминант
+            </span>
+
+            <strong>
+                D = {{ discriminant }}
+            </strong>
+
+        </div>
+
+        {% endif %}
+
+
+        <div class="quadratic-formula">
+
+            <span>
+                Формула корней
+            </span>
+
+            <strong>
+                x = (−b ± √D) / 2a
+            </strong>
+
+            <small>
+                D = b² − 4ac
+            </small>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<footer>
+    © 2026 CalcHelp
+</footer>
+
+
+<script>
+
+const inputA = document.getElementById("a");
+const inputB = document.getElementById("b");
+const inputC = document.getElementById("c");
+
+const preview =
+    document.getElementById("equationPreview");
+
+
+function formatCoefficient(value, variable) {
+
+    if (value === "") {
+        return variable;
+    }
+
+    const number = Number(value);
+
+    if (number === 0) {
+        return "";
+    }
+
+    if (number === 1) {
+        return variable;
+    }
+
+    if (number === -1) {
+        return "-" + variable;
+    }
+
+    return number + variable;
+}
+
+
+function updateEquation() {
+
+    const a = inputA.value;
+    const b = inputB.value;
+    const c = inputC.value;
+
+
+    if (a === "" && b === "" && c === "") {
+
+        preview.textContent =
+            "ax² + bx + c = 0";
+
+        return;
+    }
+
+
+    let equation = "";
+
+
+    if (a !== "") {
+
+        equation +=
+            formatCoefficient(a, "x²");
+
+    } else {
+
+        equation += "ax²";
+
+    }
+
+
+    if (b !== "") {
+
+        const numberB = Number(b);
+
+        if (numberB > 0) {
+
+            equation +=
+                " + " +
+                formatCoefficient(b, "x");
+
+        } else {
+
+            equation +=
+                " − " +
+                formatCoefficient(
+                    Math.abs(numberB),
+                    "x"
+                );
+
+        }
+
+    } else {
+
+        equation += " + bx";
+
+    }
+
+
+    if (c !== "") {
+
+        const numberC = Number(c);
+
+        if (numberC > 0) {
+
+            equation +=
+                " + " + numberC;
+
+        } else {
+
+            equation +=
+                " − " + Math.abs(numberC);
+
+        }
+
+    } else {
+
+        equation += " + c";
+
+    }
+
+
+    equation += " = 0";
+
+
+    preview.textContent =
+        equation;
+}
+
+
+inputA.addEventListener(
+    "input",
+    updateEquation
+);
+
+inputB.addEventListener(
+    "input",
+    updateEquation
+);
+
+inputC.addEventListener(
+    "input",
+    updateEquation
+);
+
+
+updateEquation();
+
+</script>
+
+</body>
+</html>

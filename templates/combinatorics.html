@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CalcHelp — Комбинаторика</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<header class="site-header">
+    <div class="header-decoration-left">
+        + × √
+    </div>
+
+    <div class="header-decoration-right">
+        % ÷ π 42
+    </div>
+
+    <h1>CalcHelp</h1>
+    <p>Калькулятор комбинаторики</p>
+</header>
+
+
+<nav class="main-navigation">
+
+    <a href="/">Главная</a>
+
+    <a href="/calculator">Калькулятор</a>
+
+    <a href="/number-system">Системы счисления</a>
+
+    <a href="/time">Время</a>
+
+    <a href="/units">Единицы</a>
+
+    <a href="/percent">Проценты</a>
+
+    <a href="/geometry">Геометрия</a>
+
+    <a href="/NOK_NOD">НОД и НОК</a>
+
+    <a href="/fractions">Дроби</a>
+
+    <a href="/pifagor">Пифагор</a>
+
+    <a href="/kvadrat">Квадратные уравнения</a>
+
+    <a href="/combinatorics" class="active">
+        Комбинаторика
+    </a>
+    <a href="/hard-percent">Сложный процент</a>
+    <a href="/trigonometry">Тригонометрия</a>
+    <a href="/statistics">
+    Статистика
+</a>
+
+<a href="/coordinate-geometry">
+    Координатная геометрия
+</a>
+    <a href="/graph" >Графики</a>
+    <a href="/bmi" >
+        ИМТ
+    </a>
+    <a href="/logarithms">Логарифмы</a>
+      <a href="/kbzhu" >КБЖУ</a>
+     <a href="/fuel" >Расход топлива</a>
+
+    {% if bot_link %}
+        <a href="{{ bot_link }}" target="_blank" rel="noopener noreferrer">Мой бот</a>
+    {% endif %}
+</nav>
+
+
+<main>
+
+    <section class="calculator-section">
+
+        <h2>Комбинаторика</h2>
+
+        <p>
+            Расчёт перестановок, размещений и сочетаний.
+        </p>
+
+
+        <form method="POST" class="combinatorics-form">
+
+            <label for="operation">
+                Тип задачи
+            </label>
+
+            <select id="operation" name="operation">
+
+                <option value="permutations"
+                    {% if operation == "permutations" %}selected{% endif %}>
+                    Перестановки P(n)
+                </option>
+
+                <option value="arrangements"
+                    {% if operation == "arrangements" %}selected{% endif %}>
+                    Размещения A(n, k)
+                </option>
+
+                <option value="combinations"
+                    {% if operation == "combinations" %}selected{% endif %}>
+                    Сочетания C(n, k)
+                </option>
+
+            </select>
+
+
+            <div class="nk-fields">
+
+                <div class="nk-field">
+
+                    <label for="n">
+                        n
+                    </label>
+
+                    <input
+                        type="number"
+                        id="n"
+                        name="n"
+                        min="0"
+                        required
+                        placeholder="5"
+                        value="{{ n_value }}"
+                    >
+
+                </div>
+
+
+                <div
+                    class="nk-field"
+                    id="k-container"
+                >
+
+                    <label for="k">
+                        k
+                    </label>
+
+                    <input
+                        type="number"
+                        id="k"
+                        name="k"
+                        min="0"
+                        placeholder="2"
+                        value="{{ k_value }}"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <button type="submit">
+                Рассчитать
+            </button>
+
+        </form>
+
+
+        {% if error %}
+
+        <div class="error-message">
+            {{ error }}
+        </div>
+
+        {% endif %}
+
+
+        {% if result is not none %}
+
+        <div class="result-box combinatorics-result">
+
+            <h3>Результат</h3>
+
+            <div class="main-result">
+                {{ result }}
+            </div>
+
+
+            {% if formula %}
+
+            <div class="formula-box">
+
+                <div class="formula-title">
+                    Разбор расчёта
+                </div>
+
+
+                <div class="formula-steps">
+
+                    {% for step in formula.split(" → ") %}
+
+                        <div class="formula-step">
+                            {{ step }}
+                        </div>
+
+                        {% if not loop.last %}
+
+                            <div class="formula-arrow">
+                                ↓
+                            </div>
+
+                        {% endif %}
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+        {% endif %}
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    <p>
+        CalcHelp — все необходимые калькуляторы в одном месте
+    </p>
+
+</footer>
+
+
+<script>
+
+    const operation =
+        document.getElementById("operation");
+
+    const kContainer =
+        document.getElementById("k-container");
+
+    const kInput =
+        document.getElementById("k");
+
+
+    function updateKField() {
+
+        if (operation.value === "permutations") {
+
+            kContainer.style.display = "none";
+
+            kInput.required = false;
+
+            kInput.value = "";
+
+        } else {
+
+            kContainer.style.display = "flex";
+
+            kInput.required = true;
+
+        }
+
+    }
+
+
+    operation.addEventListener(
+        "change",
+        updateKField
+    );
+
+
+    updateKField();
+
+</script>
+
+</body>
+
+</html>

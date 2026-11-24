@@ -1,0 +1,157 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Логарифмы — CalcHelp</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<header>
+    <div class="header-decoration-left">+ × √</div>
+    <div class="header-decoration-right">% ÷ π 42</div>
+    <h1>CalcHelp</h1>
+    <p>Калькулятор логарифмов</p>
+</header>
+
+<nav class="main-navigation">
+    <a href="/">Главная</a>
+    <a href="/calculator">Калькулятор</a>
+    <a href="/number-system">Системы счисления</a>
+    <a href="/time">Время</a>
+    <a href="/units">Единицы</a>
+    <a href="/percent">Проценты</a>
+    <a href="/geometry">Геометрия</a>
+    <a href="/NOK_NOD">НОД и НОК</a>
+    <a href="/fractions">Дроби</a>
+    <a href="/pifagor">Пифагор</a>
+    <a href="/kvadrat">Квадратные уравнения</a>
+    <a href="/combinatorics">Комбинаторика</a>
+    <a href="/hard-percent">Сложный процент</a>
+    <a href="/trigonometry">Тригонометрия</a>
+    <a href="/statistics">Статистика</a>
+    <a href="/coordinate-geometry">Координатная геометрия</a>
+    <a href="/graph">Графики</a>
+    <a href="/bmi">ИМТ</a>
+    <a href="/logarithms" class="active">Логарифмы</a>
+      <a href="/kbzhu" >КБЖУ</a>
+     <a href="/fuel" >Расход топлива</a>
+    {% if bot_link %}
+        <a href="{{ bot_link }}" target="_blank" rel="noopener noreferrer">Мой бот</a>
+    {% endif %}
+</nav>
+
+<main>
+    <section>
+
+        <h2 class="calc-title">Калькулятор логарифмов</h2>
+
+        <p>
+            Вычисляй логарифмы по любому допустимому основанию,
+            натуральные и десятичные логарифмы.
+        </p>
+
+        <form method="POST">
+
+            <div class="converter-row">
+                <label for="operation">Вид логарифма:</label>
+
+                <select id="operation" name="operation">
+                    <option value="log"
+                        {% if operation == "log" %}selected{% endif %}>
+                        Логарифм по основанию a — logₐ(x)
+                    </option>
+
+                    <option value="ln"
+                        {% if operation == "ln" %}selected{% endif %}>
+                        Натуральный логарифм — ln(x)
+                    </option>
+
+                    <option value="lg"
+                        {% if operation == "lg" %}selected{% endif %}>
+                        Десятичный логарифм — lg(x)
+                    </option>
+                </select>
+            </div>
+
+            <div class="converter-row">
+                <label for="argument">Аргумент x:</label>
+
+                <input
+                    type="text"
+                    id="argument"
+                    name="argument"
+                    value="{{ argument }}"
+                    placeholder="Например, 32"
+                    required
+                >
+            </div>
+
+            <div class="converter-row">
+                <label for="base">Основание a:</label>
+
+                <input
+                    type="text"
+                    id="base"
+                    name="base"
+                    value="{{ base }}"
+                    placeholder="Например, 2"
+                >
+            </div>
+
+            <p>
+                Для logₐ(x) основание должно быть положительным
+                и не равно 1. Аргумент любого логарифма должен
+                быть больше нуля.
+            </p>
+
+            <button type="submit">Вычислить</button>
+
+        </form>
+
+        {% if result is not none %}
+            <div class="units-result">
+
+                {% if result.error is defined %}
+                    <strong>Ошибка</strong>
+                    <p>{{ result.error }}</p>
+                {% else %}
+                    <strong>Результат:</strong>
+                    <p>{{ result.expression }} = {{ result.value }}</p>
+                {% endif %}
+
+            </div>
+        {% endif %}
+
+        <div class="converter-help">
+            <h3>Примеры</h3>
+
+            <ul>
+                <li>log₂(32) = 5</li>
+                <li>log₃(81) = 4</li>
+                <li>lg(100) = 2</li>
+                <li>ln(e) = 1</li>
+            </ul>
+
+            <p>
+                Можно вводить десятичные числа, используя точку
+                или запятую.
+            </p>
+        </div>
+
+    </section>
+</main>
+
+<footer>
+    © 2026 CalcHelp
+</footer>
+
+</body>
+</html>

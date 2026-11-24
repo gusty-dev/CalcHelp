@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>CalcHelp — Проценты</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+
+</head>
+
+<body>
+
+<header>
+     <div class="header-decoration-left">
+    + × √
+</div>
+
+<div class="header-decoration-right">
+    % ÷ π 42
+</div>
+
+    <h1>CalcHelp</h1>
+
+    <p>Процентный калькулятор</p>
+
+</header>
+
+<nav class="main-navigation">
+
+        <a href="/">Главная</a>
+        <a href="/calculator">Калькулятор</a>
+        <a href="/number-system">Системы счисления</a>
+        <a href="/time">Время</a>
+        <a href="/units">Единицы</a>
+        <a href="/percent" class="active">Проценты</a>
+        <a href="/geometry">
+            Геометрия
+        </a>
+        <a href="/NOK_NOD">НОД и НОК</a>
+        <a href="/fractions"> Дроби</a>
+    <a href="/pifagor">Пифагор</a>
+    <a href="/kvadrat">Квадратные уравнения</a>
+    <a href="/combinatorics">Комбинаторика</a>
+    <a href="/hard-percent">Сложный процент</a>
+    <a href="/trigonometry">Тригонометрия</a>
+    <a href="/statistics">
+    Статистика
+</a>
+
+<a href="/coordinate-geometry">
+    Координатная геометрия
+</a>
+    <a href="/graph" >Графики</a>
+    <a href="/bmi" >
+        ИМТ
+    </a>
+    <a href="/logarithms">Логарифмы</a>
+      <a href="/kbzhu" >КБЖУ</a>
+     <a href="/fuel" >Расход топлива</a>
+
+        {% if bot_link %}
+        <a href="{{ bot_link }}" target="_blank" rel="noopener noreferrer">Мой бот</a>
+    {% endif %}
+</nav>
+
+<main class="percent-page">
+
+    <section class="percent-section">
+
+        <h2 class="calc-title">
+            Калькулятор процентов
+        </h2>
+
+
+        <div class="percent-tools">
+
+
+            <!-- ========================= -->
+            <!-- КАКОЙ ПРОЦЕНТ -->
+            <!-- ========================= -->
+
+            <div class="percent-card">
+
+                <h3>
+                    Какой процент?
+                </h3>
+
+                <p class="percent-description">
+                    Узнай, какой процент одно число составляет от другого.
+                </p>
+
+                <form method="POST" class="percent-form">
+
+                    <div class="percent-field">
+
+                        <label>
+                            Число
+                        </label>
+
+                        <input
+                            type="number"
+                            step="any"
+                            name="number"
+                            placeholder="Например, 30"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="percent-field">
+
+                        <label>
+                            Общее число
+                        </label>
+
+                        <input
+                            type="number"
+                            step="any"
+                            name="total"
+                            placeholder="Например, 150"
+                            required
+                        >
+
+                    </div>
+
+
+                    <input
+                        type="hidden"
+                        name="action"
+                        value="what_percent"
+                    >
+
+                    <button
+                        type="submit"
+                        class="percent-button"
+                    >
+                        Рассчитать
+                    </button>
+
+                </form>
+
+            </div>
+
+
+            <!-- ========================= -->
+            <!-- ПРОЦЕНТНОЕ ИЗМЕНЕНИЕ -->
+            <!-- ========================= -->
+
+            <div class="percent-card">
+
+                <h3>
+                    Процентное изменение
+                </h3>
+
+                <p class="percent-description">
+                    Узнай, на сколько процентов изменилось число.
+                </p>
+
+                <form method="POST" class="percent-form">
+
+                    <div class="percent-field">
+
+                        <label>
+                            Было
+                        </label>
+
+                        <input
+                            type="number"
+                            step="any"
+                            name="old_value"
+                            placeholder="Например, 150"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="percent-field">
+
+                        <label>
+                            Стало
+                        </label>
+
+                        <input
+                            type="number"
+                            step="any"
+                            name="new_value"
+                            placeholder="Например, 180"
+                            required
+                        >
+
+                    </div>
+
+
+                    <input
+                        type="hidden"
+                        name="action"
+                        value="change_percent"
+                    >
+
+                    <button
+                        type="submit"
+                        class="percent-button"
+                    >
+                        Рассчитать
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- РЕЗУЛЬТАТ -->
+        <!-- ========================= -->
+
+        {% if result %}
+
+        <div class="percent-result">
+
+            <span>Результат</span>
+
+            <strong>
+                {{ result }}
+            </strong>
+
+        </div>
+
+        {% endif %}
+
+
+        {% if error %}
+
+        <div class="percent-error">
+
+            {{ error }}
+
+        </div>
+
+        {% endif %}
+
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    © 2026 CalcHelp
+
+</footer>
+
+</body>
+
+</html>
+

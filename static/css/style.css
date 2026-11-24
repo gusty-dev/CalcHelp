@@ -1,0 +1,5759 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+
+    font-family: Arial, sans-serif;
+
+    background:
+        linear-gradient(
+            180deg,
+            #f4f5f7 0%,
+            #eef0f3 100%
+        );
+
+    color: #222;
+
+    min-height: 100vh;
+}
+
+
+/* =========================================================
+   ШАПКА
+   ========================================================= */
+
+header,
+.site-header {
+    position: relative;
+
+    text-align: center;
+
+    padding: 65px 20px 58px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #181818,
+            #292929
+        );
+
+    color: white;
+
+    border-bottom: 1px solid #111;
+
+    box-shadow:
+        0 5px 25px rgba(0, 0, 0, 0.16);
+
+    overflow: hidden;
+
+    isolation: isolate;
+}
+
+
+/* =========================================================
+   МАТЕМАТИЧЕСКИЕ СИМВОЛЫ В ШАПКЕ
+   ========================================================= */
+
+header::before,
+.site-header::before {
+    content:
+        "+     −     ×     ÷     %     √     π     =     123"
+        "\A"
+        "  7     67     ( )     x²     0.5     ∑     ∞"
+        "\A"
+        "×     9     +     √     100     %     ÷     16";
+
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    width: 1200px;
+
+    transform:
+        translate(-50%, -50%)
+        rotate(-8deg);
+
+    white-space: pre;
+
+    text-align: center;
+
+    font-size: 25px;
+
+    line-height: 3.1;
+
+    letter-spacing: 9px;
+
+    font-weight: 700;
+
+    color: rgba(255, 255, 255, 0.055);
+
+    pointer-events: none;
+
+    user-select: none;
+
+    z-index: 0;
+}
+
+
+/* мягкий свет */
+
+header::after,
+.site-header::after {
+    content: "";
+
+    position: absolute;
+
+    width: 500px;
+    height: 500px;
+
+    top: -350px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    background: rgba(255, 255, 255, 0.035);
+
+    border-radius: 50%;
+
+    pointer-events: none;
+
+    z-index: 0;
+}
+
+
+/* =========================================================
+   ДОПОЛНИТЕЛЬНЫЕ СИМВОЛЫ ПО БОКАМ
+   ========================================================= */
+
+header .header-decoration-left,
+.site-header .header-decoration-left {
+    position: absolute;
+
+    left: 6%;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    color: rgba(255, 255, 255, 0.08);
+
+    font-size: 32px;
+
+    font-weight: 700;
+
+    letter-spacing: 12px;
+
+    pointer-events: none;
+
+    user-select: none;
+
+    z-index: 1;
+
+    animation:
+        decorationFloat 5s ease-in-out infinite;
+}
+
+
+header .header-decoration-right,
+.site-header .header-decoration-right {
+    position: absolute;
+
+    right: 5%;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    color: rgba(255, 255, 255, 0.08);
+
+    font-size: 30px;
+
+    font-weight: 700;
+
+    letter-spacing: 10px;
+
+    pointer-events: none;
+
+    user-select: none;
+
+    z-index: 1;
+
+    animation:
+        decorationFloat 6s ease-in-out infinite reverse;
+}
+
+
+@keyframes decorationFloat {
+
+    0%,
+    100% {
+        transform: translateY(-50%);
+    }
+
+    50% {
+        transform:
+            translateY(calc(-50% - 7px));
+    }
+}
+
+
+/* =========================================================
+   ЗАГОЛОВОК ШАПКИ
+   ========================================================= */
+
+header h1 {
+    position: relative;
+
+    z-index: 2;
+
+    margin: 0;
+
+    font-size: 40px;
+
+    font-weight: 750;
+
+    letter-spacing: 0.5px;
+}
+
+
+/* линия под CalcHelp */
+
+header h1::after {
+    content: "";
+
+    display: block;
+
+    width: 55px;
+    height: 3px;
+
+    margin: 12px auto 0;
+
+    background: #777;
+
+    border-radius: 10px;
+
+    opacity: 0.7;
+
+    animation:
+        headerLine 2.5s ease-in-out infinite;
+}
+
+
+@keyframes headerLine {
+
+    0%,
+    100% {
+        width: 45px;
+
+        opacity: 0.45;
+    }
+
+    50% {
+        width: 75px;
+
+        opacity: 0.85;
+    }
+}
+
+
+header p {
+    position: relative;
+
+    z-index: 2;
+
+    margin: 10px 0 0;
+
+    color: #bdbdbd;
+
+    font-size: 15px;
+
+    letter-spacing: 0.2px;
+}
+
+
+/* =========================================================
+   НАВИГАЦИЯ
+   ========================================================= */
+
+.main-navigation {
+    position: relative;
+
+    z-index: 10;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 7px;
+
+    padding: 12px 20px;
+
+    background: rgba(255, 255, 255, 0.94);
+
+    border-bottom: 1px solid #dedfe2;
+
+    box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.055);
+
+    backdrop-filter: blur(8px);
+}
+
+
+.main-navigation a {
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-height: 39px;
+
+    padding: 8px 15px;
+
+    border-radius: 9px;
+
+    text-decoration: none;
+
+    color: #555;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    white-space: nowrap;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.main-navigation a:hover {
+    background-color: #f0f1f3;
+
+    color: #181818;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 5px 12px rgba(0, 0, 0, 0.07);
+}
+
+
+.main-navigation a:active {
+    transform: translateY(0);
+}
+
+
+.main-navigation a.active {
+    background:
+        linear-gradient(
+            135deg,
+            #222,
+            #383838
+        );
+
+    color: white;
+
+    box-shadow:
+        0 4px 10px rgba(0, 0, 0, 0.16);
+}
+
+
+.main-navigation a.active:hover {
+    background:
+        linear-gradient(
+            135deg,
+            #181818,
+            #303030
+        );
+
+    color: white;
+}
+
+
+/* =========================================================
+   ОСНОВНОЙ MAIN
+   ========================================================= */
+
+main {
+    display: flex;
+
+    justify-content: center;
+
+    width: 100%;
+
+    padding: 50px 20px 65px;
+}
+
+
+/* =========================================================
+   ОБЩИЕ СЕКЦИИ
+   ========================================================= */
+
+section {
+    background: rgba(255, 255, 255, 0.96);
+
+    border: 1px solid #e0e2e5;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 8px 28px rgba(0, 0, 0, 0.065);
+}
+
+
+.calc-title {
+    margin: 0 0 30px;
+
+    text-align: center;
+
+    color: #191919;
+
+    font-size: 27px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   ОБЩИЕ КНОПКИ
+   ========================================================= */
+
+button {
+    padding: 12px 22px;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 15px;
+
+    font-weight: 650;
+
+    border: none;
+
+    border-radius: 9px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2a2a2a,
+            #404040
+        );
+
+    color: white;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 4px 10px rgba(0, 0, 0, 0.13);
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+button:hover {
+    background:
+        linear-gradient(
+            135deg,
+            #3a3a3a,
+            #555
+        );
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 7px 16px rgba(0, 0, 0, 0.16);
+}
+
+
+button:active {
+    background: #222;
+
+    transform: translateY(0);
+
+    box-shadow:
+        0 3px 7px rgba(0, 0, 0, 0.12);
+}
+
+
+/* =========================================================
+   ОБЩИЕ INPUT / SELECT
+   ========================================================= */
+
+input,
+select {
+    font-family: Arial, sans-serif;
+}
+
+
+input,
+select {
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background-color 0.2s ease;
+}
+
+
+input:focus,
+select:focus {
+    outline: none;
+
+    border-color: #777 !important;
+
+    box-shadow:
+        0 0 0 4px rgba(0, 0, 0, 0.065) !important;
+
+    background-color: white;
+}
+
+
+/* =========================================================
+   ГЛАВНАЯ СТРАНИЦА
+   ========================================================= */
+
+.home-section {
+    width: 1080px;
+
+    max-width: 100%;
+
+    padding: 38px;
+
+    background: rgba(255, 255, 255, 0.97);
+
+    border: 1px solid #e0e2e5;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 10px 35px rgba(0, 0, 0, 0.07);
+}
+
+
+.home-section .calc-title {
+    margin: 0 0 7px;
+
+    font-size: 28px;
+}
+
+
+.home-heading {
+    text-align: center;
+
+    margin-bottom: 32px;
+}
+
+
+.home-heading p {
+    margin: 0;
+
+    color: #777;
+
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   КАРТОЧКИ
+   ========================================================= */
+
+.calculator-cards {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 18px;
+
+    margin-top: 0;
+}
+
+
+.calculator-card {
+    position: relative;
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 17px;
+
+    min-height: 130px;
+
+    padding: 22px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #fafbfc,
+            #f4f5f7
+        );
+
+    border: 1px solid #e0e3e7;
+
+    border-radius: 15px;
+
+    color: #222;
+
+    text-decoration: none;
+
+    opacity: 0;
+
+    transform: translateY(20px);
+
+    overflow: hidden;
+
+    animation:
+        cardAppear 0.55s ease forwards;
+
+    transition:
+        transform 0.28s ease,
+        box-shadow 0.28s ease,
+        border-color 0.28s ease,
+        background 0.28s ease;
+}
+
+
+/* =========================================================
+   ЗАДЕРЖКА АНИМАЦИИ КАРТОЧЕК
+   ========================================================= */
+
+.calculator-card:nth-child(1) {
+    animation-delay: 0.10s;
+}
+
+.calculator-card:nth-child(2) {
+    animation-delay: 0.16s;
+}
+
+.calculator-card:nth-child(3) {
+    animation-delay: 0.22s;
+}
+
+.calculator-card:nth-child(4) {
+    animation-delay: 0.28s;
+}
+
+.calculator-card:nth-child(5) {
+    animation-delay: 0.34s;
+}
+
+.calculator-card:nth-child(6) {
+    animation-delay: 0.40s;
+}
+
+.calculator-card:nth-child(7) {
+    animation-delay: 0.46s;
+}
+
+.calculator-card:nth-child(8) {
+    animation-delay: 0.52s;
+}
+
+.calculator-card:nth-child(9) {
+    animation-delay: 0.58s;
+}
+
+.calculator-card:nth-child(10) {
+    animation-delay: 0.64s;
+}
+
+.calculator-card:nth-child(11) {
+    animation-delay: 0.7s;
+}
+
+.calculator-card:nth-child(12) {
+    animation-delay: 0.76s;
+}
+
+.calculator-card:nth-child(13) {
+    animation-delay: 0.82s;
+}
+
+.calculator-card:nth-child(14) {
+    animation-delay: 0.88s;
+}
+
+.calculator-card:nth-child(15) {
+    animation-delay: 0.94s;
+}
+
+.calculator-card:nth-child(16) {
+    animation-delay: 1s;
+}
+.calculator-card:nth-child(17) {
+    animation-delay: 1.06s;
+}
+.calculator-card:nth-child(18) {
+    animation-delay: 1.12s;
+}
+.calculator-card:nth-child(19) {
+    animation-delay: 1.18s;
+}
+.calculator-card:nth-child(20) {
+    animation-delay: 1.24s;
+}
+/* =========================================================
+   БЛИК КАРТОЧКИ
+   ========================================================= */
+
+.calculator-card::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -120%;
+
+    width: 70%;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.65),
+            transparent
+        );
+
+    transform: skewX(-20deg);
+
+    pointer-events: none;
+
+    z-index: 0;
+
+    transition:
+        left 0.6s ease;
+}
+
+
+.calculator-card:hover::before {
+    left: 140%;
+}
+
+
+/* =========================================================
+   HOVER КАРТОЧКИ
+   ========================================================= */
+
+.calculator-card:hover {
+    transform: translateY(-7px);
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #f7f7f8
+        );
+
+    border-color: #c4c7cb;
+
+    box-shadow:
+        0 18px 38px rgba(0, 0, 0, 0.12);
+}
+
+
+/* =========================================================
+   ИКОНКИ
+   ========================================================= */
+
+.card-icon {
+    position: relative;
+
+    z-index: 1;
+
+    width: 50px;
+    height: 50px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        linear-gradient(
+            145deg,
+            #202020,
+            #383838
+        );
+
+    border-radius: 13px;
+
+    box-shadow:
+        0 5px 12px rgba(0, 0, 0, 0.13);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.card-icon svg {
+    width: 29px;
+    height: 29px;
+
+    fill: none;
+
+    stroke: white;
+
+    stroke-width: 2;
+
+    stroke-linecap: round;
+
+    stroke-linejoin: round;
+
+    transition:
+        transform 0.25s ease;
+}
+
+
+.calculator-card:hover .card-icon {
+    transform:
+        scale(1.1)
+        rotate(-3deg);
+
+    box-shadow:
+        0 10px 22px rgba(0, 0, 0, 0.2);
+}
+
+
+.calculator-card:hover .card-icon svg {
+    transform: scale(1.08);
+}
+
+
+/* =========================================================
+   ТЕКСТ КАРТОЧЕК
+   ========================================================= */
+
+.card-content {
+    position: relative;
+
+    z-index: 1;
+
+    flex: 1;
+
+    min-width: 0;
+}
+
+
+.card-content h3 {
+    margin: 2px 0 7px;
+
+    font-size: 18px;
+
+    line-height: 1.3;
+
+    color: #1d1d1d;
+}
+
+
+.card-content p {
+    margin: 0;
+
+    color: #6c6c6c;
+
+    line-height: 1.5;
+
+    font-size: 14px;
+}
+
+
+.card-arrow {
+    position: relative;
+
+    z-index: 1;
+
+    align-self: center;
+
+    font-size: 23px;
+
+    color: #999;
+
+    transition:
+        transform 0.25s ease,
+        color 0.25s ease;
+}
+
+
+.calculator-card:hover .card-arrow {
+    transform:
+        translateX(8px)
+        scale(1.08);
+
+    color: #222;
+}
+
+
+/* =========================================================
+   АНИМАЦИЯ КАРТОЧЕК
+   ========================================================= */
+
+@keyframes cardAppear {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+
+/* =========================================================
+   СТАРЫЕ СПИСКИ / НАВИГАЦИЯ
+   ========================================================= */
+
+.calc-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 15px;
+}
+
+
+.calc-list a {
+    text-decoration: none;
+
+    display: block;
+}
+
+
+.calc-list a button,
+.calc-list button {
+    width: 100%;
+}
+
+
+.calculator-navigation,
+.navigation {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 25px;
+
+    margin-top: 20px;
+}
+
+
+.calculator-navigation a,
+.navigation a {
+    text-decoration: none;
+
+    color: #333;
+
+    font-size: 16px;
+}
+
+
+.calculator-navigation a:hover,
+.navigation a:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================================================
+   ОБЫЧНЫЙ КАЛЬКУЛЯТОР
+   ========================================================= */
+
+.calculator-layout {
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: center;
+
+    gap: 45px;
+}
+
+
+.calculator-area {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+}
+
+
+.calculator {
+    width: 330px;
+
+    padding: 18px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #222,
+            #303030
+        );
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.18);
+}
+
+
+.calculator h2 {
+    text-align: center;
+
+    margin-top: 0;
+}
+
+
+/* =========================================================
+   ДИСПЛЕЙ
+   ========================================================= */
+
+.display {
+    width: 100%;
+
+    min-height: 62px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    padding: 13px 15px;
+
+    margin-bottom: 14px;
+
+    font-size: 25px;
+
+    text-align: right;
+
+    color: #171717;
+
+    background:
+        linear-gradient(
+            180deg,
+            #fafafa,
+            #eeeeee
+        );
+
+    border: 1px solid #cfcfcf;
+
+    border-radius: 11px;
+
+    overflow-x: auto;
+
+    box-shadow:
+        inset 0 2px 5px rgba(0, 0, 0, 0.08);
+}
+
+
+.display.error {
+    color: #a90000;
+}
+
+
+/* =========================================================
+   КНОПКИ КАЛЬКУЛЯТОРА
+   ========================================================= */
+
+.calculator-buttons form {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 8px;
+}
+
+
+.calculator-buttons button {
+    padding: 17px 8px;
+
+    min-height: 54px;
+
+    font-size: 18px;
+
+    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #454545,
+            #343434
+        );
+
+    box-shadow:
+        0 3px 7px rgba(0, 0, 0, 0.2);
+}
+
+
+.calculator-buttons button:hover {
+    background:
+        linear-gradient(
+            145deg,
+            #555,
+            #414141
+        );
+
+    transform: translateY(-2px);
+}
+
+
+.calculator-buttons button:active {
+    transform: scale(0.97);
+}
+
+
+/* =========================================================
+   ИСТОРИЯ
+   ========================================================= */
+
+.history {
+    width: 245px;
+
+    padding: 22px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #f8f8f8
+        );
+
+    border: 1px solid #e0e2e5;
+
+    border-radius: 15px;
+
+    box-shadow:
+        0 7px 20px rgba(0, 0, 0, 0.06);
+}
+
+
+.history h2,
+.history h3 {
+    margin-top: 0;
+
+    margin-bottom: 16px;
+
+    color: #222;
+}
+
+
+.history p {
+    margin: 9px 0;
+
+    padding-bottom: 9px;
+
+    border-bottom: 1px solid #ededed;
+
+    word-wrap: break-word;
+
+    color: #5f5f5f;
+
+    font-size: 14px;
+}
+
+
+.history p:last-child {
+    border-bottom: none;
+}
+
+
+/* =========================================================
+   СИСТЕМЫ СЧИСЛЕНИЯ
+   ========================================================= */
+
+main > section:not(
+    .home-section,
+    .units-section,
+    .percent-section,
+    .geometry-section,
+    .nok-nod-section,
+    .time-section
+) {
+    width: 700px;
+
+    max-width: 100%;
+
+    padding: 35px;
+}
+
+
+.converter-row {
+    display: grid;
+
+    grid-template-columns:
+        130px 1fr;
+
+    align-items: center;
+
+    column-gap: 18px;
+
+    margin: 17px 0;
+}
+
+
+.converter-row label {
+    text-align: right;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    color: #555;
+}
+
+
+.converter-row input,
+.converter-row select {
+    width: 100%;
+
+    padding: 12px 13px;
+
+    font-size: 16px;
+
+    border: 1px solid #d3d5d8;
+
+    border-radius: 9px;
+
+    background: white;
+}
+
+
+main > section > form > button {
+    width: 100%;
+
+    margin-top: 10px;
+}
+
+
+/* =========================================================
+   ВРЕМЯ
+   ========================================================= */
+
+main.time-page {
+    display: block;
+
+    max-width: 1100px;
+
+    margin: 0 auto;
+
+    padding: 45px 20px 65px;
+}
+
+
+.time-section {
+    width: 100%;
+
+    padding: 32px;
+
+    margin-bottom: 25px;
+}
+
+
+.time-section .calc-title {
+    margin-top: 0;
+
+    margin-bottom: 27px;
+
+    font-size: 26px;
+}
+
+
+.time-form {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 20px;
+}
+
+
+.time-cards {
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 18px;
+}
+
+
+.time-card {
+    background:
+        linear-gradient(
+            145deg,
+            #fafbfc,
+            #f4f5f7
+        );
+
+    border: 1px solid #e0e3e7;
+
+    border-radius: 14px;
+
+    padding: 21px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.time-card:hover {
+    transform: translateY(-2px);
+
+    border-color: #c8cbd0;
+
+    box-shadow:
+        0 7px 17px rgba(0, 0, 0, 0.06);
+}
+
+
+.time-card h3 {
+    margin: 0 0 8px;
+
+    font-size: 18px;
+
+    color: #222;
+}
+
+
+.time-card label,
+.countdown-form label,
+.add-time-form label {
+    font-size: 14px;
+
+    font-weight: 600;
+
+    color: #555;
+}
+
+
+.time-card input,
+.countdown-form input,
+.add-time-form input,
+.add-time-form select {
+    width: 100%;
+
+    padding: 11px 12px;
+
+    border: 1px solid #d5d8dc;
+
+    border-radius: 9px;
+
+    background: white;
+
+    color: #222;
+
+    font-size: 15px;
+}
+
+
+.time-button {
+    width: 100%;
+
+    padding: 12px 18px;
+}
+
+
+.time-result {
+    margin-top: 18px;
+
+    padding: 16px 18px;
+
+    border-radius: 11px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #f5f5f5,
+            #eeeeee
+        );
+
+    border: 1px solid #d8d8d8;
+
+    color: #333;
+
+    font-size: 18px;
+
+    font-weight: 700;
+
+    text-align: center;
+}
+
+
+.time-tools {
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 25px;
+
+    align-items: start;
+
+    width: 100%;
+}
+
+
+.countdown-section,
+.add-time-section {
+    padding: 27px;
+}
+
+
+.time-tools .calc-title {
+    margin-top: 0;
+
+    margin-bottom: 22px;
+
+    font-size: 21px;
+
+    text-align: left;
+}
+
+
+.countdown-form {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 9px;
+}
+
+
+.countdown-form input {
+    margin-bottom: 5px;
+}
+
+
+.countdown-result {
+    font-size: 19px;
+
+    line-height: 1.4;
+}
+
+
+.add-time-form {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 18px;
+}
+
+
+.add-time-base,
+.add-time-operation {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 9px;
+}
+
+
+.add-time-values {
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 12px;
+}
+
+
+.add-time-values h3 {
+    grid-column: 1 / -1;
+
+    margin: 0 0 2px;
+
+    font-size: 16px;
+
+    color: #333;
+}
+
+
+.time-value {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 6px;
+}
+
+
+/* =========================================================
+   ЕДИНИЦЫ
+   ========================================================= */
+
+.units-section {
+    width: 760px;
+
+    max-width: 100%;
+
+    padding: 32px;
+}
+
+
+.units-category-form {
+    margin-bottom: 24px;
+}
+
+
+.units-category-form .units-field {
+    max-width: 380px;
+}
+
+
+.units-form {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 20px;
+}
+
+
+.units-field {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+}
+
+
+.units-field label {
+    font-size: 14px;
+
+    font-weight: 600;
+
+    color: #555;
+}
+
+
+.units-field input,
+.units-field select {
+    width: 100%;
+
+    padding: 12px 13px;
+
+    border: 1px solid #d3d5d8;
+
+    border-radius: 9px;
+
+    background: white;
+
+    font-size: 16px;
+
+    color: #333;
+}
+
+
+.units-converter {
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr 45px 1fr;
+
+    align-items: end;
+
+    gap: 13px;
+
+    padding: 20px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #fafbfc,
+            #f3f4f6
+        );
+
+    border: 1px solid #e0e3e7;
+
+    border-radius: 14px;
+}
+
+
+.units-arrow {
+    text-align: center;
+
+    font-size: 27px;
+
+    padding-bottom: 7px;
+
+    color: #555;
+}
+
+
+.units-button {
+    width: 100%;
+
+    padding: 13px 18px;
+}
+
+
+.units-result {
+    margin-top: 24px;
+
+    padding: 19px;
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            145deg,
+            #f5f5f5,
+            #ededed
+        );
+
+    border: 1px solid #d8d8d8;
+
+    border-radius: 11px;
+
+    font-size: 20px;
+}
+
+
+.units-result strong {
+    display: block;
+
+    margin-top: 5px;
+
+    font-size: 25px;
+
+    color: #222;
+}
+
+
+.units-error {
+    color: #a90000;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   ПРОЦЕНТЫ
+   ========================================================= */
+
+main.percent-page {
+    display: block;
+
+    max-width: 1080px;
+
+    margin: 0 auto;
+
+    padding: 45px 20px 65px;
+}
+
+
+.percent-section {
+    width: 100%;
+
+    padding: 32px;
+}
+
+
+.percent-section .calc-title {
+    margin-top: 0;
+
+    margin-bottom: 30px;
+
+    font-size: 26px;
+}
+
+
+.percent-tools {
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 22px;
+}
+
+
+.percent-card {
+    background:
+        linear-gradient(
+            145deg,
+            #fafbfc,
+            #f4f5f7
+        );
+
+    border: 1px solid #e0e3e7;
+
+    border-radius: 15px;
+
+    padding: 23px;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.percent-card:hover {
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 8px 18px rgba(0, 0, 0, 0.06);
+}
+
+
+.percent-card h3 {
+    margin: 0 0 8px;
+
+    font-size: 19px;
+
+    color: #202020;
+}
+
+
+.percent-description {
+    margin: 0 0 20px;
+
+    color: #686868;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+}
+
+
+.percent-form {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 14px;
+}
+
+
+.percent-field {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+}
+
+
+.percent-field label {
+    font-size: 14px;
+
+    font-weight: 600;
+
+    color: #555;
+}
+
+
+.percent-field input {
+    width: 100%;
+
+    padding: 12px;
+
+    border: 1px solid #d5d8dc;
+
+    border-radius: 9px;
+
+    background: white;
+
+    font-size: 15px;
+}
+
+
+.percent-button {
+    width: 100%;
+
+    padding: 12px 18px;
+}
+
+
+.percent-result {
+    margin-top: 23px;
+
+    padding: 19px 20px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 20px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #f5f5f5,
+            #ededed
+        );
+
+    border: 1px solid #d8d8d8;
+
+    border-radius: 11px;
+}
+
+
+.percent-result span {
+    color: #666;
+
+    font-size: 16px;
+}
+
+
+.percent-result strong {
+    font-size: 23px;
+
+    color: #222;
+}
+
+
+.percent-error {
+    margin-top: 20px;
+
+    padding: 14px 18px;
+
+    text-align: center;
+
+    color: #a90000;
+
+    background: #faf0f0;
+
+    border: 1px solid #e3caca;
+
+    border-radius: 9px;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   ГЕОМЕТРИЯ
+   ========================================================= */
+
+main.geometry-page {
+    display: block;
+
+    width: 100%;
+
+    max-width: 1200px;
+
+    margin: 0 auto;
+
+    padding: 45px 20px 65px;
+}
+
+
+.geometry-page .main-navigation {
+    width: 100vw;
+
+    box-sizing: border-box;
+
+    margin-left: calc(50% - 50vw);
+
+    margin-bottom: 25px;
+}
+
+
+.geometry-section {
+    width: 100%;
+
+    padding: 34px;
+
+    border-radius: 20px;
+}
+
+
+.geometry-selector {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+
+    margin-bottom: 18px;
+}
+
+
+.geometry-selector label {
+    font-size: 14px;
+
+    font-weight: 600;
+
+    color: #555;
+}
+
+
+.geometry-selector select {
+    width: 100%;
+
+    padding: 12px;
+
+    font-size: 16px;
+
+    color: #333;
+
+    background: white;
+
+    border: 1px solid #d3d5d8;
+
+    border-radius: 9px;
+
+    cursor: pointer;
+}
+
+
+.geometry-form-container {
+    display: none;
+
+    margin-top: 25px;
+
+    padding: 25px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #fafbfc,
+            #f3f4f6
+        );
+
+    border: 1px solid #e0e3e7;
+
+    border-radius: 15px;
+
+    animation:
+        formAppear 0.25s ease;
+}
+
+
+@keyframes formAppear {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+
+.geometry-form-container h3 {
+    margin: 0 0 20px;
+
+    text-align: center;
+
+    font-size: 20px;
+
+    color: #202020;
+}
+
+
+.geometry-form-container form {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+}
+
+
+.geometry-form-container label {
+    margin-top: 5px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    color: #555;
+}
+
+
+.geometry-form-container input {
+    width: 100%;
+
+    padding: 12px;
+
+    font-size: 16px;
+
+    background: white;
+
+    border: 1px solid #d3d5d8;
+
+    border-radius: 9px;
+}
+
+
+.geometry-form-container button {
+    width: 100%;
+
+    margin-top: 10px;
+
+    padding: 13px 18px;
+}
+
+
+.geometry-result {
+    margin-top: 25px;
+
+    padding: 20px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #f5f5f5,
+            #ededed
+        );
+
+    border: 1px solid #d7d7d7;
+
+    border-left: 4px solid #333;
+
+    border-radius: 11px;
+
+    animation:
+        resultAppear 0.3s ease;
+}
+
+
+@keyframes resultAppear {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(6px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+
+.geometry-result h3 {
+    margin: 0 0 12px;
+
+    font-size: 19px;
+
+    color: #222;
+}
+
+
+.geometry-result p {
+    margin: 8px 0;
+
+    font-size: 17px;
+
+    color: #333;
+}
+
+
+.geometry-error {
+    margin-top: 20px;
+
+    padding: 14px 18px;
+
+    background: #faf0f0;
+
+    border: 1px solid #e3caca;
+
+    border-radius: 9px;
+
+    color: #a90000;
+
+    text-align: center;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   НОД И НОК
+   ========================================================= */
+
+main.nok-nod-page {
+    display: block;
+
+    width: 100%;
+
+    max-width: 1100px;
+
+    margin: 0 auto;
+
+    padding: 45px 20px 65px;
+}
+
+
+.nok-nod-page .main-navigation {
+    width: 100vw;
+
+    box-sizing: border-box;
+
+    margin-left: calc(50% - 50vw);
+
+    margin-bottom: 25px;
+}
+
+
+.nok-nod-section {
+    width: 100%;
+
+    padding: 38px;
+
+    border-radius: 20px;
+}
+
+
+.nok-nod-section h2 {
+    margin: 0 0 30px;
+
+    text-align: center;
+
+    font-size: 28px;
+
+    color: #222;
+}
+
+
+.nok-nod-form {
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 18px 20px;
+
+    max-width: 700px;
+
+    margin: 0 auto;
+}
+
+
+.nok-nod-form label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    color: #555;
+}
+
+
+.nok-nod-form input {
+    width: 100%;
+
+    padding: 13px 14px;
+
+    font-size: 16px;
+
+    color: #333;
+
+    background: white;
+
+    border: 1px solid #d3d5d8;
+
+    border-radius: 9px;
+}
+
+
+.nok-nod-form button {
+    grid-column: 1 / -1;
+
+    width: 100%;
+
+    margin-top: 5px;
+
+    padding: 13px 20px;
+}
+
+
+.nok-nod-result {
+    max-width: 700px;
+
+    margin: 30px auto 0;
+
+    padding: 21px 22px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #f5f5f5,
+            #ededed
+        );
+
+    border: 1px solid #d8d8d8;
+
+    border-left: 4px solid #333;
+
+    border-radius: 11px;
+}
+
+
+.nok-nod-result h3 {
+    margin: 0 0 15px;
+
+    font-size: 20px;
+
+    color: #222;
+}
+
+
+.nok-nod-result p {
+    margin: 10px 0;
+
+    font-size: 17px;
+
+    color: #333;
+}
+
+
+.nok-nod-result strong {
+    color: #111;
+}
+
+
+.nok-nod-error {
+    max-width: 700px;
+
+    margin: 25px auto 0;
+
+    padding: 14px 18px;
+
+    background: #faf0f0;
+
+    border: 1px solid #e3caca;
+
+    border-radius: 9px;
+
+    color: #a90000;
+
+    text-align: center;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   ПОДВАЛ
+   ========================================================= */
+
+footer,
+.site-footer {
+    text-align: center;
+
+    padding: 24px 20px 30px;
+
+    color: #858585;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   АДАПТИВНОСТЬ — 900px
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .calculator-layout {
+        flex-direction: column;
+
+        align-items: center;
+    }
+
+
+    .history {
+        width: 330px;
+
+        max-width: 100%;
+    }
+
+
+    .calculator {
+        width: 330px;
+
+        max-width: 100%;
+    }
+
+
+    .time-tools,
+    .percent-tools {
+        grid-template-columns: 1fr;
+    }
+
+
+    .units-converter {
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+
+    .units-arrow {
+        display: none;
+    }
+
+
+    header .header-decoration-left {
+        left: 2%;
+
+        font-size: 26px;
+
+        letter-spacing: 7px;
+    }
+
+
+    header .header-decoration-right {
+        right: 2%;
+
+        font-size: 25px;
+
+        letter-spacing: 6px;
+    }
+}
+
+
+/* =========================================================
+   АДАПТИВНОСТЬ — 800px
+   ========================================================= */
+
+@media (max-width: 800px) {
+
+    main {
+        padding: 35px 15px 50px;
+    }
+
+
+    .main-navigation {
+        padding: 9px 10px;
+
+        gap: 5px;
+    }
+
+
+    .main-navigation a {
+        padding: 8px 11px;
+
+        font-size: 13px;
+    }
+
+
+    .home-section {
+        padding: 28px 22px;
+    }
+
+
+    .calculator-cards {
+        grid-template-columns: 1fr;
+    }
+
+
+    .calculator-card {
+        min-height: 115px;
+    }
+
+
+    .time-cards {
+        grid-template-columns: 1fr;
+    }
+
+
+    .time-section {
+        padding: 25px 20px;
+    }
+
+
+    .countdown-section,
+    .add-time-section {
+        padding: 23px 20px;
+    }
+
+
+    .percent-section {
+        padding: 25px 20px;
+    }
+
+
+    main.geometry-page,
+    main.nok-nod-page,
+    main.percent-page,
+    main.time-page {
+        padding-left: 15px;
+
+        padding-right: 15px;
+    }
+
+
+    .geometry-section,
+    .nok-nod-section {
+        padding: 25px 20px;
+    }
+
+
+    .nok-nod-form {
+        grid-template-columns: 1fr;
+    }
+
+
+    .nok-nod-form button {
+        grid-column: auto;
+    }
+
+
+    header::before,
+    .site-header::before {
+        font-size: 20px;
+
+        letter-spacing: 5px;
+
+        line-height: 3;
+    }
+
+
+    header .header-decoration-left,
+    header .header-decoration-right,
+    .site-header .header-decoration-left,
+    .site-header .header-decoration-right {
+        display: none;
+    }
+}
+
+
+/* =========================================================
+   АДАПТИВНОСТЬ — 600px
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    header,
+    .site-header {
+        padding: 29px 15px 27px;
+    }
+
+
+    header h1 {
+        font-size: 34px;
+    }
+
+
+    header p {
+        font-size: 14px;
+    }
+
+
+    header::before,
+    .site-header::before {
+        font-size: 17px;
+
+        line-height: 2.8;
+
+        letter-spacing: 3px;
+
+        opacity: 0.8;
+    }
+
+
+    .main-navigation {
+        justify-content: flex-start;
+
+        overflow-x: auto;
+
+        flex-wrap: nowrap;
+
+        padding: 9px 10px;
+
+        scrollbar-width: none;
+    }
+
+
+    .main-navigation::-webkit-scrollbar {
+        display: none;
+    }
+
+
+    .main-navigation a {
+        flex-shrink: 0;
+    }
+
+
+    .home-section {
+        padding: 25px 17px;
+    }
+
+
+    .home-section .calc-title {
+        font-size: 25px;
+    }
+
+
+    .calculator-card {
+        padding: 19px;
+
+        gap: 13px;
+    }
+
+
+    .card-icon {
+        width: 45px;
+        height: 45px;
+    }
+
+
+    .card-icon svg {
+        width: 26px;
+        height: 26px;
+    }
+
+
+    .card-content h3 {
+        font-size: 17px;
+    }
+
+
+    .card-content p {
+        font-size: 13px;
+    }
+
+
+    .card-arrow {
+        font-size: 20px;
+    }
+
+
+    .calculator {
+        width: 100%;
+    }
+
+
+    .calculator-buttons button {
+        min-height: 50px;
+
+        padding: 14px 7px;
+    }
+
+
+    .display {
+        font-size: 22px;
+    }
+
+
+    .units-section {
+        padding: 25px 18px;
+    }
+
+
+    .units-converter {
+        grid-template-columns: 1fr;
+    }
+
+
+    .units-arrow {
+        display: block;
+
+        padding: 0;
+
+        transform: rotate(90deg);
+    }
+
+
+    .geometry-section {
+        padding: 20px 17px;
+    }
+
+
+    .geometry-form-container {
+        padding: 20px 17px;
+    }
+
+
+    .nok-nod-section {
+        padding: 25px 18px;
+    }
+
+
+    .nok-nod-section h2 {
+        font-size: 24px;
+    }
+
+
+    .percent-result {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+}
+
+
+/* =========================================================
+   АДАПТИВНОСТЬ — 420px
+   ========================================================= */
+
+@media (max-width: 420px) {
+
+    header h1 {
+        font-size: 31px;
+    }
+
+
+    header p {
+        font-size: 13px;
+    }
+
+
+    header::before,
+    .site-header::before {
+        font-size: 14px;
+
+        line-height: 2.7;
+
+        letter-spacing: 2px;
+    }
+
+
+    .home-section .calc-title {
+        font-size: 23px;
+    }
+
+
+    .calculator-card {
+        min-height: 105px;
+
+        padding: 17px;
+    }
+
+
+    .calculator-card .card-arrow {
+        display: none;
+    }
+
+
+    .calculator-buttons form {
+        gap: 6px;
+    }
+
+
+    .calculator-buttons button {
+        min-height: 48px;
+
+        padding: 12px 5px;
+
+        font-size: 17px;
+    }
+
+
+    .display {
+        min-height: 57px;
+
+        font-size: 20px;
+    }
+
+
+    .time-section {
+        padding: 22px 16px;
+    }
+
+
+    .countdown-section,
+    .add-time-section {
+        padding: 21px 16px;
+    }
+
+
+    .geometry-form-container h3 {
+        font-size: 18px;
+    }
+}
+
+
+/* =========================================================
+   УМЕНЬШЕНИЕ АНИМАЦИЙ
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    html {
+        scroll-behavior: auto;
+    }
+
+
+    .calculator-card,
+    .geometry-form-container,
+    .geometry-result {
+        animation: none;
+
+        opacity: 1;
+
+        transform: none;
+    }
+
+
+    .calculator-card,
+    .main-navigation a,
+    button,
+    .card-icon,
+    .card-icon svg,
+    .card-arrow,
+    .percent-card,
+    .time-card,
+    header .header-decoration-left,
+    header .header-decoration-right,
+    header h1::after {
+        transition: none;
+
+        animation: none;
+    }
+
+
+    .calculator-card:hover,
+    .percent-card:hover,
+    .time-card:hover {
+        transform: none;
+    }
+}
+
+/* =========================================
+   ПОИСК КАЛЬКУЛЯТОРОВ
+   ========================================= */
+
+.calculator-search {
+    width: 100%;
+    margin: 28px 0 16px;
+}
+
+.search-box {
+    position: relative;
+    width: 100%;
+}
+
+.search-box input {
+    width: 100%;
+    height: 52px;
+
+    padding: 0 50px 0 40px;
+
+    border: 1px solid #dfe1e5;
+    border-radius: 14px;
+
+    background: #f8f9fa;
+
+    font-size: 15px;
+    color: #222;
+
+    outline: none;
+
+    transition:
+        border-color .25s ease,
+        box-shadow .25s ease,
+        background .25s ease;
+}
+
+.search-box input::placeholder {
+    color: #999;
+}
+
+.search-box input:focus {
+    background: #fff;
+    border-color: #999;
+
+    box-shadow:
+        0 0 0 4px rgba(0, 0, 0, .045);
+}
+
+.search-icon {
+    position: absolute;
+
+    left: 17px;
+    top: 50%;
+
+    transform: translateY(-53%);
+
+    font-size: 25px;
+    color: #777;
+
+    pointer-events: none;
+
+    z-index: 2;
+}
+
+.clear-search {
+    position: absolute;
+
+    right: 10px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    width: 32px;
+    height: 32px;
+
+    padding: 0;
+
+    border: none;
+    border-radius: 50%;
+
+    background: #e6e7e9;
+    color: #555;
+
+    font-size: 20px;
+    line-height: 32px;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition:
+        opacity .2s ease,
+        background .2s ease,
+        transform .2s ease;
+}
+
+.clear-search.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.clear-search:hover {
+    background: #d7d8da;
+    transform: translateY(-50%) scale(1.08);
+}
+
+
+/* =========================================
+   ФИЛЬТРЫ
+   ========================================= */
+
+.calculator-filters {
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 9px;
+
+    margin-bottom: 15px;
+}
+
+.filter-button {
+    width: auto;
+
+    padding: 9px 16px;
+
+    border: 1px solid #d9dbde;
+    border-radius: 999px;
+
+    background: #f5f6f7;
+    color: #555;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background .22s ease,
+        color .22s ease,
+        border-color .22s ease,
+        transform .22s ease,
+        box-shadow .22s ease;
+}
+
+.filter-button:hover {
+    background: #e9eaec;
+    border-color: #c8cace;
+    transform: translateY(-1px);
+}
+
+.filter-button.active {
+    background: #222;
+    color: #fff;
+    border-color: #222;
+
+    box-shadow:
+        0 5px 12px rgba(0, 0, 0, .12);
+}
+
+.filter-button.active:hover {
+    background: #151515;
+}
+
+
+/* =========================================
+   СЧЁТЧИК
+   ========================================= */
+
+.calculator-counter {
+    margin: 8px 0 18px;
+
+    font-size: 13px;
+    color: #888;
+}
+
+.calculator-counter strong {
+    color: #333;
+}
+
+
+/* =========================================
+   НЕТ РЕЗУЛЬТАТОВ
+   ========================================= */
+
+.no-results {
+    display: none;
+
+    text-align: center;
+
+    padding: 45px 20px 35px;
+
+    animation: noResultsAppear .3s ease;
+}
+
+.no-results.show {
+    display: block;
+}
+
+.no-results-icon {
+    width: 55px;
+    height: 55px;
+
+    margin: 0 auto 15px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #eeeeef;
+    color: #777;
+
+    font-size: 28px;
+}
+
+.no-results h3 {
+    margin: 0 0 7px;
+
+    font-size: 19px;
+    color: #333;
+}
+
+.no-results p {
+    margin: 0;
+
+    font-size: 14px;
+    color: #888;
+    line-height: 1.5;
+}
+
+@keyframes noResultsAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+/* =========================================
+   МОБИЛЬНАЯ ВЕРСИЯ
+   ========================================= */
+
+@media (max-width: 600px) {
+
+    .calculator-search {
+        margin-top: 22px;
+    }
+
+    .search-box input {
+        height: 48px;
+        font-size: 14px;
+    }
+
+    .calculator-filters {
+        gap: 7px;
+    }
+
+    .filter-button {
+        padding: 8px 13px;
+        font-size: 12px;
+    }
+
+}
+/* =========================================
+   КАЛЬКУЛЯТОР ДРОБЕЙ
+   ========================================= */
+
+.fraction-section {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.fraction-heading {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.fraction-heading p {
+    margin-top: 8px;
+    color: #777;
+}
+
+
+/* ОСНОВНАЯ КАРТОЧКА */
+
+.fraction-calculator {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 35px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.07);
+}
+
+
+/* ДВЕ ДРОБИ И ОПЕРАЦИЯ */
+
+.fraction-operation {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 45px;
+}
+
+.fraction-input-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+}
+
+.fraction-input-group label,
+.fraction-operation-select label {
+    font-size: 14px;
+    color: #777;
+    font-weight: 600;
+}
+
+
+/* ДРОБЬ */
+
+.fraction-input {
+    width: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.fraction-input input {
+    width: 130px;
+    height: 48px;
+
+    border: 1px solid #d7d7d7;
+    border-radius: 10px;
+
+    background: #fafafa;
+
+    text-align: center;
+
+    font-size: 18px;
+    color: #222;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+.fraction-input input:focus {
+    border-color: #444;
+    background: #ffffff;
+
+    box-shadow:
+        0 0 0 3px rgba(0, 0, 0, 0.06);
+}
+
+.fraction-input input::placeholder {
+    color: #aaa;
+    font-size: 13px;
+}
+
+
+/* ЛИНИЯ ДРОБИ */
+
+.fraction-line {
+    width: 130px;
+    height: 2px;
+
+    background: #222;
+
+    margin: 7px 0;
+}
+
+
+/* ОПЕРАЦИЯ */
+
+.fraction-operation-select {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+}
+
+.fraction-operation-select select {
+    width: 70px;
+    height: 50px;
+
+    border: 1px solid #d5d5d5;
+    border-radius: 10px;
+
+    background: #f7f7f7;
+    color: #222;
+
+    text-align: center;
+
+    font-size: 24px;
+    font-weight: 600;
+
+    cursor: pointer;
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease;
+}
+
+.fraction-operation-select select:hover {
+    background: #eeeeee;
+}
+
+.fraction-operation-select select:focus {
+    border-color: #444;
+}
+
+
+/* КНОПКА */
+
+.fraction-button {
+    display: block;
+
+    margin: 35px auto 0;
+
+    min-width: 190px;
+    padding: 13px 25px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: #222;
+    color: #ffffff;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.fraction-button:hover {
+    background: #333;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.fraction-button:active {
+    transform: translateY(0);
+}
+
+
+/* РЕЗУЛЬТАТ */
+
+.fraction-result {
+    margin-top: 30px;
+
+    padding: 24px;
+
+    border-radius: 14px;
+
+    background: #f5f5f5;
+
+    text-align: center;
+}
+
+.fraction-result span {
+    display: block;
+
+    margin-bottom: 10px;
+
+    color: #777;
+
+    font-size: 14px;
+}
+
+.fraction-result strong {
+    display: block;
+
+    font-size: 30px;
+
+    color: #222;
+}
+
+
+/* ОШИБКА */
+
+.fraction-error {
+    margin-top: 25px;
+
+    padding: 15px 20px;
+
+    border-radius: 10px;
+
+    background: #f1f1f1;
+
+    color: #333;
+
+    text-align: center;
+
+    font-size: 15px;
+}
+
+
+/* МОБИЛЬНАЯ ВЕРСИЯ */
+
+@media (max-width: 700px) {
+
+    .fraction-calculator {
+        padding: 25px 15px;
+    }
+
+    .fraction-operation {
+        gap: 12px;
+    }
+
+    .fraction-input {
+        width: 115px;
+    }
+
+    .fraction-input input {
+        width: 105px;
+    }
+
+    .fraction-line {
+        width: 105px;
+    }
+
+    .fraction-operation-select select {
+        width: 55px;
+    }
+}
+
+@media (max-width: 500px) {
+
+    .fraction-operation {
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .fraction-operation-select {
+        flex-direction: row;
+    }
+
+    .fraction-input {
+        width: 150px;
+    }
+
+    .fraction-input input {
+        width: 130px;
+    }
+
+    .fraction-line {
+        width: 130px;
+    }
+}
+
+
+/* =========================================
+   ТЕОРЕМА ПИФАГОРА
+   ========================================= */
+
+.pifagor-section {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.pifagor-heading {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.pifagor-heading p {
+    margin-top: 8px;
+    color: #777;
+}
+
+.pifagor-card {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 35px;
+
+    box-shadow:
+        0 12px 35px rgba(0, 0, 0, 0.07);
+
+    animation: pifagorAppear 0.5s ease;
+}
+
+@keyframes pifagorAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* ВЫБОР РАСЧЁТА */
+
+.pifagor-choice {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 10px;
+
+    margin-bottom: 30px;
+}
+
+.pifagor-choice label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #777;
+}
+
+.pifagor-choice select {
+    width: 240px;
+    height: 48px;
+
+    padding: 0 15px;
+
+    border: 1px solid #d5d5d5;
+    border-radius: 10px;
+
+    background: #f8f8f8;
+    color: #222;
+
+    font-size: 15px;
+
+    cursor: pointer;
+    outline: none;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.pifagor-choice select:hover {
+    background: #eeeeee;
+}
+
+.pifagor-choice select:focus {
+    border-color: #444;
+
+    box-shadow:
+        0 0 0 3px rgba(0, 0, 0, 0.06);
+}
+
+
+/* ПОЛЯ */
+
+.pifagor-inputs {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 18px;
+}
+
+.pifagor-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.pifagor-input-group label {
+    font-size: 14px;
+    color: #777;
+    font-weight: 600;
+}
+
+.pifagor-input-group input {
+    width: 100%;
+    height: 50px;
+
+    padding: 0 15px;
+
+    border: 1px solid #d7d7d7;
+    border-radius: 10px;
+
+    background: #fafafa;
+    color: #222;
+
+    font-size: 16px;
+    text-align: center;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.pifagor-input-group input:focus {
+    border-color: #444;
+    background: #ffffff;
+
+    box-shadow:
+        0 0 0 3px rgba(0, 0, 0, 0.06);
+}
+
+.pifagor-input-group input:disabled {
+    background: #eeeeee;
+    color: #999;
+    cursor: not-allowed;
+}
+
+
+/* КНОПКА */
+
+.pifagor-button {
+    display: block;
+
+    margin: 30px auto 0;
+
+    min-width: 190px;
+
+    padding: 13px 25px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: #222;
+    color: #fff;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.pifagor-button:hover {
+    background: #333;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.pifagor-button:active {
+    transform: translateY(0);
+}
+
+
+/* ФОРМУЛА */
+
+.pifagor-formula {
+    margin-top: 30px;
+
+    padding: 22px;
+
+    border-radius: 14px;
+
+    background: #f5f5f5;
+
+    text-align: center;
+}
+
+.pifagor-formula span {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #777;
+
+    font-size: 13px;
+}
+
+.pifagor-formula strong {
+    font-size: 25px;
+    letter-spacing: 1px;
+    color: #222;
+}
+
+
+/* РЕЗУЛЬТАТ */
+
+.pifagor-result {
+    margin-top: 25px;
+
+    padding: 24px;
+
+    border-radius: 14px;
+
+    background: #222;
+    color: #fff;
+
+    text-align: center;
+
+    animation: resultAppear 0.35s ease;
+}
+
+.pifagor-result span {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #aaa;
+
+    font-size: 13px;
+}
+
+.pifagor-result strong {
+    display: block;
+
+    font-size: 32px;
+}
+
+@keyframes resultAppear {
+
+    from {
+        opacity: 0;
+        transform: scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+
+/* ОШИБКА */
+
+.pifagor-error {
+    margin-top: 25px;
+
+    padding: 15px 20px;
+
+    border-radius: 12px;
+
+    background: #f1f1f1;
+
+    color: #333;
+
+    text-align: center;
+
+    font-size: 15px;
+}
+
+
+/* МОБИЛЬНАЯ ВЕРСИЯ */
+
+@media (max-width: 700px) {
+
+    .pifagor-card {
+        padding: 25px 18px;
+    }
+
+    .pifagor-inputs {
+        grid-template-columns: 1fr;
+    }
+
+    .pifagor-choice select {
+        width: 100%;
+        max-width: 280px;
+    }
+}
+
+
+/* =========================================
+   ИНТЕРАКТИВНЫЙ ТРЕУГОЛЬНИК
+   ========================================= */
+
+.pifagor-layout {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 25px;
+
+    align-items: stretch;
+}
+
+.triangle-card {
+    background: #ffffff;
+    border-radius: 20px;
+
+    padding: 28px;
+
+    box-shadow:
+        0 12px 35px rgba(0, 0, 0, 0.07);
+
+    animation: pifagorAppear 0.55s ease;
+}
+
+.triangle-header {
+    display: flex;
+    flex-direction: column;
+
+    gap: 6px;
+
+    margin-bottom: 10px;
+}
+
+.triangle-header span {
+    color: #888;
+    font-size: 13px;
+}
+
+.triangle-header strong {
+    color: #222;
+    font-size: 18px;
+}
+
+
+/* SVG */
+
+.triangle-container {
+    width: 100%;
+    height: 330px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#triangleSvg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+
+/* ТРЕУГОЛЬНИК */
+
+#triangleShape {
+    fill: #f3f3f3;
+    stroke: #222;
+    stroke-width: 3;
+
+    transition:
+        all 0.45s ease;
+}
+
+
+/* ПРЯМОЙ УГОЛ */
+
+#rightAngle {
+    fill: none;
+    stroke: #222;
+    stroke-width: 2.5;
+
+    transition:
+        all 0.45s ease;
+}
+
+
+/* ПОДПИСИ */
+
+#labelA,
+#labelB,
+#labelC {
+    fill: #222;
+
+    font-size: 18px;
+    font-weight: 600;
+
+    transition:
+        all 0.45s ease;
+}
+
+
+/* ИНФОРМАЦИЯ */
+
+.triangle-info {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 10px;
+
+    margin-top: 5px;
+}
+
+.triangle-info div {
+    padding: 12px 8px;
+
+    background: #f5f5f5;
+
+    border-radius: 10px;
+
+    text-align: center;
+}
+
+.triangle-info span {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: #888;
+
+    font-size: 12px;
+}
+
+.triangle-info strong {
+    color: #222;
+    font-size: 16px;
+}
+
+
+/* МОБИЛЬНАЯ ВЕРСИЯ */
+
+@media (max-width: 850px) {
+
+    .pifagor-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .triangle-container {
+        height: 320px;
+    }
+}
+
+@media (max-width: 500px) {
+
+    .triangle-card {
+        padding: 20px 15px;
+    }
+
+    .triangle-container {
+        height: 280px;
+    }
+
+    .triangle-info {
+        gap: 6px;
+    }
+}
+
+
+/* =========================================
+   КВАДРАТНЫЕ УРАВНЕНИЯ
+   ========================================= */
+
+.quadratic-section {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.quadratic-heading {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.quadratic-heading p {
+    margin-top: 8px;
+    color: #777;
+}
+
+.quadratic-card {
+    background: #ffffff;
+    border-radius: 20px;
+
+    padding: 35px;
+
+    box-shadow:
+        0 12px 35px rgba(0, 0, 0, 0.07);
+
+    animation: quadraticAppear 0.5s ease;
+}
+
+@keyframes quadraticAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* УРАВНЕНИЕ */
+
+.quadratic-equation-preview {
+    padding: 22px;
+
+    margin-bottom: 30px;
+
+    border-radius: 14px;
+
+    background: #f5f5f5;
+
+    text-align: center;
+}
+
+.quadratic-equation-preview span {
+    font-size: 25px;
+    font-weight: 600;
+    color: #222;
+}
+
+
+/* ПОЛЯ */
+
+.quadratic-inputs {
+    display: flex;
+
+    align-items: end;
+    justify-content: center;
+
+    gap: 12px;
+}
+
+.quadratic-input-group {
+    width: 150px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 9px;
+}
+
+.quadratic-input-group label {
+    font-size: 13px;
+
+    color: #777;
+
+    font-weight: 600;
+
+    text-align: center;
+}
+
+.quadratic-input-group input {
+    width: 100%;
+    height: 50px;
+
+    border: 1px solid #d7d7d7;
+    border-radius: 10px;
+
+    background: #fafafa;
+
+    text-align: center;
+
+    font-size: 17px;
+    color: #222;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.quadratic-input-group input:focus {
+    border-color: #444;
+    background: #ffffff;
+
+    box-shadow:
+        0 0 0 3px rgba(0, 0, 0, 0.06);
+}
+
+.quadratic-symbol {
+    height: 50px;
+
+    display: flex;
+    align-items: center;
+
+    color: #333;
+
+    font-size: 20px;
+    font-weight: 600;
+}
+
+
+/* КНОПКА */
+
+.quadratic-button {
+    display: block;
+
+    margin: 35px auto 0;
+
+    min-width: 210px;
+
+    padding: 13px 25px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: #222;
+    color: #ffffff;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.quadratic-button:hover {
+    background: #333;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.quadratic-button:active {
+    transform: translateY(0);
+}
+
+
+/* ДИСКРИМИНАНТ */
+
+.quadratic-discriminant {
+    margin-top: 25px;
+
+    padding: 20px;
+
+    border-radius: 14px;
+
+    background: #f5f5f5;
+
+    text-align: center;
+}
+
+.quadratic-discriminant span {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #777;
+
+    font-size: 13px;
+}
+
+.quadratic-discriminant strong {
+    font-size: 22px;
+    color: #222;
+}
+
+
+/* РЕЗУЛЬТАТ */
+
+.quadratic-result {
+    margin-top: 25px;
+
+    padding: 25px;
+
+    border-radius: 14px;
+
+    background: #222;
+    color: #ffffff;
+
+    text-align: center;
+
+    animation: resultAppear 0.35s ease;
+}
+
+.quadratic-result span {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #aaa;
+
+    font-size: 13px;
+}
+
+.quadratic-result strong {
+    display: block;
+
+    font-size: 25px;
+}
+
+
+/* ФОРМУЛА */
+
+.quadratic-formula {
+    margin-top: 25px;
+
+    padding: 22px;
+
+    border-radius: 14px;
+
+    background: #f5f5f5;
+
+    text-align: center;
+}
+
+.quadratic-formula span {
+    display: block;
+
+    margin-bottom: 10px;
+
+    color: #777;
+
+    font-size: 13px;
+}
+
+.quadratic-formula strong {
+    display: block;
+
+    color: #222;
+
+    font-size: 21px;
+}
+
+.quadratic-formula small {
+    display: block;
+
+    margin-top: 8px;
+
+    color: #777;
+
+    font-size: 14px;
+}
+
+
+/* ОШИБКА */
+
+.quadratic-error {
+    margin-top: 25px;
+
+    padding: 15px 20px;
+
+    border-radius: 12px;
+
+    background: #f1f1f1;
+
+    color: #333;
+
+    text-align: center;
+
+    font-size: 15px;
+}
+
+
+/* МОБИЛЬНАЯ ВЕРСИЯ */
+
+@media (max-width: 750px) {
+
+    .quadratic-card {
+        padding: 25px 18px;
+    }
+
+    .quadratic-inputs {
+        flex-wrap: wrap;
+    }
+
+    .quadratic-input-group {
+        width: 130px;
+    }
+
+    .quadratic-symbol {
+        font-size: 17px;
+    }
+}
+
+@media (max-width: 500px) {
+
+    .quadratic-inputs {
+        display: grid;
+
+        grid-template-columns: 1fr;
+
+        gap: 15px;
+    }
+
+    .quadratic-input-group {
+        width: 100%;
+    }
+
+    .quadratic-symbol {
+        height: auto;
+        justify-content: center;
+    }
+
+    .quadratic-equation-preview span {
+        font-size: 20px;
+    }
+}
+
+
+/* =========================================
+   ИЗБРАННОЕ
+   ========================================= */
+
+.calculator-card {
+    position: relative;
+}
+
+.favorite-button {
+    position: absolute;
+
+    top: 15px;
+    right: 15px;
+
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #e1e3e6;
+    border-radius: 11px;
+
+    background: rgba(255, 255, 255, 0.8);
+
+    cursor: pointer;
+
+    z-index: 10;
+
+    font-family: Arial, sans-serif;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.star-outline {
+    display: block;
+
+    font-size: 25px;
+    line-height: 1;
+
+    color: #777;
+
+    transition:
+        opacity 0.2s ease,
+        transform 0.25s ease;
+}
+
+.star-filled {
+    display: none;
+
+    font-size: 22px;
+    line-height: 1;
+
+    color: #222;
+
+    transition:
+        transform 0.25s ease;
+}
+
+.favorite-button:hover {
+    transform: translateY(-2px) scale(1.04);
+
+    background: #f1f2f4;
+
+    border-color: #cfd2d6;
+
+    box-shadow:
+        0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.favorite-button:hover .star-outline {
+    transform: scale(1.12);
+    color: #333;
+}
+
+.favorite-button:active {
+    transform: scale(0.92);
+}
+
+
+/* АКТИВНАЯ ЗВЕЗДА */
+
+.calculator-card.is-favorite .favorite-button {
+    background: #202124;
+    border-color: #202124;
+
+    box-shadow:
+        0 5px 16px rgba(0, 0, 0, 0.15);
+}
+
+.calculator-card.is-favorite .star-outline {
+    display: none;
+}
+
+.calculator-card.is-favorite .star-filled {
+    display: block;
+
+    color: white;
+
+    animation: favoriteStar 0.35s ease;
+}
+
+@keyframes favoriteStar {
+
+    0% {
+        transform: scale(0.4) rotate(-20deg);
+        opacity: 0;
+    }
+
+    60% {
+        transform: scale(1.2) rotate(8deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1) rotate(0);
+    }
+}
+
+
+/* ФИЛЬТР ИЗБРАННОГО */
+
+.favorites-filter {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 6px;
+}
+
+.filter-star {
+    font-size: 14px;
+
+    transition:
+        transform 0.2s ease;
+}
+
+.favorites-filter:hover .filter-star {
+    transform: scale(1.15);
+}
+
+.favorites-filter.active .filter-star {
+    color: white;
+}
+
+
+/* МОБИЛЬНАЯ ВЕРСИЯ */
+
+@media (max-width: 600px) {
+
+    .favorite-button {
+        top: 12px;
+        right: 12px;
+
+        width: 35px;
+        height: 35px;
+    }
+
+    .star-outline {
+        font-size: 23px;
+    }
+
+    .star-filled {
+        font-size: 20px;
+    }
+}
+
+
+/* =========================================
+   ФИНАЛЬНАЯ НАСТРОЙКА КАРТОЧЕК
+   ========================================= */
+
+.calculator-card {
+    position: relative;
+    display: block;
+    padding: 0;
+    overflow: hidden;
+}
+
+.calculator-card-link {
+    display: flex;
+    align-items: center;
+
+    width: 100%;
+    min-height: 130px;
+
+    padding: 22px;
+    padding-right: 70px;
+
+    text-decoration: none;
+    color: inherit;
+}
+
+.calculator-card .card-icon {
+    flex-shrink: 0;
+    margin-right: 18px;
+}
+
+.calculator-card .card-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.calculator-card .card-arrow {
+    flex-shrink: 0;
+    margin-left: 18px;
+}
+
+.favorite-button {
+    z-index: 10;
+}
+
+/* =========================================
+   КОМБИНАТОРИКА
+   ========================================= */
+
+.combinatorics-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 500px;
+    margin: 25px auto 0;
+}
+
+.combinatorics-form label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin-top: 4px;
+}
+
+.combinatorics-form input,
+.combinatorics-form select {
+    width: 100%;
+    height: 46px;
+    padding: 0 14px;
+    border: 1px solid #d6d8dc;
+    border-radius: 10px;
+    background: #fff;
+    color: #222;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s ease,
+                box-shadow 0.2s ease;
+}
+
+.combinatorics-form input:focus,
+.combinatorics-form select:focus {
+    border-color: #555;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.06);
+}
+
+.combinatorics-form button {
+    margin-top: 8px;
+    width: 100%;
+    height: 46px;
+    border: none;
+    border-radius: 10px;
+    background: #222;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease,
+                background 0.2s ease;
+}
+
+.combinatorics-form button:hover {
+    background: #333;
+    transform: translateY(-1px);
+}
+
+.combinatorics-form button:active {
+    transform: translateY(0);
+}
+
+
+/* =========================================
+   РЕЗУЛЬТАТ КОМБИНАТОРИКИ
+   ========================================= */
+
+.combinatorics-form + .result-box {
+    max-width: 600px;
+    margin: 30px auto 0;
+}
+
+.formula-box {
+    margin-top: 20px;
+    padding: 18px;
+    border-radius: 12px;
+    background: #f5f5f5;
+    border: 1px solid #e1e1e1;
+}
+
+.formula-title {
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #555;
+}
+
+.formula-content {
+    font-size: 16px;
+    line-height: 1.7;
+    color: #222;
+    overflow-x: auto;
+}
+
+
+/* =========================================
+   МОБИЛЬНАЯ ВЕРСИЯ
+   ========================================= */
+
+@media (max-width: 600px) {
+
+    .combinatorics-form {
+        max-width: 100%;
+    }
+
+    .combinatorics-form input,
+    .combinatorics-form select,
+    .combinatorics-form button {
+        height: 44px;
+    }
+
+    .formula-content {
+        font-size: 14px;
+    }
+}
+
+.nk-fields {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    margin-top: 5px;
+}
+
+.nk-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.nk-field label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+}
+
+.nk-field input {
+    width: 120px;
+}/* =========================================
+   РАЗБОР КОМБИНАТОРИКИ
+   ========================================= */
+
+.combinatorics-result {
+    max-width: 600px;
+    margin: 30px auto 0;
+}
+
+.formula-steps {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 0;
+}
+
+.formula-step {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 10px;
+    background: #fff;
+    border: 1px solid #e1e1e1;
+    text-align: center;
+    font-size: 16px;
+    color: #222;
+}
+
+.formula-arrow {
+    font-size: 18px;
+    color: #888;
+    line-height: 1;
+}
+
+/* =========================================
+   СЛОЖНЫЙ ПРОЦЕНТ
+   ========================================= */
+
+.hard-percent-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 500px;
+    margin: 25px auto 0;
+}
+
+.hard-percent-form label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin-top: 4px;
+}
+
+.hard-percent-form input {
+    width: 100%;
+    height: 46px;
+    padding: 0 14px;
+    border: 1px solid #d6d8dc;
+    border-radius: 10px;
+    background: #fff;
+    color: #222;
+    font-size: 15px;
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.hard-percent-form input:focus {
+    border-color: #555;
+
+    box-shadow:
+        0 0 0 3px rgba(0, 0, 0, 0.06);
+}
+
+.hard-percent-form button {
+    margin-top: 8px;
+    width: 100%;
+    height: 46px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: #222;
+    color: #fff;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+}
+
+.hard-percent-form button:hover {
+    background: #333;
+    transform: translateY(-1px);
+}
+
+.hard-percent-form button:active {
+    transform: translateY(0);
+}
+
+.hard-percent-result {
+    max-width: 600px;
+    margin: 30px auto 0;
+}
+
+.hard-percent-result .main-result {
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.result-description {
+    margin-top: 10px;
+    color: #666;
+    font-size: 14px;
+}
+
+
+@media (max-width: 600px) {
+
+    .hard-percent-form {
+        max-width: 100%;
+    }
+
+    .hard-percent-form input,
+    .hard-percent-form button {
+        height: 44px;
+    }
+
+}
+
+/* =========================================
+   ТРИГОНОМЕТРИЯ
+   ========================================= */
+.trigonometry-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    max-width: 500px;
+
+    margin: 25px auto 0;
+}
+
+
+.trigonometry-form label {
+    font-size: 14px;
+    font-weight: 600;
+
+    color: #333;
+
+    margin-top: 4px;
+}
+
+
+.trigonometry-form input,
+.trigonometry-form select {
+    width: 100%;
+    height: 46px;
+
+    padding: 0 14px;
+
+    border: 1px solid #d6d8dc;
+    border-radius: 10px;
+
+    background: #fff;
+    color: #222;
+
+    font-size: 15px;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.trigonometry-form input:focus,
+.trigonometry-form select:focus {
+    border-color: #555;
+
+    box-shadow:
+        0 0 0 3px rgba(0, 0, 0, 0.06);
+}
+
+
+.trigonometry-form button {
+    width: 100%;
+    height: 46px;
+
+    margin-top: 8px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: #222;
+    color: #fff;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+}
+
+
+.trigonometry-form button:hover {
+    background: #333;
+
+    transform: translateY(-1px);
+}
+
+
+.trigonometry-form button:active {
+    transform: translateY(0);
+}
+
+
+.trigonometry-result {
+    max-width: 600px;
+
+    margin: 30px auto 0;
+}
+
+
+.trigonometry-result .main-result {
+    font-size: 30px;
+    font-weight: 700;
+}
+
+
+.trigonometry-formula {
+    margin-top: 20px;
+
+    padding: 18px;
+
+    border-radius: 12px;
+
+    background: #f5f5f5;
+
+    border: 1px solid #e1e1e1;
+}
+
+
+.trigonometry-formula .formula-step {
+    padding: 12px 16px;
+
+    border-radius: 10px;
+
+    background: #fff;
+
+    border: 1px solid #e1e1e1;
+
+    text-align: center;
+
+    font-size: 16px;
+
+    color: #222;
+}
+
+
+@media (max-width: 600px) {
+
+    .trigonometry-form {
+        max-width: 100%;
+    }
+
+    .trigonometry-form input,
+    .trigonometry-form select,
+    .trigonometry-form button {
+        height: 44px;
+    }
+
+}
+
+/* =========================================
+   СТАТИСТИКА
+   ========================================= */
+
+.statistics-hint {
+    margin-top: 4px;
+    font-size: 13px;
+    color: #777;
+}
+
+.trigonometry-form textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 14px;
+    border: 1px solid #d6d8dc;
+    border-radius: 10px;
+    background: #fff;
+    color: #222;
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+    resize: vertical;
+    outline: none;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.trigonometry-form textarea:focus {
+    border-color: #555;
+    box-shadow:
+        0 0 0 3px rgba(0, 0, 0, 0.06);
+}
+
+.statistics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.statistics-item {
+    padding: 16px;
+    border: 1px solid #e1e1e1;
+    border-radius: 12px;
+    background: #fff;
+}
+
+.statistics-item span {
+    display: block;
+    margin-bottom: 7px;
+    font-size: 13px;
+    color: #777;
+}
+
+.statistics-item strong {
+    font-size: 18px;
+    color: #222;
+}
+
+@media (max-width: 600px) {
+
+    .statistics-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+/* =========================================
+   КООРДИНАТНАЯ ГЕОМЕТРИЯ
+   ========================================= */
+
+.coordinate-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 560px;
+    margin: 25px auto 0;
+}
+
+.coordinate-form label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin-top: 4px;
+}
+
+.coordinate-form input,
+.coordinate-form select {
+    width: 100%;
+    height: 46px;
+    padding: 0 14px;
+    border: 1px solid #d6d8dc;
+    border-radius: 10px;
+    background: #fff;
+    color: #222;
+    font-size: 15px;
+    outline: none;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.coordinate-form input:focus,
+.coordinate-form select:focus {
+    border-color: #555;
+    box-shadow:
+        0 0 0 3px rgba(0, 0, 0, 0.06);
+}
+
+.coordinate-points {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 12px;
+}
+
+.coordinate-point {
+    padding: 18px;
+    border: 1px solid #e1e1e1;
+    border-radius: 12px;
+    background: #f8f8f8;
+}
+
+.coordinate-point h3 {
+    margin: 0 0 14px;
+    font-size: 16px;
+    color: #222;
+}
+
+.coordinate-point input {
+    margin-bottom: 8px;
+}
+
+.coordinate-form button {
+    width: 100%;
+    height: 46px;
+    margin-top: 8px;
+    border: none;
+    border-radius: 10px;
+    background: #222;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+}
+
+.coordinate-form button:hover {
+    background: #333;
+    transform: translateY(-1px);
+}
+
+.coordinate-form button:active {
+    transform: translateY(0);
+}
+
+.coordinate-result {
+    max-width: 600px;
+    margin: 30px auto 0;
+}
+
+.coordinate-formula {
+    margin-top: 20px;
+    padding: 18px;
+    border-radius: 12px;
+    background: #f5f5f5;
+    border: 1px solid #e1e1e1;
+}
+
+.coordinate-formula .formula-title {
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #555;
+}
+
+.coordinate-formula .formula-step {
+    padding: 12px 16px;
+    border-radius: 10px;
+    background: #fff;
+    border: 1px solid #e1e1e1;
+    text-align: center;
+    font-size: 16px;
+    color: #222;
+}
+
+@media (max-width: 600px) {
+
+    .coordinate-points {
+        grid-template-columns: 1fr;
+    }
+
+    .coordinate-form {
+        max-width: 100%;
+    }
+
+    .coordinate-form input,
+    .coordinate-form select,
+    .coordinate-form button {
+        height: 44px;
+    }
+
+}
+/* =========================================
+   КООРДИНАТНАЯ ПЛОСКОСТЬ
+   ========================================= */
+
+.coordinate-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(360px, 1fr);
+    gap: 30px;
+    align-items: start;
+    margin-top: 25px;
+}
+
+.coordinate-form-wrapper {
+    min-width: 0;
+}
+
+.coordinate-form-wrapper .coordinate-form {
+    margin-top: 0;
+}
+
+.coordinate-plane-card {
+    padding: 20px;
+    border: 1px solid #e1e1e1;
+    border-radius: 14px;
+    background: #fafafa;
+}
+
+.coordinate-plane-title {
+    margin-bottom: 14px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+}
+
+#coordinatePlane {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    background: #fff;
+    border: 1px solid #e1e1e1;
+    border-radius: 10px;
+}
+
+@media (max-width: 850px) {
+
+    .coordinate-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .coordinate-plane-card {
+        max-width: 560px;
+        width: 100%;
+        margin: 0 auto;
+    }
+
+}
+/* =========================================
+   КООРДИНАТНАЯ ГЕОМЕТРИЯ — ДВЕ КОЛОНКИ
+   ========================================= */
+
+.coordinate-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(360px, 1fr);
+    gap: 35px;
+    align-items: start;
+    margin-top: 30px;
+}
+
+.coordinate-form-wrapper {
+    min-width: 0;
+}
+
+.coordinate-form-wrapper .coordinate-form {
+    max-width: 100%;
+    margin: 0;
+}
+
+
+/* =========================================
+   КООРДИНАТНАЯ ПЛОСКОСТЬ
+   ========================================= */
+
+.coordinate-plane-card {
+    min-width: 0;
+    padding: 20px;
+    border: 1px solid #e1e1e1;
+    border-radius: 14px;
+    background: #f8f8f8;
+}
+
+.coordinate-plane-title {
+    font-size: 17px;
+    font-weight: 600;
+    color: #222;
+}
+
+.coordinate-plane-subtitle {
+    margin-top: 4px;
+    font-size: 13px;
+    color: #777;
+}
+
+.coordinate-plane {
+    width: 100%;
+    max-width: 500px;
+    margin: 18px auto 0;
+    aspect-ratio: 1 / 1;
+    background: #fff;
+    border: 1px solid #dedede;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.coordinate-plane svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+
+/* =========================================
+   СЕТКА
+   ========================================= */
+
+.grid-line {
+    stroke: #e8e8e8;
+    stroke-width: 1;
+}
+
+.grid-label {
+    fill: #999;
+    font-size: 10px;
+    text-anchor: middle;
+    user-select: none;
+}
+
+
+/* =========================================
+   ОСИ
+   ========================================= */
+
+#xAxis,
+#yAxis {
+    stroke: #444;
+    stroke-width: 1.5;
+}
+
+.axis-label {
+    fill: #333;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+
+/* =========================================
+   ТОЧКИ
+   ========================================= */
+
+.point-line {
+    stroke: #555;
+    stroke-width: 2;
+    stroke-dasharray: 7 5;
+}
+
+.coordinate-point-a {
+    fill: #222;
+    stroke: #fff;
+    stroke-width: 3;
+}
+
+.coordinate-point-b {
+    fill: #777;
+    stroke: #fff;
+    stroke-width: 3;
+}
+
+.point-label {
+    fill: #222;
+    font-size: 12px;
+    font-weight: 600;
+    user-select: none;
+}
+
+
+/* =========================================
+   ЛЕГЕНДА
+   ========================================= */
+
+.coordinate-plane-info {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    margin-top: 14px;
+    font-size: 13px;
+    color: #555;
+}
+
+.coordinate-plane-info > div {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.plane-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.a-dot {
+    background: #222;
+}
+
+.b-dot {
+    background: #777;
+}
+
+
+/* =========================================
+   МОБИЛЬНАЯ ВЕРСИЯ
+   ========================================= */
+
+@media (max-width: 850px) {
+
+    .coordinate-layout {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .coordinate-plane-card {
+        width: 100%;
+    }
+
+    .coordinate-plane {
+        max-width: 500px;
+    }
+
+}
+
+/* =========================================
+   ГРАФИКИ ФУНКЦИЙ
+   ========================================= */
+
+.graph-page {
+    max-width: 1080px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.graph-card {
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 35px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+}
+
+.graph-card h2 {
+    margin-top: 0;
+    font-size: 30px;
+}
+
+.graph-description {
+    color: #777;
+    margin-bottom: 30px;
+}
+
+.graph-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.graph-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.graph-input-group label {
+    font-weight: bold;
+}
+
+.graph-input-group input {
+    padding: 13px 15px;
+    border: 1px solid #d8d8d8;
+    border-radius: 12px;
+    font-size: 16px;
+}
+
+.graph-input-group input:focus {
+    outline: none;
+    border-color: #777;
+}
+
+.graph-range {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.graph-form button {
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    background: #292929;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.graph-form button:hover {
+    background: #444;
+    transform: translateY(-2px);
+}
+
+.graph-result {
+    margin-top: 35px;
+}
+
+.graph-container {
+    position: relative;
+    width: 100%;
+    height: 650px;
+
+    border: 1px solid #ddd;
+    border-radius: 18px;
+
+    overflow: hidden;
+
+    background: #fff;
+
+    cursor: grab;
+
+    user-select: none;
+
+    touch-action: none;
+}
+
+.graph-error {
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 12px;
+    background: #f1f1f1;
+    color: #555;
+}
+
+@media (max-width: 700px) {
+
+    .graph-card {
+        padding: 22px;
+    }
+
+    .graph-range {
+        grid-template-columns: 1fr;
+    }
+
+    .graph-container {
+        height: 400px;
+    }
+}
+
+/* =========================================
+   ИМТ
+   ========================================= */
+
+.bmi-container {
+    max-width: 850px;
+    margin: 35px auto;
+}
+
+
+/* =========================================
+   ФОРМА
+   ========================================= */
+
+.bmi-form {
+    margin-top: 25px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px 20px;
+}
+
+
+.bmi-field {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.bmi-field label {
+    margin-bottom: 7px;
+    font-weight: 600;
+    color: #333;
+}
+
+
+.bmi-field input,
+.bmi-field select {
+    width: 100%;
+    padding: 13px 14px;
+    border: 1px solid #d5d5d5;
+    border-radius: 10px;
+    background: #fff;
+    font-size: 15px;
+    color: #333;
+    outline: none;
+    transition: 0.2s;
+}
+
+
+.bmi-field input:focus,
+.bmi-field select:focus {
+    border-color: #777;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.06);
+}
+
+
+/* =========================================
+   КНОПКА
+   ========================================= */
+
+.bmi-button {
+    grid-column: 1 / -1;
+
+    width: 100%;
+    padding: 14px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: #222;
+    color: white;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+
+.bmi-button:hover {
+    background: #333;
+    transform: translateY(-1px);
+}
+
+
+.bmi-button:active {
+    transform: translateY(0);
+}
+
+
+/* =========================================
+   ОШИБКА
+   ========================================= */
+
+.bmi-error {
+    margin-top: 20px;
+    padding: 14px 16px;
+
+    border-radius: 10px;
+
+    background: #f1f1f1;
+    border: 1px solid #d5d5d5;
+
+    color: #333;
+}
+
+
+/* =========================================
+   РЕЗУЛЬТАТ
+   ========================================= */
+
+.bmi-result {
+    margin-top: 30px;
+}
+
+
+.bmi-main-result {
+    padding: 25px;
+
+    border-radius: 14px;
+
+    background: #222;
+    color: white;
+
+    text-align: center;
+}
+
+
+.bmi-main-result span {
+    display: block;
+
+    font-size: 14px;
+    opacity: 0.75;
+
+    margin-bottom: 8px;
+}
+
+
+.bmi-main-result strong {
+    display: block;
+
+    font-size: 38px;
+    line-height: 1.1;
+}
+
+
+/* =========================================
+   ИНФОРМАЦИЯ
+   ========================================= */
+
+.bmi-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    gap: 15px;
+
+    margin-top: 15px;
+}
+
+
+.bmi-info-card {
+    padding: 18px;
+
+    border: 1px solid #e2e2e2;
+    border-radius: 12px;
+
+    background: #f8f8f8;
+
+    text-align: center;
+}
+
+
+.bmi-info-card span {
+    display: block;
+
+    color: #666;
+    font-size: 14px;
+
+    margin-bottom: 7px;
+}
+
+
+.bmi-info-card strong {
+    display: block;
+
+    font-size: 20px;
+    color: #222;
+}
+
+
+/* =========================================
+   ПОЯСНЕНИЕ
+   ========================================= */
+
+.bmi-explanation {
+    margin-top: 25px;
+
+    padding: 20px;
+
+    border-radius: 12px;
+
+    background: #f5f5f5;
+}
+
+
+.bmi-explanation h3 {
+    margin-top: 0;
+    margin-bottom: 12px;
+}
+
+
+.bmi-explanation p {
+    margin: 8px 0;
+    color: #555;
+}
+
+
+/* =========================================
+   ТАБЛИЦА
+   ========================================= */
+
+.bmi-table-section {
+    margin-top: 28px;
+}
+
+
+.bmi-table-section h3 {
+    margin-bottom: 12px;
+}
+
+
+.bmi-table {
+    width: 100%;
+
+    border-collapse: separate;
+    border-spacing: 0;
+
+    overflow: hidden;
+
+    border: 1px solid #e2e2e2;
+    border-radius: 12px;
+
+    background: white;
+}
+
+
+.bmi-table th {
+    padding: 13px 14px;
+
+    background: #222;
+    color: white;
+
+    text-align: left;
+
+    font-size: 14px;
+}
+
+
+.bmi-table td {
+    padding: 13px 14px;
+
+    border-bottom: 1px solid #e7e7e7;
+
+    font-size: 14px;
+}
+
+
+.bmi-table tr:last-child td {
+    border-bottom: none;
+}
+
+
+.bmi-table tbody tr:hover {
+    background: #f6f6f6;
+}
+
+
+/* =========================================
+   ПОДСКАЗКА
+   ========================================= */
+
+.bmi-hint {
+    margin-top: 20px;
+
+    padding: 15px 17px;
+
+    border-radius: 10px;
+
+    background: #f5f5f5;
+
+    color: #666;
+
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+
+/* =========================================
+   АДАПТИВ
+   ========================================= */
+
+@media (max-width: 650px) {
+
+    .bmi-form {
+        grid-template-columns: 1fr;
+    }
+
+    .bmi-button {
+        grid-column: auto;
+    }
+
+    .bmi-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .bmi-main-result strong {
+        font-size: 32px;
+    }
+
+}
+/* ФИКС BMI */
+.bmi-button {
+    background: #222 !important;
+    color: #fff !important;
+    border: none !important;
+}
+
+header h1,
+.site-header h1 {
+    color: #fff !important;
+}
+
+
+/* Заголовок и избранное в одной строке */
+
+.calculator-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 8px;
+}
+
+.calculator-heading h2 {
+    margin: 0;
+}
+
+.calculator-heading .favorites-filter {
+    flex-shrink: 0;
+    margin: 0;
+}
+
+/* Мобильная версия */
+
+@media (max-width: 480px) {
+    .calculator-heading {
+        gap: 8px;
+    }
+
+    .calculator-heading h2 {
+        font-size: 22px;
+    }
+
+    .calculator-heading .favorites-filter {
+        padding: 8px 10px;
+        font-size: 13px;
+    }
+}

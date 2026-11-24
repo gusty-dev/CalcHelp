@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CalcHelp — Тригонометрия</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<header class="site-header">
+
+    <div class="header-decoration-left">
+        + × √
+    </div>
+
+    <div class="header-decoration-right">
+        % ÷ π 42
+    </div>
+
+    <h1>CalcHelp</h1>
+
+    <p>Калькулятор тригонометрии</p>
+
+</header>
+
+
+<nav class="main-navigation">
+
+    <a href="/">Главная</a>
+    <a href="/calculator">Калькулятор</a>
+    <a href="/number-system">Системы счисления</a>
+    <a href="/time">Время</a>
+    <a href="/units">Единицы</a>
+    <a href="/percent">Проценты</a>
+    <a href="/geometry">Геометрия</a>
+    <a href="/NOK_NOD">НОД и НОК</a>
+    <a href="/fractions">Дроби</a>
+    <a href="/pifagor">Пифагор</a>
+    <a href="/kvadrat">Квадратные уравнения</a>
+    <a href="/combinatorics">Комбинаторика</a>
+    <a href="/hard-percent">Сложный процент</a>
+
+    <a href="/trigonometry" class="active">
+        Тригонометрия
+    </a>
+    <a href="/statistics">
+    Статистика
+</a>
+
+<a href="/coordinate-geometry">
+    Координатная геометрия
+</a>
+    <a href="/graph" >Графики</a>
+    <a href="/bmi" >
+        ИМТ
+    </a>
+    <a href="/logarithms">Логарифмы</a>
+      <a href="/kbzhu" >КБЖУ</a>
+     <a href="/fuel" >Расход топлива</a>
+
+    {% if bot_link %}
+        <a href="{{ bot_link }}" target="_blank" rel="noopener noreferrer">Мой бот</a>
+    {% endif %}
+</nav>
+
+
+<main>
+
+    <section class="calculator-section">
+
+        <h2>Тригонометрия</h2>
+
+        <p>
+            Расчёт синуса, косинуса, тангенса,
+            обратных функций и перевод углов.
+        </p>
+
+
+        <form method="POST" class="trigonometry-form">
+
+            <label for="operation">
+                Функция
+            </label>
+
+            <select id="operation" name="operation">
+
+                <option value="sin"
+                    {% if operation == "sin" %}selected{% endif %}>
+                    Синус — sin
+                </option>
+
+                <option value="cos"
+                    {% if operation == "cos" %}selected{% endif %}>
+                    Косинус — cos
+                </option>
+
+                <option value="tan"
+                    {% if operation == "tan" %}selected{% endif %}>
+                    Тангенс — tan
+                </option>
+
+                <option value="arcsin"
+                    {% if operation == "arcsin" %}selected{% endif %}>
+                    Арксинус — arcsin
+                </option>
+
+                <option value="arccos"
+                    {% if operation == "arccos" %}selected{% endif %}>
+                    Арккосинус — arccos
+                </option>
+
+                <option value="arctan"
+                    {% if operation == "arctan" %}selected{% endif %}>
+                    Арктангенс — arctan
+                </option>
+
+                <option value="degrees_to_radians"
+                    {% if operation == "degrees_to_radians" %}selected{% endif %}>
+                    Градусы → радианы
+                </option>
+
+                <option value="radians_to_degrees"
+                    {% if operation == "radians_to_degrees" %}selected{% endif %}>
+                    Радианы → градусы
+                </option>
+
+            </select>
+
+
+            <label for="angle">
+                Значение
+            </label>
+
+            <input
+                type="number"
+                id="angle"
+                name="angle"
+                step="any"
+                required
+                placeholder="30"
+                value="{{ angle_value }}"
+            >
+
+
+            <div id="angle-unit-block">
+
+                <label for="angle_unit">
+                    Единицы измерения
+                </label>
+
+                <select id="angle_unit" name="angle_unit">
+
+                    <option value="degrees"
+                        {% if angle_unit == "degrees" %}selected{% endif %}>
+                        Градусы
+                    </option>
+
+                    <option value="radians"
+                        {% if angle_unit == "radians" %}selected{% endif %}>
+                        Радианы
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <button type="submit">
+                Рассчитать
+            </button>
+
+        </form>
+
+
+        {% if error %}
+
+        <div class="error-message">
+            {{ error }}
+        </div>
+
+        {% endif %}
+
+
+        {% if result is not none %}
+
+        <div class="result-box trigonometry-result">
+
+            <h3>Результат</h3>
+
+            <div class="main-result">
+                {{ result }}
+            </div>
+
+            {% if formula %}
+
+            <div class="trigonometry-formula">
+
+                <div class="formula-title">
+                    Расчёт
+                </div>
+
+                <div class="formula-step">
+                    {{ formula }}
+                </div>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+        {% endif %}
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    <p>
+        CalcHelp — все необходимые калькуляторы в одном месте
+    </p>
+
+</footer>
+
+
+<script>
+
+    const operationSelect =
+        document.getElementById("operation");
+
+    const angleUnitBlock =
+        document.getElementById("angle-unit-block");
+
+
+    function updateAngleUnit() {
+
+        const operation =
+            operationSelect.value;
+
+        if (
+            operation === "degrees_to_radians" ||
+            operation === "radians_to_degrees"
+        ) {
+
+            angleUnitBlock.style.display = "none";
+
+        } else {
+
+            angleUnitBlock.style.display = "block";
+
+        }
+    }
+
+
+    operationSelect.addEventListener(
+        "change",
+        updateAngleUnit
+    );
+
+
+    updateAngleUnit();
+
+</script>
+
+</body>
+
+</html>

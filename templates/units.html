@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Единицы — CalcHelp
+    </title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<header>
+     <div class="header-decoration-left">
+    + × √
+</div>
+
+<div class="header-decoration-right">
+    % ÷ π 42
+</div>
+
+    <h1>
+        CalcHelp
+    </h1>
+
+    <p>
+        Конвертер единиц измерения
+    </p>
+
+</header>
+
+
+<!-- =====================================================
+     НАВИГАЦИЯ
+===================================================== -->
+
+<nav class="main-navigation">
+
+    <a href="/">
+        Главная
+    </a>
+
+    <a href="/calculator">
+        Калькулятор
+    </a>
+
+    <a href="/number-system">
+        Системы счисления
+    </a>
+
+    <a href="/time">
+        Время
+    </a>
+
+    <a href="/units"
+       class="active">
+        Единицы
+    </a>
+
+    <a href="/percent">
+        Проценты
+    </a>
+
+    <a href="/geometry">
+        Геометрия
+    </a>
+
+    <a href="/NOK_NOD">НОД и НОК</a>
+
+    <a href="/fractions"> Дроби</a>
+    <a href="/pifagor">Пифагор</a>
+    <a href="/kvadrat">Квадратные уравнения</a>
+    <a href="/combinatorics">Комбинаторика</a>
+    <a href="/hard-percent">Сложный процент</a>
+    <a href="/trigonometry">Тригонометрия</a>
+    <a href="/statistics">
+    Статистика
+</a>
+
+<a href="/coordinate-geometry">
+    Координатная геометрия
+</a>
+    <a href="/graph" >Графики</a>
+    <a href="/bmi" >
+        ИМТ
+    </a>
+    <a href="/logarithms">Логарифмы</a>
+      <a href="/kbzhu" >КБЖУ</a>
+     <a href="/fuel" >Расход топлива</a>
+    {% if bot_link %}
+        <a href="{{ bot_link }}" target="_blank" rel="noopener noreferrer">Мой бот</a>
+    {% endif %}
+</nav>
+
+
+<main>
+
+    <section class="units-section">
+
+        <h2 class="calc-title">
+            Конвертер единиц
+        </h2>
+
+
+        <!-- =================================================
+             ВЫБОР КАТЕГОРИИ
+        ================================================== -->
+<form method="POST" class="units-category-form">
+
+    <input type="hidden"
+           name="action"
+           value="change_category">
+
+    <div class="units-field">
+
+        <label for="category">
+            Категория
+        </label>
+
+        <select
+            id="category"
+            name="category"
+            onchange="this.form.submit()"
+        >
+
+            {% for category in categories %}
+
+                <option
+                    value="{{ category }}"
+                    {% if selected_category == category %}
+                        selected
+                    {% endif %}
+                >
+
+                    {{ category }}
+
+                </option>
+
+            {% endfor %}
+
+        </select>
+
+    </div>
+
+</form>
+
+        <!-- =================================================
+             КОНВЕРТЕР
+        ================================================== -->
+
+        <form method="POST"
+              class="units-form">
+
+            <input type="hidden"
+                   name="action"
+                   value="convert">
+
+
+            <input type="hidden"
+                   name="category"
+                   value="{{ selected_category }}">
+
+
+            <div class="units-converter">
+
+
+                <!-- ЗНАЧЕНИЕ -->
+
+                <div class="units-field">
+
+                    <label for="value">
+                        Значение
+                    </label>
+
+                    <input
+                        type="number"
+                        step="any"
+                        id="value"
+                        name="value"
+                        placeholder="Введите число"
+                        value="{{ value }}"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- ИЗ -->
+
+                <div class="units-field">
+
+                    <label for="from_unit">
+                        Из
+                    </label>
+
+                    <select
+                        id="from_unit"
+                        name="from_unit"
+                        required
+                    >
+
+                        {% for unit in current_units %}
+
+                            <option
+                                value="{{ unit }}"
+                                {% if from_unit == unit %}
+                                    selected
+                                {% endif %}
+                            >
+
+                                {{ unit }}
+
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+
+                <!-- СТРЕЛКА -->
+
+                <div class="units-arrow">
+                    →
+                </div>
+
+
+                <!-- В -->
+
+                <div class="units-field">
+
+                    <label for="to_unit">
+                        В
+                    </label>
+
+                    <select
+                        id="to_unit"
+                        name="to_unit"
+                        required
+                    >
+
+                        {% for unit in current_units %}
+
+                            <option
+                                value="{{ unit }}"
+                                {% if to_unit == unit %}
+                                    selected
+                                {% endif %}
+                            >
+
+                                {{ unit }}
+
+                            </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="units-button"
+            >
+
+                Конвертировать
+
+            </button>
+
+        </form>
+
+
+        <!-- =================================================
+             РЕЗУЛЬТАТ
+        ================================================== -->
+
+        {% if result is not none %}
+
+            <div class="units-result">
+
+                {% if result == "Ошибка" %}
+
+                    <span class="units-error">
+
+                        Ошибка: проверьте
+                        введённые данные
+
+                    </span>
+
+                {% else %}
+
+                    <span>
+                        Результат:
+                    </span>
+
+                    <strong>
+                        {{ result }}
+                    </strong>
+
+                {% endif %}
+
+            </div>
+
+        {% endif %}
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    © 2026 CalcHelp
+
+</footer>
+
+
+</body>
+
+</html>

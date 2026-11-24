@@ -1,0 +1,708 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CalcHelp — Калькуляторы</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<header>
+    <div class="header-decoration-left">+ × √</div>
+    <div class="header-decoration-right">% ÷ π 42</div>
+    <h1>CalcHelp</h1>
+    <p>Все необходимые калькуляторы в одном месте</p>
+</header>
+
+<nav class="main-navigation">
+    <a href="/" class="active">Главная</a>
+    <a href="/calculator">Калькулятор</a>
+    <a href="/number-system">Системы счисления</a>
+    <a href="/time">Время</a>
+    <a href="/units">Единицы</a>
+    <a href="/percent">Проценты</a>
+    <a href="/geometry">Геометрия</a>
+    <a href="/NOK_NOD">НОД и НОК</a>
+    <a href="/fractions">Дроби</a>
+    <a href="/pifagor">Пифагор</a>
+    <a href="/kvadrat">Квадратные уравнения</a>
+    <a href="/combinatorics">Комбинаторика</a>
+    <a href="/hard-percent">Сложный процент</a>
+    <a href="/trigonometry">Тригонометрия</a>
+    <a href="/statistics">Статистика</a>
+    <a href="/coordinate-geometry">Координатная геометрия</a>
+    <a href="/graph">Графики</a>
+    <a href="/bmi">ИМТ</a>
+    <a href="/logarithms">Логарифмы</a>
+    <a href="/kbzhu">КБЖУ</a>
+    <a href="/fuel">Расход топлива</a>
+    {% if bot_link %}
+        <a href="{{ bot_link }}" target="_blank" rel="noopener noreferrer">Мой бот</a>
+    {% endif %}
+</nav>
+
+<main>
+    <section class="home-section">
+
+        <div class="calculator-heading">
+            <h2>Калькуляторы</h2>
+            <button
+                type="button"
+                class="filter-button favorites-filter"
+                data-category="favorites"
+                aria-pressed="false">
+                <span class="filter-star">★</span>
+                Избранные
+            </button>
+        </div>
+
+        <p class="section-subtitle">Выберите нужный инструмент</p>
+
+        <div class="calculator-search">
+            <div class="search-box">
+                <span class="search-icon">⌕</span>
+                <input
+                    type="text"
+                    id="calculatorSearch"
+                    placeholder="Поиск калькулятора..."
+                    autocomplete="off">
+                <button
+                    type="button"
+                    id="clearSearch"
+                    class="clear-search"
+                    aria-label="Очистить поиск">×</button>
+            </div>
+        </div>
+
+        <div class="calculator-counter">
+            Найдено: <strong id="calculatorCount">20</strong>
+        </div>
+
+        <div class="calculator-cards">
+
+            <!-- 1. Обычный калькулятор -->
+            <div class="calculator-card" data-category="math"
+                 data-search="калькулятор обычный математика вычисления"
+                 data-url="/calculator">
+                <button type="button" class="favorite-button"
+                        aria-label="Добавить в избранное"
+                        title="Добавить в избранное">
+                    <span class="star-outline">☆</span>
+                    <span class="star-filled">★</span>
+                </button>
+                <a href="/calculator" class="calculator-card-link">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 48 48" aria-hidden="true">
+                            <rect x="10" y="6" width="28" height="36" rx="4"/>
+                            <line x1="15" y1="14" x2="33" y2="14"/>
+                            <circle cx="16" cy="21" r="1.5"/>
+                            <circle cx="24" cy="21" r="1.5"/>
+                            <circle cx="32" cy="21" r="1.5"/>
+                            <circle cx="16" cy="29" r="1.5"/>
+                            <circle cx="24" cy="29" r="1.5"/>
+                            <circle cx="32" cy="29" r="1.5"/>
+                            <circle cx="16" cy="37" r="1.5"/>
+                            <circle cx="24" cy="37" r="1.5"/>
+                            <circle cx="32" cy="37" r="1.5"/>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <h3>Обычный калькулятор</h3>
+                        <p>Базовые математические вычисления.</p>
+                    </div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+
+            <!-- 2. Системы счисления -->
+            <div class="calculator-card" data-category="conversion"
+                 data-search="системы счисления двоичная шестнадцатеричная перевод чисел"
+                 data-url="/number-system">
+                <button type="button" class="favorite-button" aria-label="Добавить в избранное" title="Добавить в избранное">
+                    <span class="star-outline">☆</span><span class="star-filled">★</span>
+                </button>
+                <a href="/number-system" class="calculator-card-link">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 48 48" aria-hidden="true">
+                            <circle cx="24" cy="24" r="17"/>
+                            <text x="24" y="29" text-anchor="middle" font-size="13" fill="white" stroke="none">01</text>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <h3>Системы счисления</h3>
+                        <p>Перевод чисел между различными системами счисления.</p>
+                    </div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+
+            <!-- 3. Время -->
+            <div class="calculator-card" data-category="time"
+                 data-search="время дата разница даты обратный отсчет добавить время"
+                 data-url="/time">
+                <button type="button" class="favorite-button" aria-label="Добавить в избранное" title="Добавить в избранное">
+                    <span class="star-outline">☆</span><span class="star-filled">★</span>
+                </button>
+                <a href="/time" class="calculator-card-link">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 48 48" aria-hidden="true">
+                            <circle cx="24" cy="24" r="17"/>
+                            <line x1="24" y1="24" x2="24" y2="13"/>
+                            <line x1="24" y1="24" x2="32" y2="29"/>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <h3>Время</h3>
+                        <p>Разница дат, обратный отсчёт и операции со временем.</p>
+                    </div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+
+            <!-- 4. Единицы -->
+            <div class="calculator-card" data-category="conversion"
+                 data-search="единицы длина масса объем время скорость площадь температура конвертер"
+                 data-url="/units">
+                <button type="button" class="favorite-button" aria-label="Добавить в избранное" title="Добавить в избранное">
+                    <span class="star-outline">☆</span><span class="star-filled">★</span>
+                </button>
+                <a href="/units" class="calculator-card-link">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 48 48" aria-hidden="true">
+                            <path d="M9 17L17 9L39 31L31 39Z"/>
+                            <line x1="14" y1="14" x2="19" y2="19"/>
+                            <line x1="19" y1="10" x2="24" y2="15"/>
+                            <line x1="24" y1="20" x2="29" y2="25"/>
+                            <line x1="29" y1="25" x2="34" y2="30"/>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <h3>Единицы</h3>
+                        <p>Перевод длины, массы, объёма, скорости и других величин.</p>
+                    </div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+
+            <!-- 5. Проценты -->
+            <div class="calculator-card" data-category="math"
+                 data-search="проценты процент процентное изменение увеличение уменьшение"
+                 data-url="/percent">
+                <button type="button" class="favorite-button" aria-label="Добавить в избранное" title="Добавить в избранное">
+                    <span class="star-outline">☆</span><span class="star-filled">★</span>
+                </button>
+                <a href="/percent" class="calculator-card-link">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 48 48" aria-hidden="true">
+                            <circle cx="15" cy="15" r="4"/>
+                            <circle cx="33" cy="33" r="4"/>
+                            <line x1="34" y1="14" x2="14" y2="34"/>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <h3>Проценты</h3>
+                        <p>Расчёт процентов и процентного изменения величины.</p>
+                    </div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+
+            <!-- 6. Геометрия -->
+            <div class="calculator-card" data-category="geometry"
+                 data-search="геометрия площадь периметр фигуры круг квадрат треугольник прямоугольник"
+                 data-url="/geometry">
+                <button type="button" class="favorite-button" aria-label="Добавить в избранное" title="Добавить в избранное">
+                    <span class="star-outline">☆</span><span class="star-filled">★</span>
+                </button>
+                <a href="/geometry" class="calculator-card-link">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 48 48" aria-hidden="true">
+                            <rect x="10" y="10" width="28" height="28" rx="2"/>
+                            <line x1="10" y1="24" x2="38" y2="24"/>
+                            <line x1="24" y1="10" x2="24" y2="38"/>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <h3>Геометрия</h3>
+                        <p>Площади и другие расчёты геометрических фигур.</p>
+                    </div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+
+            <!-- 7. НОД и НОК -->
+            <div class="calculator-card" data-category="math"
+                 data-search="нод нок наибольший общий делитель наименьшее общее кратное числа"
+                 data-url="/NOK_NOD">
+                <button type="button" class="favorite-button" aria-label="Добавить в избранное" title="Добавить в избранное">
+                    <span class="star-outline">☆</span><span class="star-filled">★</span>
+                </button>
+                <a href="/NOK_NOD" class="calculator-card-link">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 48 48" aria-hidden="true">
+                            <path d="M12 15H36 M12 24H36 M12 33H36"/>
+                            <circle cx="17" cy="15" r="2"/>
+                            <circle cx="28" cy="24" r="2"/>
+                            <circle cx="21" cy="33" r="2"/>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <h3>НОД и НОК</h3>
+                        <p>Наибольший общий делитель и наименьшее общее кратное.</p>
+                    </div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+
+            <!-- 8. Дроби -->
+            <div class="calculator-card" data-category="math"
+                 data-search="дроби дробь сложение вычитание умножение деление"
+                 data-url="/fractions">
+                <button type="button" class="favorite-button" aria-label="Добавить в избранное" title="Добавить в избранное">
+                    <span class="star-outline">☆</span><span class="star-filled">★</span>
+                </button>
+                <a href="/fractions" class="calculator-card-link">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 48 48" aria-hidden="true">
+                            <text x="24" y="19" text-anchor="middle" font-size="13" fill="white" stroke="none">1</text>
+                            <line x1="13" y1="24" x2="35" y2="24"/>
+                            <text x="24" y="37" text-anchor="middle" font-size="13" fill="white" stroke="none">2</text>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <h3>Дроби</h3>
+                        <p>Сложение, вычитание, умножение и деление дробей.</p>
+                    </div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+
+            <!-- 9. Пифагор -->
+            <div class="calculator-card" data-category="geometry"
+                 data-search="пифагор теорема пифагора гипотенуза катет треугольник"
+                 data-url="/pifagor">
+                <button type="button" class="favorite-button" aria-label="Добавить в избранное" title="Добавить в избранное">
+                    <span class="star-outline">☆</span><span class="star-filled">★</span>
+                </button>
+                <a href="/pifagor" class="calculator-card-link">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 48 48" aria-hidden="true">
+                            <path d="M10 36H38L10 12Z"/>
+                            <path d="M10 30H16V36"/>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <h3>Пифагор</h3>
+                        <p>Расчёт катета или гипотенузы по теореме Пифагора.</p>
+                    </div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+
+            <!-- 10. Квадратные уравнения -->
+            <div class="calculator-card" data-category="math"
+                 data-search="квадратные уравнения уравнение дискриминант корни x x2"
+                 data-url="/kvadrat">
+                <button type="button" class="favorite-button" aria-label="Добавить в избранное" title="Добавить в избранное">
+                    <span class="star-outline">☆</span><span class="star-filled">★</span>
+                </button>
+                <a href="/kvadrat" class="calculator-card-link">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 48 48" aria-hidden="true">
+                            <path d="M7 32L20 18 M7 18L20 32"/>
+                            <path d="M25 13C26 11 31 11 32 13C33 15 30 17 28 18L25 20H33"/>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <h3>Квадратные уравнения</h3>
+                        <p>Решение квадратных уравнений и расчёт дискриминанта.</p>
+                    </div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+
+            <!-- 11. Комбинаторика -->
+            <div class="calculator-card" data-category="math"
+                 data-search="комбинаторика перестановки размещения сочетания"
+                 data-url="/combinatorics">
+                <button type="button" class="favorite-button" aria-label="Добавить в избранное" title="Добавить в избранное">
+                    <span class="star-outline">☆</span><span class="star-filled">★</span>
+                </button>
+                <a href="/combinatorics" class="calculator-card-link">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 48 48" aria-hidden="true">
+                            <circle cx="12" cy="13" r="3"/>
+                            <circle cx="24" cy="13" r="3"/>
+                            <circle cx="36" cy="13" r="3"/>
+                            <path d="M15 13H21 M27 13H33"/>
+                            <circle cx="12" cy="35" r="3"/>
+                            <circle cx="24" cy="35" r="3"/>
+                            <circle cx="36" cy="35" r="3"/>
+                            <path d="M12 16V32 M24 16V32 M36 16V32"/>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <h3>Комбинаторика</h3>
+                        <p>Перестановки, размещения и сочетания.</p>
+                    </div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+
+            <!-- 12. Сложный процент -->
+            <div class="calculator-card" data-category="math"
+                 data-search="сложный процент проценты сложные проценты"
+                 data-url="/hard-percent">
+                <button type="button" class="favorite-button" aria-label="Добавить в избранное" title="Добавить в избранное">
+                    <span class="star-outline">☆</span><span class="star-filled">★</span>
+                </button>
+                <a href="/hard-percent" class="calculator-card-link">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 48 48" aria-hidden="true">
+                            <path d="M10 36L20 26L27 31L38 15 M30 15H38V23"/>
+                            <circle cx="13" cy="14" r="2.5"/>
+                            <circle cx="35" cy="35" r="2.5"/>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <h3>Сложный процент</h3>
+                        <p>Расчёт роста суммы с учётом сложного процента.</p>
+                    </div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+
+            <!-- 13. Тригонометрия -->
+            <div class="calculator-card" data-category="math"
+                 data-search="тригонометрия синус косинус тангенс арксинус арккосинус арктангенс углы радианы градусы"
+                 data-url="/trigonometry">
+                <button type="button" class="favorite-button" aria-label="Добавить в избранное" title="Добавить в избранное">
+                    <span class="star-outline">☆</span><span class="star-filled">★</span>
+                </button>
+                <a href="/trigonometry" class="calculator-card-link">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 48 48" aria-hidden="true">
+                            <path d="M7 37L22 9L41 37Z M22 9V37 M16 28H28"/>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <h3>Тригонометрия</h3>
+                        <p>Sin, cos, tan, обратные функции и перевод углов.</p>
+                    </div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+
+            <!-- 14. Статистика -->
+            <div class="calculator-card" data-category="math"
+                 data-search="статистика среднее медиана мода дисперсия стандартное отклонение минимум максимум"
+                 data-url="/statistics">
+                <button type="button" class="favorite-button" aria-label="Добавить в избранное" title="Добавить в избранное">
+                    <span class="star-outline">☆</span><span class="star-filled">★</span>
+                </button>
+                <a href="/statistics" class="calculator-card-link">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 48 48" aria-hidden="true">
+                            <path d="M8 38V25 M18 38V18 M28 38V11 M38 38V6 M6 40H41"/>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <h3>Статистика</h3>
+                        <p>Среднее, медиана, мода, дисперсия и другие показатели.</p>
+                    </div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+
+            <!-- 15. Координатная геометрия -->
+            <div class="calculator-card" data-category="math geometry"
+                 data-search="координатная геометрия точки координаты расстояние между точками середина отрезка прямая угол наклон"
+                 data-url="/coordinate-geometry">
+                <button type="button" class="favorite-button" aria-label="Добавить в избранное" title="Добавить в избранное">
+                    <span class="star-outline">☆</span><span class="star-filled">★</span>
+                </button>
+                <a href="/coordinate-geometry" class="calculator-card-link">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 48 48" aria-hidden="true">
+                            <path d="M8 40H42 M10 42V6 M38 36L42 40L38 44 M6 10L10 6L14 10 M14 32L34 14"/>
+                            <circle cx="14" cy="32" r="2.5"/>
+                            <circle cx="34" cy="14" r="2.5"/>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <h3>Координатная геометрия</h3>
+                        <p>Расстояние, середина отрезка, наклон и уравнение прямой.</p>
+                    </div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+
+            <!-- 16. Графики -->
+            <div class="calculator-card" data-category="math graphs"
+                 data-search="графики график функции функции построение графика координатная плоскость парабола прямая гипербола"
+                 data-url="/graph">
+                <button type="button" class="favorite-button" aria-label="Добавить в избранное" title="Добавить в избранное">
+                    <span class="star-outline">☆</span><span class="star-filled">★</span>
+                </button>
+                <a href="/graph" class="calculator-card-link">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 48 48" aria-hidden="true">
+                            <path d="M8 38H41 M10 41V7 M37 34L41 38L37 42 M6 11L10 7L14 11"/>
+                            <path d="M11 31C15 29 16 17 22 18C28 19 29 29 38 12"/>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <h3>Графики функций</h3>
+                        <p>Построение одной или двух функций на координатной плоскости.</p>
+                    </div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+
+            <!-- 17. ИМТ -->
+            <div class="calculator-card" data-category="math"
+                 data-search="имт индекс массы тела вес рост"
+                 data-url="/bmi">
+                <button type="button" class="favorite-button" aria-label="Добавить в избранное" title="Добавить в избранное">
+                    <span class="star-outline">☆</span><span class="star-filled">★</span>
+                </button>
+                <a href="/bmi" class="calculator-card-link">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 48 48" aria-hidden="true">
+                            <path d="M10 16H38 M14 16L10 29 M34 16L38 29 M10 29H20 M28 29H38 M24 16V35 M18 35H30"/>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <h3>ИМТ</h3>
+                        <p>Расчёт индекса массы тела по росту и весу.</p>
+                    </div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+
+            <!-- 18. Логарифмы -->
+            <div class="calculator-card" data-category="math"
+                 data-search="логарифмы логарифм log ln lg основание аргумент натуральный десятичный"
+                 data-url="/logarithms">
+                <button type="button" class="favorite-button" aria-label="Добавить в избранное" title="Добавить в избранное">
+                    <span class="star-outline">☆</span><span class="star-filled">★</span>
+                </button>
+                <a href="/logarithms" class="calculator-card-link">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 48 48" aria-hidden="true">
+                            <path d="M8 38H41 M10 40V7 M37 34L41 38L37 42 M6 11L10 7L14 11"/>
+                            <path d="M13 36C15 29 17 25 21 22C26 18 32 15 39 13"/>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <h3>Логарифмы</h3>
+                        <p>Вычисление логарифмов по разным основаниям, натуральных и десятичных логарифмов.</p>
+                    </div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+
+            <!-- 19. КБЖУ -->
+            <div class="calculator-card" data-category="math"
+                 data-search="кбжу калории белки жиры углеводы питание рацион"
+                 data-url="/kbzhu">
+                <button type="button" class="favorite-button" aria-label="Добавить в избранное" title="Добавить в избранное">
+                    <span class="star-outline">☆</span><span class="star-filled">★</span>
+                </button>
+                <a href="/kbzhu" class="calculator-card-link">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 48 48" aria-hidden="true">
+                            <circle cx="24" cy="24" r="16"/>
+                            <circle cx="24" cy="24" r="10"/>
+                            <path d="M5 12V24 M2 12V18 M8 12V18 M5 24V38 M43 12C37 17 37 24 43 24V38"/>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <h3>Калькулятор КБЖУ</h3>
+                        <p>Расчёт калорий, белков, жиров и углеводов.</p>
+                    </div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+
+            <!-- 20. Расход топлива -->
+            <div class="calculator-card" data-category="math"
+                 data-search="расход топлива бензин автомобиль поездка расстояние литры стоимость цена за литр дорога"
+                 data-url="/fuel">
+                <button type="button" class="favorite-button" aria-label="Добавить в избранное" title="Добавить в избранное">
+                    <span class="star-outline">☆</span><span class="star-filled">★</span>
+                </button>
+                <a href="/fuel" class="calculator-card-link">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 48 48" aria-hidden="true">
+                            <path d="M8 27L12 17H36L40 27V36H8Z M15 17L18 10H30L34 17"/>
+                            <circle cx="15" cy="36" r="3"/>
+                            <circle cx="33" cy="36" r="3"/>
+                            <path d="M21 24H27 M24 21V27"/>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <h3>Расход топлива</h3>
+                        <p>Расчёт количества топлива и стоимости поездки в одну сторону или туда-обратно.</p>
+                    </div>
+                    <span class="card-arrow">→</span>
+                </a>
+            </div>
+
+        </div>
+
+        <div id="noResults" class="no-results">
+            <div class="no-results-icon">⌕</div>
+            <h3>Ничего не найдено</h3>
+            <p>Попробуйте изменить поисковый запрос.</p>
+        </div>
+
+        <div id="emptyFavorites" class="no-results">
+            <div class="no-results-icon">★</div>
+            <h3>Избранное пока пусто</h3>
+            <p>Нажмите на звезду у калькулятора, чтобы добавить его сюда.</p>
+        </div>
+
+    </section>
+</main>
+
+<script>
+    const searchInput = document.getElementById("calculatorSearch");
+    const clearButton = document.getElementById("clearSearch");
+    const favoritesFilter = document.querySelector(".favorites-filter");
+    const cards = document.querySelectorAll(".calculator-card");
+    const counter = document.getElementById("calculatorCount");
+    const noResults = document.getElementById("noResults");
+    const emptyFavorites = document.getElementById("emptyFavorites");
+
+    let currentCategory = "all";
+    let favorites = [];
+
+    try {
+        const savedFavorites = JSON.parse(
+            localStorage.getItem("calcHelpFavorites")
+        );
+        favorites = Array.isArray(savedFavorites) ? savedFavorites : [];
+    } catch (error) {
+        favorites = [];
+    }
+
+    function saveFavorites() {
+        localStorage.setItem(
+            "calcHelpFavorites",
+            JSON.stringify(favorites)
+        );
+    }
+
+    function updateFavoriteButton(card) {
+        const url = card.dataset.url;
+        const button = card.querySelector(".favorite-button");
+
+        if (!button) return;
+
+        const isFavorite = favorites.includes(url);
+
+        card.classList.toggle("is-favorite", isFavorite);
+        button.setAttribute(
+            "aria-label",
+            isFavorite ? "Удалить из избранного" : "Добавить в избранное"
+        );
+        button.setAttribute(
+            "title",
+            isFavorite ? "Удалить из избранного" : "Добавить в избранное"
+        );
+    }
+
+    cards.forEach(card => {
+        const button = card.querySelector(".favorite-button");
+        updateFavoriteButton(card);
+
+        if (!button) return;
+
+        button.addEventListener("click", event => {
+            event.preventDefault();
+            event.stopPropagation();
+
+            const url = card.dataset.url;
+
+            if (favorites.includes(url)) {
+                favorites = favorites.filter(item => item !== url);
+            } else {
+                favorites.push(url);
+            }
+
+            saveFavorites();
+            updateFavoriteButton(card);
+            filterCalculators();
+        });
+    });
+
+    function filterCalculators() {
+        const searchText = searchInput.value.toLowerCase().trim();
+        let visibleCount = 0;
+
+        cards.forEach(card => {
+            const url = card.dataset.url;
+            const searchData = (card.dataset.search || "").toLowerCase();
+
+            const categoryMatches =
+                currentCategory === "all" ||
+                (currentCategory === "favorites" && favorites.includes(url));
+
+            const searchMatches =
+                searchText === "" || searchData.includes(searchText);
+
+            const isVisible = categoryMatches && searchMatches;
+
+            card.style.display = isVisible ? "flex" : "none";
+
+            if (isVisible) visibleCount++;
+        });
+
+        counter.textContent = visibleCount;
+
+        if (visibleCount === 0 &&
+            currentCategory === "favorites" &&
+            searchText === "") {
+            noResults.classList.remove("show");
+            emptyFavorites.classList.add("show");
+        } else if (visibleCount === 0) {
+            emptyFavorites.classList.remove("show");
+            noResults.classList.add("show");
+        } else {
+            noResults.classList.remove("show");
+            emptyFavorites.classList.remove("show");
+        }
+
+        clearButton.classList.toggle("show", searchText !== "");
+        favoritesFilter.classList.toggle(
+            "active",
+            currentCategory === "favorites"
+        );
+        favoritesFilter.setAttribute(
+            "aria-pressed",
+            currentCategory === "favorites" ? "true" : "false"
+        );
+    }
+
+    favoritesFilter.addEventListener("click", () => {
+        currentCategory =
+            currentCategory === "favorites" ? "all" : "favorites";
+        filterCalculators();
+    });
+
+    searchInput.addEventListener("input", filterCalculators);
+
+    clearButton.addEventListener("click", () => {
+        searchInput.value = "";
+        searchInput.focus();
+        filterCalculators();
+    });
+
+    filterCalculators();
+</script>
+
+</body>
+</html>

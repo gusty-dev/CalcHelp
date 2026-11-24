@@ -1,0 +1,2040 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CalcHelp — Графики функций</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+
+        .graph-page {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .graph-card {
+            background: white;
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        .graph-card h2 {
+            margin: 0 0 8px;
+        }
+
+        .graph-description {
+            color: #777;
+            margin-bottom: 25px;
+        }
+
+        .graph-form {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .graph-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .graph-input-group label {
+            font-weight: 600;
+        }
+
+        .graph-input-group input {
+            padding: 13px 15px;
+            border: 1px solid #d5d5d5;
+            border-radius: 12px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .graph-input-group input:focus {
+            border-color: #555;
+            box-shadow: 0 0 0 3px rgba(0,0,0,0.07);
+        }
+
+        .graph-form button {
+            border: none;
+            border-radius: 12px;
+            padding: 14px;
+            background: #222;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .graph-form button:hover {
+            background: #000;
+        }
+
+        .graph-error {
+            margin-top: 20px;
+            padding: 12px 15px;
+            border-radius: 12px;
+            background: #f1f1f1;
+        }
+
+        .graph-result {
+            margin-top: 30px;
+        }
+
+        .graph-container {
+            position: relative;
+            width: 100%;
+            height: 650px;
+
+            border: 1px solid #ddd;
+            border-radius: 18px;
+
+            overflow: hidden;
+
+            background: white;
+
+            cursor: grab;
+            user-select: none;
+            touch-action: none;
+        }
+
+        .graph-container.dragging {
+            cursor: grabbing;
+        }
+
+        #graphCanvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .graph-legend {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .legend-line {
+            width: 28px;
+            height: 4px;
+            border-radius: 10px;
+        }
+
+        .legend-first {
+            background: #3478f6;
+        }
+
+        .legend-second {
+            background: #f28c28;
+        }
+
+        .legend-point {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #e53935;
+        }
+
+        .graph-info {
+            margin-top: 18px;
+            padding: 16px 18px;
+            background: #f5f5f5;
+            border-radius: 14px;
+            color: #444;
+        }
+
+        @media (max-width: 700px) {
+
+            .graph-page {
+                padding: 0 12px;
+                margin-top: 25px;
+            }
+
+            .graph-card {
+                padding: 20px;
+            }
+
+            .graph-container {
+                height: 500px;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+<header>
+
+    <h1>CalcHelp</h1>
+
+    <p>Графики функций</p>
+
+</header>
+
+
+<nav class="main-navigation">
+
+    <a href="/">Главная</a>
+
+    <a href="/calculator">Калькулятор</a>
+
+    <a href="/number-system">Системы счисления</a>
+
+    <a href="/time">Время</a>
+
+    <a href="/units">Единицы</a>
+
+    <a href="/percent">Проценты</a>
+
+    <a href="/geometry">Геометрия</a>
+
+    <a href="/NOK_NOD">НОД и НОК</a>
+
+    <a href="/fractions">Дроби</a>
+
+    <a href="/pifagor">Пифагор</a>
+
+    <a href="/kvadrat">Квадратные уравнения</a>
+
+    <a href="/combinatorics">Комбинаторика</a>
+
+    <a href="/hard-percent">Сложный процент</a>
+
+    <a href="/trigonometry">Тригонометрия</a>
+
+    <a href="/statistics">Статистика</a>
+
+    <a href="/coordinate-geometry">Координатная геометрия</a>
+
+    <a href="/graph" class="active">Графики</a>
+      <a href="/bmi" >
+        ИМТ
+    </a>
+    <a href="/logarithms">Логарифмы</a>
+      <a href="/kbzhu" >КБЖУ</a>
+     <a href="/fuel" >Расход топлива</a>
+
+    {% if bot_link %}
+        <a href="{{ bot_link }}" target="_blank" rel="noopener noreferrer">Мой бот</a>
+    {% endif %}
+</nav>
+
+
+<main class="graph-page">
+
+
+    <section class="graph-card">
+
+
+        <h2>Построение графика</h2>
+
+
+        <p class="graph-description">
+            Построй одну или две функции на координатной плоскости.
+        </p>
+
+
+        <form method="POST" class="graph-form">
+
+
+            <div class="graph-input-group">
+
+                <label for="function">
+                    Первая функция f(x)
+                </label>
+
+                <input
+                    type="text"
+                    id="function"
+                    name="function"
+                    value="{{ function }}"
+                    placeholder="Например: x² или |x|"
+                    required
+                >
+
+            </div>
+
+
+            <div class="graph-input-group">
+
+                <label for="function2">
+                    Вторая функция g(x)
+                </label>
+
+                <input
+                    type="text"
+                    id="function2"
+                    name="function2"
+                    value="{{ function2 }}"
+                    placeholder="Необязательно, например: -x + 6"
+                >
+
+            </div>
+
+
+            <button type="submit">
+                Построить график
+            </button>
+
+
+        </form>
+
+
+        {% if error %}
+
+        <div class="graph-error">
+            {{ error }}
+        </div>
+
+        {% endif %}
+
+
+        {% if function %}
+
+        <div class="graph-result">
+
+
+            <div
+                class="graph-container"
+                id="graphContainer"
+            >
+
+                <canvas id="graphCanvas"></canvas>
+
+            </div>
+
+
+            <div class="graph-legend">
+
+
+                <div class="legend-item">
+
+                    <span
+                        class="legend-line legend-first"
+                    ></span>
+
+                    Первая функция
+
+                </div>
+
+
+                {% if function2 %}
+
+                <div class="legend-item">
+
+                    <span
+                        class="legend-line legend-second"
+                    ></span>
+
+                    Вторая функция
+
+                </div>
+
+
+                <div class="legend-item">
+
+                    <span
+                        class="legend-point"
+                    ></span>
+
+                    Точка пересечения
+
+                </div>
+
+                {% endif %}
+
+
+            </div>
+
+
+            <div class="graph-info">
+
+                <div
+                    id="intersectionText"
+                >
+                    {% if function2 %}
+                    Ищу точки пересечения...
+                    {% else %}
+                    Добавь вторую функцию, чтобы найти точки пересечения.
+                    {% endif %}
+                </div>
+
+            </div>
+
+
+        </div>
+
+        {% endif %}
+
+
+    </section>
+
+
+</main>
+
+
+{% if function %}
+
+<script>
+
+
+// =====================================================
+// ЭЛЕМЕНТЫ
+// =====================================================
+
+const canvas =
+    document.getElementById("graphCanvas");
+
+const container =
+    document.getElementById("graphContainer");
+
+const ctx =
+    canvas.getContext("2d");
+
+
+const functionText1 =
+    {{ function|tojson }};
+
+const functionText2 =
+    {{ function2|tojson }};
+
+
+// =====================================================
+// НАСТРОЙКИ
+// =====================================================
+
+let centerX = 0;
+let centerY = 0;
+
+let pixelsPerUnit = 50;
+
+let isDragging = false;
+
+let lastMouseX = 0;
+let lastMouseY = 0;
+
+
+// =====================================================
+// КООРДИНАТЫ
+// =====================================================
+
+function screenX(x) {
+
+    return (
+        container.clientWidth / 2 +
+        (x - centerX) * pixelsPerUnit
+    );
+
+}
+
+
+function screenY(y) {
+
+    return (
+        container.clientHeight / 2 -
+        (y - centerY) * pixelsPerUnit
+    );
+
+}
+
+
+function worldX(screen) {
+
+    return (
+        centerX +
+        (
+            screen -
+            container.clientWidth / 2
+        ) / pixelsPerUnit
+    );
+
+}
+
+
+function worldY(screen) {
+
+    return (
+        centerY -
+        (
+            screen -
+            container.clientHeight / 2
+        ) / pixelsPerUnit
+    );
+
+}
+
+
+// =====================================================
+// ПОДГОТОВКА ФУНКЦИИ
+// =====================================================
+
+function prepareFunction(expression) {
+
+
+    let expr =
+        expression
+            .trim()
+            .toLowerCase();
+
+
+    // =============================================
+    // СТЕПЕНИ
+    // =============================================
+
+    expr =
+        expr.replaceAll("²", "^2");
+
+    expr =
+        expr.replaceAll("³", "^3");
+
+    expr =
+        expr.replaceAll("^", "**");
+
+
+    // =============================================
+    // МОДУЛЬ
+    // =============================================
+
+    expr =
+        expr.replace(
+            /\|([^|]+)\|/g,
+            "abs($1)"
+        );
+
+
+    // =============================================
+    // КОРЕНЬ
+    // =============================================
+
+    expr =
+        expr.replace(
+            /√\s*x/g,
+            "sqrt(x)"
+        );
+
+    expr =
+        expr.replace(
+            /√\s*(\d+(?:\.\d+)?)/g,
+            "sqrt($1)"
+        );
+
+    expr =
+        expr.replace(
+            /√\s*\(([^()]*)\)/g,
+            "sqrt($1)"
+        );
+
+
+    // =============================================
+    // π
+    // =============================================
+
+    expr =
+        expr.replaceAll("π", "pi");
+
+
+    // =============================================
+    // ФУНКЦИИ
+    // =============================================
+
+    expr =
+        expr.replace(
+            /\bsin\b/g,
+            "Math.sin"
+        );
+
+    expr =
+        expr.replace(
+            /\bcos\b/g,
+            "Math.cos"
+        );
+
+    expr =
+        expr.replace(
+            /\btan\b/g,
+            "Math.tan"
+        );
+
+    expr =
+        expr.replace(
+            /\bsqrt\b/g,
+            "Math.sqrt"
+        );
+
+    expr =
+        expr.replace(
+            /\babs\b/g,
+            "Math.abs"
+        );
+
+    expr =
+        expr.replace(
+            /\bln\b/g,
+            "Math.log"
+        );
+
+    expr =
+        expr.replace(
+            /\blog\b/g,
+            "Math.log10"
+        );
+
+
+    // =============================================
+    // КОНСТАНТЫ
+    // =============================================
+
+    expr =
+        expr.replace(
+            /\bpi\b/g,
+            "Math.PI"
+        );
+
+    expr =
+        expr.replace(
+            /\be\b/g,
+            "Math.E"
+        );
+
+
+    // =============================================
+    // УМНОЖЕНИЕ
+    // =============================================
+
+    // 2x
+    expr =
+        expr.replace(
+            /(\d)(?=x\b)/g,
+            "$1*"
+        );
+
+
+    // 2(x+1)
+    expr =
+        expr.replace(
+            /(\d)(?=\()/g,
+            "$1*("
+        );
+
+
+    // x(x+1)
+    expr =
+        expr.replace(
+            /x(?=\()/g,
+            "x*"
+        );
+
+
+    // (x+1)(x-1)
+    expr =
+        expr.replace(
+            /\)(?=\()/g,
+            ")*("
+        );
+
+
+    // 2sin(x)
+    expr =
+        expr.replace(
+            /(\d)(?=Math\.)/g,
+            "$1*"
+        );
+
+
+    // xsin(x)
+    expr =
+        expr.replace(
+            /x(?=Math\.)/g,
+            "x*"
+        );
+
+
+    // πx
+    expr =
+        expr.replace(
+            /Math\.PI(?=x\b)/g,
+            "Math.PI*"
+        );
+
+
+    return expr.replace(/\s+/g, "");
+
+}
+
+
+// =====================================================
+// ВЫЧИСЛЕНИЕ
+// =====================================================
+
+function calculateFunction(expression, x) {
+
+    try {
+
+        const prepared =
+            prepareFunction(expression);
+
+
+        const result =
+            Function(
+                "x",
+                "return " + prepared
+            )(x);
+
+
+        if (
+            typeof result !== "number" ||
+            !Number.isFinite(result)
+        ) {
+
+            return null;
+
+        }
+
+
+        return result;
+
+    }
+    catch (error) {
+
+        return null;
+
+    }
+
+}
+
+
+// =====================================================
+// ШАГ СЕТКИ
+// =====================================================
+
+function getGridStep() {
+
+    const rawStep =
+        70 / pixelsPerUnit;
+
+
+    const power =
+        Math.floor(
+            Math.log10(rawStep)
+        );
+
+
+    const normalized =
+        rawStep /
+        Math.pow(10, power);
+
+
+    let niceStep;
+
+
+    if (normalized < 1.5) {
+
+        niceStep = 1;
+
+    }
+    else if (normalized < 3) {
+
+        niceStep = 2;
+
+    }
+    else if (normalized < 7) {
+
+        niceStep = 5;
+
+    }
+    else {
+
+        niceStep = 10;
+
+    }
+
+
+    return (
+        niceStep *
+        Math.pow(10, power)
+    );
+
+}
+
+
+// =====================================================
+// ФОРМАТ ЧИСЛА
+// =====================================================
+
+function formatNumber(number) {
+
+    if (
+        Math.abs(number) >= 1000
+    ) {
+
+        return number.toFixed(0);
+
+    }
+
+
+    if (
+        Math.abs(number) >= 1
+    ) {
+
+        return number
+            .toFixed(2)
+            .replace(/\.00$/, "");
+
+    }
+
+
+    return number
+        .toFixed(3)
+        .replace(/0+$/, "")
+        .replace(/\.$/, "");
+
+}
+
+
+// =====================================================
+// СЕТКА
+// =====================================================
+
+function drawGrid() {
+
+    const width =
+        container.clientWidth;
+
+    const height =
+        container.clientHeight;
+
+    const step =
+        getGridStep();
+
+
+    const left =
+        worldX(0);
+
+    const right =
+        worldX(width);
+
+    const top =
+        worldY(0);
+
+    const bottom =
+        worldY(height);
+
+
+    ctx.strokeStyle =
+        "#e8e8e8";
+
+    ctx.lineWidth = 1;
+
+
+    let firstX =
+        Math.floor(left / step) * step;
+
+
+    for (
+        let x = firstX;
+        x <= right;
+        x += step
+    ) {
+
+        const sx =
+            screenX(x);
+
+
+        if (
+            sx < 0 ||
+            sx > width
+        ) {
+
+            continue;
+
+        }
+
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            sx,
+            0
+        );
+
+        ctx.lineTo(
+            sx,
+            height
+        );
+
+        ctx.stroke();
+
+    }
+
+
+    let firstY =
+        Math.floor(bottom / step) * step;
+
+
+    for (
+        let y = firstY;
+        y <= top;
+        y += step
+    ) {
+
+        const sy =
+            screenY(y);
+
+
+        if (
+            sy < 0 ||
+            sy > height
+        ) {
+
+            continue;
+
+        }
+
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            0,
+            sy
+        );
+
+        ctx.lineTo(
+            width,
+            sy
+        );
+
+        ctx.stroke();
+
+    }
+
+
+    ctx.fillStyle =
+        "#777";
+
+    ctx.font =
+        "12px Arial";
+
+
+    // X
+    for (
+        let x = firstX;
+        x <= right;
+        x += step
+    ) {
+
+        if (
+            Math.abs(x) < step / 100
+        ) {
+
+            continue;
+
+        }
+
+
+        const sx =
+            screenX(x);
+
+        const axisY =
+            screenY(0);
+
+
+        if (
+            sx < 0 ||
+            sx > width
+        ) {
+
+            continue;
+
+        }
+
+
+        let textY =
+            axisY + 17;
+
+
+        textY =
+            Math.max(
+                15,
+                Math.min(
+                    height - 5,
+                    textY
+                )
+            );
+
+
+        ctx.textAlign =
+            "center";
+
+
+        ctx.fillText(
+            formatNumber(x),
+            sx,
+            textY
+        );
+
+    }
+
+
+    // Y
+    for (
+        let y = firstY;
+        y <= top;
+        y += step
+    ) {
+
+        if (
+            Math.abs(y) < step / 100
+        ) {
+
+            continue;
+
+        }
+
+
+        const sy =
+            screenY(y);
+
+        const axisX =
+            screenX(0);
+
+
+        if (
+            sy < 0 ||
+            sy > height
+        ) {
+
+            continue;
+
+        }
+
+
+        let textX =
+            axisX - 8;
+
+
+        textX =
+            Math.max(
+                25,
+                textX
+            );
+
+
+        ctx.textAlign =
+            "right";
+
+
+        ctx.fillText(
+            formatNumber(y),
+            textX,
+            sy + 4
+        );
+
+    }
+
+}
+
+
+// =====================================================
+// ОСИ
+// =====================================================
+
+function drawAxes() {
+
+    const width =
+        container.clientWidth;
+
+    const height =
+        container.clientHeight;
+
+
+    const axisX =
+        screenX(0);
+
+    const axisY =
+        screenY(0);
+
+
+    ctx.strokeStyle =
+        "#222";
+
+    ctx.lineWidth = 2;
+
+
+    if (
+        axisX >= 0 &&
+        axisX <= width
+    ) {
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            axisX,
+            0
+        );
+
+        ctx.lineTo(
+            axisX,
+            height
+        );
+
+        ctx.stroke();
+
+    }
+
+
+    if (
+        axisY >= 0 &&
+        axisY <= height
+    ) {
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            0,
+            axisY
+        );
+
+        ctx.lineTo(
+            width,
+            axisY
+        );
+
+        ctx.stroke();
+
+    }
+
+
+    ctx.fillStyle =
+        "#222";
+
+    ctx.font =
+        "bold 14px Arial";
+
+
+    if (
+        axisY >= 0 &&
+        axisY <= height
+    ) {
+
+        ctx.textAlign =
+            "left";
+
+        ctx.fillText(
+            "X",
+            width - 25,
+            axisY - 10
+        );
+
+    }
+
+
+    if (
+        axisX >= 0 &&
+        axisX <= width
+    ) {
+
+        ctx.textAlign =
+            "left";
+
+        ctx.fillText(
+            "Y",
+            axisX + 10,
+            20
+        );
+
+    }
+
+}
+
+
+// =====================================================
+// ГРАФИК ФУНКЦИИ
+// =====================================================
+
+function drawFunction(
+    expression,
+    color
+) {
+
+    const width =
+        container.clientWidth;
+
+    const height =
+        container.clientHeight;
+
+
+    ctx.strokeStyle =
+        color;
+
+    ctx.lineWidth = 3;
+
+    ctx.lineCap =
+        "round";
+
+    ctx.lineJoin =
+        "round";
+
+
+    let drawing = false;
+
+    let previousY = null;
+
+
+    ctx.beginPath();
+
+
+    for (
+        let px = 0;
+        px <= width;
+        px += 2
+    ) {
+
+        const x =
+            worldX(px);
+
+
+        const y =
+            calculateFunction(
+                expression,
+                x
+            );
+
+
+        if (
+            y === null
+        ) {
+
+            drawing = false;
+            previousY = null;
+
+            continue;
+
+        }
+
+
+        const py =
+            screenY(y);
+
+
+        if (
+            previousY !== null &&
+            Math.abs(py - previousY) >
+            height * 0.8
+        ) {
+
+            drawing = false;
+
+        }
+
+
+        if (
+            py < -height * 10 ||
+            py > height * 10
+        ) {
+
+            drawing = false;
+            previousY = null;
+
+            continue;
+
+        }
+
+
+        if (!drawing) {
+
+            ctx.moveTo(
+                px,
+                py
+            );
+
+            drawing = true;
+
+        }
+        else {
+
+            ctx.lineTo(
+                px,
+                py
+            );
+
+        }
+
+
+        previousY =
+            py;
+
+    }
+
+
+    ctx.stroke();
+
+}
+
+
+// =====================================================
+// ПЕРЕСЕЧЕНИЯ
+// =====================================================
+
+function findIntersections() {
+
+    if (
+        functionText2.trim() === ""
+    ) {
+
+        return [];
+
+    }
+
+
+    const points = [];
+
+    const width =
+        container.clientWidth;
+
+    const stepPixels = 2;
+
+
+    let previousX = null;
+    let previousDifference = null;
+
+
+    for (
+        let px = 0;
+        px <= width;
+        px += stepPixels
+    ) {
+
+        const x =
+            worldX(px);
+
+
+        const y1 =
+            calculateFunction(
+                functionText1,
+                x
+            );
+
+
+        const y2 =
+            calculateFunction(
+                functionText2,
+                x
+            );
+
+
+        if (
+            y1 === null ||
+            y2 === null
+        ) {
+
+            previousX = null;
+            previousDifference = null;
+
+            continue;
+
+        }
+
+
+        const difference =
+            y1 - y2;
+
+
+        if (
+            previousDifference !== null &&
+            previousDifference * difference < 0
+        ) {
+
+            let left =
+                previousX;
+
+            let right =
+                x;
+
+
+            for (
+                let i = 0;
+                i < 30;
+                i++
+            ) {
+
+                const middle =
+                    (left + right) / 2;
+
+
+                const m1 =
+                    calculateFunction(
+                        functionText1,
+                        middle
+                    );
+
+
+                const m2 =
+                    calculateFunction(
+                        functionText2,
+                        middle
+                    );
+
+
+                if (
+                    m1 === null ||
+                    m2 === null
+                ) {
+
+                    break;
+
+                }
+
+
+                const md =
+                    m1 - m2;
+
+
+                if (
+                    previousDifference * md <= 0
+                ) {
+
+                    right = middle;
+
+                }
+                else {
+
+                    left = middle;
+
+                    previousDifference =
+                        md;
+
+                }
+
+            }
+
+
+            const ix =
+                (left + right) / 2;
+
+
+            const iy =
+                calculateFunction(
+                    functionText1,
+                    ix
+                );
+
+
+            if (
+                iy !== null
+            ) {
+
+                const duplicate =
+                    points.some(
+                        point =>
+                            Math.abs(
+                                point.x - ix
+                            ) < 0.05
+                    );
+
+
+                if (!duplicate) {
+
+                    points.push({
+                        x: ix,
+                        y: iy
+                    });
+
+                }
+
+            }
+
+        }
+
+
+        previousX =
+            x;
+
+        previousDifference =
+            difference;
+
+    }
+
+
+    return points;
+
+}
+
+
+// =====================================================
+// ТОЧКИ ПЕРЕСЕЧЕНИЯ
+// =====================================================
+
+function drawIntersections() {
+
+    const points =
+        findIntersections();
+
+
+    ctx.fillStyle =
+        "#e53935";
+
+    ctx.strokeStyle =
+        "white";
+
+    ctx.lineWidth = 2;
+
+
+    for (
+        const point of points
+    ) {
+
+        const x =
+            screenX(point.x);
+
+        const y =
+            screenY(point.y);
+
+
+        if (
+            x < -20 ||
+            x > container.clientWidth + 20 ||
+            y < -20 ||
+            y > container.clientHeight + 20
+        ) {
+
+            continue;
+
+        }
+
+
+        ctx.beginPath();
+
+        ctx.arc(
+            x,
+            y,
+            6,
+            0,
+            Math.PI * 2
+        );
+
+        ctx.fill();
+        ctx.stroke();
+
+    }
+
+
+    const text =
+        document.getElementById(
+            "intersectionText"
+        );
+
+
+    if (!text) {
+        return;
+    }
+
+
+    if (points.length === 0) {
+
+        text.textContent =
+            "Точки пересечения в текущей области не найдены.";
+
+        return;
+
+    }
+
+
+    text.textContent =
+        "Точки пересечения: " +
+        points
+            .map(
+                point =>
+                    "(" +
+                    formatNumber(point.x) +
+                    "; " +
+                    formatNumber(point.y) +
+                    ")"
+            )
+            .join(", ");
+
+}
+
+
+// =====================================================
+// РИСОВАНИЕ
+// =====================================================
+
+function draw() {
+
+    const width =
+        container.clientWidth;
+
+    const height =
+        container.clientHeight;
+
+
+    if (
+        width <= 0 ||
+        height <= 0
+    ) {
+
+        return;
+
+    }
+
+
+    ctx.clearRect(
+        0,
+        0,
+        width,
+        height
+    );
+
+
+    ctx.fillStyle =
+        "white";
+
+    ctx.fillRect(
+        0,
+        0,
+        width,
+        height
+    );
+
+
+    drawGrid();
+
+    drawAxes();
+
+
+    drawFunction(
+        functionText1,
+        "#3478f6"
+    );
+
+
+    if (
+        functionText2.trim() !== ""
+    ) {
+
+        drawFunction(
+            functionText2,
+            "#f28c28"
+        );
+
+        drawIntersections();
+
+    }
+
+}
+
+
+// =====================================================
+// ZOOM КОЛЕСОМ
+// =====================================================
+
+container.addEventListener(
+    "wheel",
+    function(event) {
+
+        event.preventDefault();
+
+
+        const rect =
+            container.getBoundingClientRect();
+
+
+        const mouseX =
+            event.clientX -
+            rect.left;
+
+        const mouseY =
+            event.clientY -
+            rect.top;
+
+
+        const beforeX =
+            worldX(mouseX);
+
+        const beforeY =
+            worldY(mouseY);
+
+
+        const zoom =
+            event.deltaY < 0
+                ? 1.2
+                : 0.8;
+
+
+        pixelsPerUnit *= zoom;
+
+
+        pixelsPerUnit =
+            Math.max(
+                5,
+                Math.min(
+                    pixelsPerUnit,
+                    500
+                )
+            );
+
+
+        centerX =
+            beforeX -
+            (
+                mouseX -
+                rect.width / 2
+            ) / pixelsPerUnit;
+
+
+        centerY =
+            beforeY +
+            (
+                mouseY -
+                rect.height / 2
+            ) / pixelsPerUnit;
+
+
+        draw();
+
+    },
+    {
+        passive: false
+    }
+);
+
+
+// =====================================================
+// МЫШЬ — НАЖАТИЕ
+// =====================================================
+
+container.addEventListener(
+    "mousedown",
+    function(event) {
+
+        isDragging = true;
+
+        container.classList.add(
+            "dragging"
+        );
+
+
+        lastMouseX =
+            event.clientX;
+
+        lastMouseY =
+            event.clientY;
+
+    }
+);
+
+
+// =====================================================
+// МЫШЬ — ПЕРЕМЕЩЕНИЕ
+// =====================================================
+
+window.addEventListener(
+    "mousemove",
+    function(event) {
+
+        if (!isDragging) {
+            return;
+        }
+
+
+        const dx =
+            event.clientX -
+            lastMouseX;
+
+        const dy =
+            event.clientY -
+            lastMouseY;
+
+
+        centerX -=
+            dx / pixelsPerUnit;
+
+        centerY +=
+            dy / pixelsPerUnit;
+
+
+        lastMouseX =
+            event.clientX;
+
+        lastMouseY =
+            event.clientY;
+
+
+        draw();
+
+    }
+);
+
+
+// =====================================================
+// МЫШЬ — ОТПУСКАНИЕ
+// =====================================================
+
+window.addEventListener(
+    "mouseup",
+    function() {
+
+        isDragging = false;
+
+        container.classList.remove(
+            "dragging"
+        );
+
+    }
+);
+
+
+// =====================================================
+// ТЕЛЕФОН
+// =====================================================
+
+let lastTouchX = 0;
+let lastTouchY = 0;
+
+let lastTouchDistance = null;
+
+
+function touchDistance(a, b) {
+
+    const dx =
+        b.clientX - a.clientX;
+
+    const dy =
+        b.clientY - a.clientY;
+
+
+    return Math.sqrt(
+        dx * dx +
+        dy * dy
+    );
+
+}
+
+
+container.addEventListener(
+    "touchstart",
+    function(event) {
+
+        event.preventDefault();
+
+
+        if (
+            event.touches.length === 1
+        ) {
+
+            lastTouchX =
+                event.touches[0].clientX;
+
+            lastTouchY =
+                event.touches[0].clientY;
+
+        }
+
+
+        if (
+            event.touches.length === 2
+        ) {
+
+            lastTouchDistance =
+                touchDistance(
+                    event.touches[0],
+                    event.touches[1]
+                );
+
+        }
+
+    },
+    {
+        passive: false
+    }
+);
+
+
+container.addEventListener(
+    "touchmove",
+    function(event) {
+
+        event.preventDefault();
+
+
+        // =============================================
+        // ОДИН ПАЛЕЦ — ПЕРЕМЕЩЕНИЕ
+        // =============================================
+
+        if (
+            event.touches.length === 1
+        ) {
+
+            const touch =
+                event.touches[0];
+
+
+            const dx =
+                touch.clientX -
+                lastTouchX;
+
+            const dy =
+                touch.clientY -
+                lastTouchY;
+
+
+            centerX -=
+                dx / pixelsPerUnit;
+
+            centerY +=
+                dy / pixelsPerUnit;
+
+
+            lastTouchX =
+                touch.clientX;
+
+            lastTouchY =
+                touch.clientY;
+
+
+            draw();
+
+        }
+
+
+        // =============================================
+        // ДВА ПАЛЬЦА — ZOOM
+        // =============================================
+
+        if (
+            event.touches.length === 2
+        ) {
+
+            const distance =
+                touchDistance(
+                    event.touches[0],
+                    event.touches[1]
+                );
+
+
+            if (
+                lastTouchDistance !== null
+            ) {
+
+                const zoom =
+                    distance /
+                    lastTouchDistance;
+
+
+                pixelsPerUnit *= zoom;
+
+
+                pixelsPerUnit =
+                    Math.max(
+                        5,
+                        Math.min(
+                            pixelsPerUnit,
+                            500
+                        )
+                    );
+
+
+                draw();
+
+            }
+
+
+            lastTouchDistance =
+                distance;
+
+        }
+
+    },
+    {
+        passive: false
+    }
+);
+
+
+container.addEventListener(
+    "touchend",
+    function() {
+
+        lastTouchDistance = null;
+
+    }
+);
+
+
+// =====================================================
+// ЗАПУСК
+// =====================================================
+
+function resizeCanvas() {
+
+    const rect =
+        container.getBoundingClientRect();
+
+
+    const dpr =
+        window.devicePixelRatio || 1;
+
+
+    canvas.width =
+        rect.width * dpr;
+
+    canvas.height =
+        rect.height * dpr;
+
+
+    canvas.style.width =
+        rect.width + "px";
+
+    canvas.style.height =
+        rect.height + "px";
+
+
+    ctx.setTransform(
+        dpr,
+        0,
+        0,
+        dpr,
+        0,
+        0
+    );
+
+
+    draw();
+
+}
+
+
+window.addEventListener(
+    "resize",
+    resizeCanvas
+);
+
+
+resizeCanvas();
+
+</script>
+
+{% endif %}
+
+
+</body>
+
+</html>

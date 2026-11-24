@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CalcHelp — Сложный процент</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<header class="site-header">
+
+    <div class="header-decoration-left">
+        + × √
+    </div>
+
+    <div class="header-decoration-right">
+        % ÷ π 42
+    </div>
+
+    <h1>CalcHelp</h1>
+
+    <p>Калькулятор сложного процента</p>
+
+</header>
+
+
+<nav class="main-navigation">
+
+    <a href="/">Главная</a>
+
+    <a href="/calculator">Калькулятор</a>
+
+    <a href="/number-system">Системы счисления</a>
+
+    <a href="/time">Время</a>
+
+    <a href="/units">Единицы</a>
+
+    <a href="/percent">Проценты</a>
+
+    <a href="/geometry">Геометрия</a>
+
+    <a href="/NOK_NOD">НОД и НОК</a>
+
+    <a href="/fractions">Дроби</a>
+
+    <a href="/pifagor">Пифагор</a>
+
+    <a href="/kvadrat">Квадратные уравнения</a>
+
+    <a href="/combinatorics">Комбинаторика</a>
+
+    <a href="/hard-percent" class="active">
+        Сложный процент
+    </a>
+    <a href="/trigonometry">Тригонометрия</a>
+    <a href="/statistics">
+    Статистика
+</a>
+
+<a href="/coordinate-geometry">
+    Координатная геометрия
+</a>
+    <a href="/graph" >Графики</a>
+    <a href="/bmi" >
+        ИМТ
+    </a>
+    <a href="/logarithms">Логарифмы</a>
+      <a href="/kbzhu" >КБЖУ</a>
+     <a href="/fuel" >Расход топлива</a>
+
+    {% if bot_link %}
+        <a href="{{ bot_link }}" target="_blank" rel="noopener noreferrer">Мой бот</a>
+    {% endif %}
+</nav>
+
+
+<main>
+
+    <section class="calculator-section">
+
+        <h2>Сложный процент</h2>
+
+        <p>
+            Рассчитайте, какой станет сумма с учётом сложного процента.
+        </p>
+
+
+        <form method="POST" class="hard-percent-form">
+
+            <label for="principal">
+                Начальная сумма
+            </label>
+
+            <input
+                type="number"
+                id="principal"
+                name="principal"
+                step="any"
+                min="0"
+                required
+                placeholder="10000"
+            >
+
+
+            <label for="rate">
+                Процентная ставка (% в год)
+            </label>
+
+            <input
+                type="number"
+                id="rate"
+                name="rate"
+                step="any"
+                min="0"
+                required
+                placeholder="5"
+            >
+
+
+            <label for="years">
+                Количество лет
+            </label>
+
+            <input
+                type="number"
+                id="years"
+                name="years"
+                min="0"
+                required
+                placeholder="3"
+            >
+
+
+            <button type="submit">
+                Рассчитать
+            </button>
+
+        </form>
+
+
+        {% if error %}
+
+        <div class="error-message">
+            {{ error }}
+        </div>
+
+        {% endif %}
+
+
+        {% if result is not none %}
+
+        <div class="result-box hard-percent-result">
+
+            <h3>Результат</h3>
+
+            <div class="main-result">
+                {{ result }}
+            </div>
+
+            <p class="result-description">
+                Итоговая сумма после начисления сложного процента.
+            </p>
+
+        </div>
+
+        {% endif %}
+
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    <p>
+        CalcHelp — все необходимые калькуляторы в одном месте
+    </p>
+
+</footer>
+
+
+</body>
+
+</html>
