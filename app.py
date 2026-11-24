@@ -71,7 +71,10 @@ def telegram_webhook():
                 ),
                 "reply_markup": {
                     "inline_keyboard": [[
-                        {"text": "Открыть CalcHelp", "url": site_url}
+                        {
+                            "text": "Открыть мини-приложение",
+                            "web_app": {"url": site_url},
+                        }
                     ]]
                 },
             })
@@ -91,6 +94,13 @@ def configure_telegram_webhook():
         telegram_api("setWebhook", {
             "url": f"{site_url}/telegram/webhook",
             "secret_token": telegram_secret(),
+        })
+        telegram_api("setChatMenuButton", {
+            "menu_button": {
+                "type": "web_app",
+                "text": "CalcHelp",
+                "web_app": {"url": site_url},
+            }
         })
         app.logger.info("Telegram webhook configured")
     except Exception as exc:
